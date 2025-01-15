@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "start-mobile": "ionic serve",
+    "start-desktop": "electron .",
+    "build-mobile": "ionic build",
+    "build-desktop": "electron-builder"
+  }
+}
