@@ -4,5 +4,8 @@
     "start-desktop": "electron .",
     "build-mobile": "ionic build",
     "build-desktop": "electron-builder"
+  },
+  "dependencies": {
+    "otplib": "^12.0.1"
   }
 }

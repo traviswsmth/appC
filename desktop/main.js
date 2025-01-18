@@ -1,6 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
-import { sharedService } from '../src/sharedService';
 
 let mainWindow
 
@@ -9,8 +8,10 @@ function createWindow() {
     width: 800,
     height: 600,
     webPreferences: {
+      preload: path.join(__dirname, './preload.js'),
       nodeIntegration: true,
-      contextIsolation: false  // Para permitir la comunicación entre renderizador y proceso principal
+      contextIsolation: true, // Aísla el contexto para mayor seguridad
+      enableRemoteModule: false,  // Para permitir la comunicación entre renderizador y proceso principal
     }
   })
 

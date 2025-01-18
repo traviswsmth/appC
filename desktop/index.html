@@ -2,17 +2,15 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <meta
-      http-equiv="X-Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'"
-    />
+    <meta http-equiv="Content-Security-Policy" 
+    content="default-src 'self'; script-src 'self';"/>
     <title>Hello from Electron renderer!</title>
   </head>
   <body>
     <h1>Hello from Electron renderer!</h1>
     <p>👋</p>
     <p id="info"></p>
-    <button type="button" value="Prices" id="lblPrices" onclick="enterPrices()">
+    <button id="pricesBtn">
       Prices</button>
     <script src="./renderer.js"></script>
   </body>
