@@ -1,5 +1,5 @@
 /* global $ */
-const csv = require('papaparse');
+//const csv = require('papaparse');
 
 function financial(x) {
   return Number.parseFloat(x).toFixed(2);
@@ -20,7 +20,7 @@ $(() => {
   function fetchData() {
     for (let symbol in stocks) {
       url = `https://stooq.com/q/l/?s=${stocks[symbol]}&f=sd2t2ohlc&h&e=csv`;
-      csv.parse(url, {
+      window.api.csv.parse(url, {
         download: true,
         delimiter: ',',
         complete: (results) => {
@@ -122,3 +122,14 @@ $(() => {
 function enterHome()  {
   setTimeout(window.location ="../index.html", 2000);
 }
+
+window.addEventListener('DOMContentLoaded', () => {
+  const homeBtn = document.getElementById("homeBtn");
+  if (homeBtn) {
+    homeBtn.addEventListener('click', () => {
+      enterHome();
+    });
+  } else {
+    console.error('Un botón no fue encontrado en el DOM.');
+  }
+});

@@ -1,5 +1,6 @@
 const { contextBridge } = require('electron');
 const { authenticator } = require('otplib');
+const csvp = require('papaparse');
 let token;
 let keys;
 contextBridge.exposeInMainWorld('api', {
@@ -20,5 +21,7 @@ contextBridge.exposeInMainWorld('api', {
     keys = [keys[0],token]
     const isValid = authenticator.check(token,keys[0]);
     console.log('isValid:', isValid);
-}
+  },
+  //csv: = csvp;
+  csv: csvp,
 });

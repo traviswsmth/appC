@@ -1,19 +1,22 @@
 function enterPrices()  {
-  setTimeout(loadPrices, 2000);
+  setTimeout(window.location.replace("src/prices.html"), 2000);
 }
 
-function loadPrices(){
-  window.location ="src/otp.html";
+function loadOtp(){
+  setTimeout(window.location ="src/otp.html", 2000);
   }
 
   window.addEventListener('DOMContentLoaded', () => {
-    const button = document.getElementById('pricesBtn');
-    if (button) {
-      button.addEventListener('mouseover', () => {
+    const pricesBtn = document.getElementById('pricesBtn');
+    const otpBtn = document.getElementById('otpBtn');
+    if (pricesBtn && otpBtn) {
+      otpBtn.addEventListener('mouseover', () =>  {
+        loadOtp();
+      });
+      pricesBtn.addEventListener('click', () => {
         enterPrices();
       });
     } else {
-      console.error('El botón no fue encontrado en el DOM.');
+      console.error('Un botón no fue encontrado en el DOM.');
     }
   });
-  
