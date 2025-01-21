@@ -1,0 +1,10 @@
+body   {
+    background-color:rgb(92, 175, 186);
+}
+input   {
+    width: 50px;
+}
+#error-message  {
+    color: red; 
+    display: none;
+}

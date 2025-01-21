@@ -5,13 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OTP Example</title>
     <meta http-equiv="Content-Security-Policy" 
-    content="default-src 'self'; script-src 'self';"/>
-    <link rel="stylesheet" href="./otp.css">
+    content="default-src 'self'; script-src 'self'; style-src 'self';"/>
+    <link rel="stylesheet" href="css/otp.css">
 </head>
 <body>
   <button id="genOTPbtn">generate OTP</button>
-  <input type="password" id="otpKeyInput">
+  <input type="password" id="otpKeyInput" inputmode="numeric" pattern="\d*">
+  <span id="error-message">6 digits at least.</span>
   <button id="homeBtn">Home</button>
-  <script src="otp.js"></script>
+  <script src="js/otp.js"></script>
 </body>
 </html>
