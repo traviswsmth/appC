@@ -2,7 +2,7 @@ const { contextBridge } = require('electron');
 const { authenticator } = require('otplib');
 const csvp = require('papaparse');
 let token;
-let keys;
+//let keys;
 contextBridge.exposeInMainWorld('api', {
   generateKeyOtp: () => {
     const secret = authenticator.generateSecret();
