@@ -8,3 +8,7 @@ input   {
     color: red; 
     display: none;
 }
+#qr-code    {
+    filter: blur(2px);
+    position:fixed;
+}

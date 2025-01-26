@@ -2,16 +2,16 @@ const { contextBridge } = require('electron');
 const { authenticator } = require('otplib');
 const csvp = require('papaparse');
 let token;
-//let keys;
 contextBridge.exposeInMainWorld('api', {
   generateKeyOtp: () => {
     const secret = authenticator.generateSecret();
     console.log('secret:', secret);
-    //token = authenticator.generate(secret);
-    //console.log('token:', token);
-    return secret;
-    //const isValid = authenticator.check(token, secret);
-    //console.log('isValid:', isValid);
+    //const accountName = 'user@example.com';
+    const accountName = 'pre-alpha';
+    const issuer = 'AppC'; // Nombre de la aplicación o servicio
+    const otpauthURI = authenticator.keyuri(accountName, issuer, secret);
+    const secrets = [secret, otpauthURI];
+    return secrets;
   },
   checkOtp: (keys) => {
     token = authenticator.generate(keys[1]);
