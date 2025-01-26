@@ -50,8 +50,8 @@ html, body, .container-fluid {
 .change:empty, .price:empty {
   display: none;
 }
-#lblHome {
+#homeBtn {
   position: fixed;
-  right: 3px;
-  bottom: 3px;
+  right: 16px;
+  bottom: 16px;
 }

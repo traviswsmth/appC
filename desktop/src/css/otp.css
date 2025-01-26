@@ -12,3 +12,7 @@ input   {
     filter: blur(2px);
     position:fixed;
 }
+#secretCode    {
+    filter: blur(2px);
+    position:fixed;
+}
