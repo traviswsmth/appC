@@ -1,7 +1,7 @@
 {
-  "name": "my-electron-app",
+  "name": "app-c",
   "version": "1.0.0",
-  "description": "Hello World!",
+  "description": "An interesting app",
   "main": "main.js",
   "scripts": {
     "start": "electron .",

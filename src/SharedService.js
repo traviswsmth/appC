@@ -18,11 +18,11 @@ async function digestMessageHex(message) {
     .join("");
   return hashHex;
 }
-function getFromLocalStorage(key) {
+function getFromLS(key) {
   const value = localStorage.getItem(key);
   return value && value !== "";
 }
-function saveToLocalStorage(key, value) {
+function saveToLS(key, value) {
   localStorage.setItem(key, value);
 }
 function handleBlurEffect(element) {
@@ -49,6 +49,27 @@ function hideQRCode() {
 function hideSecret() {
   secretCode.style.display = 'none';
 }
-function enterHome()  {
-  setTimeout(window.location.replace("../index.html"), 2000);
+function enterHome() {
+  setTimeout(() => {
+    window.location.replace("../index.html");
+  }, 1000);
+}
+function confirmDeleteSecret() {
+  let conf = null;
+  if (confirm("~WARNING~\nDelete and generate new OTP QR code?")) {
+    txtDelOtp = "deleteotp";
+    window.sessionStorage.setItem(txtDelOtp,'true');
+    if (confirm("~CONFIRM~\nConfirm delete and generate new OTP QR code")) {
+      conf = "confirmDelete";
+      window.localStorage.removeItem('secretl');
+      window.sessionStorage.setItem(conf,'true');
+    } else {
+      conf = "notConfirm";
+    }
+  } else {
+    txtDelOtp = "notdeleteotp";
+  }      
+  console.log(txtDelOtp);
+  if(conf)
+    console.log(conf);
 }
