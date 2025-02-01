@@ -51,7 +51,7 @@ function hideSecret() {
 }
 function enterHome() {
   setTimeout(() => {
-    window.location.replace("../index.html");
+    window.location.replace("../index.html")
   }, 1000);
 }
 function confirmDeleteSecret() {
@@ -73,3 +73,4 @@ function confirmDeleteSecret() {
   if(conf)
     console.log(conf);
 }
+

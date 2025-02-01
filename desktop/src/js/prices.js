@@ -120,7 +120,7 @@ $(() => {
 });
 
 function enterHome()  {
-  setTimeout(window.location ="../index.html", 2000);
+  setTimeout(window.location ="../index.html", 1000);
 }
 
 window.addEventListener('DOMContentLoaded', () => {
