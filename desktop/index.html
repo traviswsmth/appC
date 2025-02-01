@@ -2,17 +2,56 @@
 <html>
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" 
-    content="default-src 'self'; script-src 'self';"/>
+    content="default-src 'self'; 
+             script-src 'self' https://code.jquery.com; 
+             connect-src 'self' https://stooq.com; 
+             style-src 'self' https://cdn.jsdelivr.net; 
+             font-src 'self' https://cdn.jsdelivr.net;"/>
     <title>AppC</title>
-  </head>
-  <link rel="stylesheet" href="src/css/otp.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="src/css/index.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+  </head>  
   <body>
-    <h1>Hello from Electron renderer!</h1>
-    <p>👋</p>
-    <p id="info"></p>
-    <button id="pricesBtn">Prices</button>
-    <button id="otpBtn">OTP</button>
-    <script src="./renderer.js"></script>
+    <div class="container">
+      <header class="header">
+        <h1>Prueba dummy</h1>
+      </header>
+      <div id="prices-container" class="container-fluid"></div>
+      <!--
+      <section class="menu">
+        <div class="menu-item row btc">
+          <h2 class="gold"><small>BTC</small></h2>
+          <div id="btc-price" class="price"></div>
+          <div id="btc-change" class="change"></div>
+        </div>
+        <div class="menu-item">
+          <h2 class="silver">Ethereum <small>ETH</small></h2>
+          <div class="price">3000</div>
+          <div class="change">+3.1%</div>
+        </div>
+        <div class="menu-item">
+          <h2 class="oil">Ripple <small>XRP</small></h2>
+          <div class="price">1.2</div>
+          <div class="change">+2.8%</div>
+        </div>
+      </section>
+  
+      <section class="actions">
+        <button class="action-btn" id="buyBtn">Comprar</button>
+        <button class="action-btn" id="sellBtn">Vender</button>
+        <button class="action-btn" id="historyBtn">Ver Historial</button>
+        <button class="action-btn" id="settingsBtn">Configuraciones</button>
+      </section>
+    </div>
+    -->
+    <section class="actions">
+      <p id="info"></p>
+      <button class="action-btn" id="pricesBtn">Prices</button>
+      <button class="action-btn" id="otpBtn">OTP</button>
+      <script src="./renderer.js"></script>
+    </section>
   </body>
 </html>

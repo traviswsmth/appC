@@ -16,3 +16,20 @@ input   {
     filter: blur(2px);
     position:fixed;
 }
+#homeBtn {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    background-color: #2196F3;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 0%;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  #homeBtn:hover {
+    background-color: #0b7dda;
+  }
+  
