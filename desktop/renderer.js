@@ -6,12 +6,27 @@ function enterPrices()  {
 function loadOtp(){
   setTimeout(window.location.replace("src/otp.html")
   , 2000);
-  }
+}
+
+function loadFarming(){
+  setTimeout(window.location.replace("src/farming.html")
+  , 2000);
+}
+function loadCharts(){
+  setTimeout(window.location.replace("src/charts.html")
+  , 2000);
+}
+function loadPage(page){
+  setTimeout(window.location.replace("src/",page,".html")
+  , 2000);
+}
 
 window.addEventListener('DOMContentLoaded', () => {
   const pricesBtn = document.getElementById('pricesBtn');
   const otpBtn = document.getElementById('otpBtn');
   const darkBtn = document.getElementById('darkBtn');
+  const farmBtn = document.getElementById('farmBtn');
+  const chartsBtn = document.getElementById('chartsBtn');
   if (pricesBtn && otpBtn) {
     otpBtn.addEventListener('mouseover', () =>  {
       loadOtp();
@@ -21,6 +36,12 @@ window.addEventListener('DOMContentLoaded', () => {
     });
     darkBtn.addEventListener('click', () => {
       toggleDark();
+    });
+    farmBtn.addEventListener('mouseover', () =>  {
+      loadFarming();
+    });
+    chartsBtn.addEventListener('mouseover', () =>  {
+      loadCharts();
     });
   } else {
     console.error('Un botón no fue encontrado en el DOM.');
