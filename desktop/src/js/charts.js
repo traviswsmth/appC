@@ -37,8 +37,14 @@ async function fetchDefiLlamaAPY() {
   try {
       const response = await fetch(url);
       const data = await response.json();
+      const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core", 
+        "Flare", "Neutron", "Gnosis", "Rootstock", "Bifrost Network",
+        "zkSync Era", "Bsquared", "Linea",
+        "Cronos_zkevm", "Nolus", "Neon", "Starknet", "Osmosis", "Kujira"];
       return data.data.filter(pool => 
-          ["USDC", "DAI", "USDT"].includes(pool.symbol) && pool.apy >= 5
+        ["USDC", "DAI", "USDT"].includes(pool.symbol) && 
+        pool.apy >= 6 && 
+        !excludedChains.includes(pool.chain)
       );
   } catch (error) {
       console.error("Error obteniendo datos de DefiLlama:", error);
@@ -54,33 +60,35 @@ async function loadYieldData() {
   const networkFilter = document.getElementById("networkFilter");
   const platformFilter = document.getElementById("platformFilter");
   const apyFilter = parseFloat(document.getElementById("apyFilter").value);
+  const sortFilter = document.getElementById("sortFilter").value;
   
-  // 📌 Filtrar primero los datos según el APY seleccionado
   const filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
-
-  // 📌 Extraer solo redes y plataformas con al menos un pool que cumpla la condición
   const validNetworks = [...new Set(filteredByAPY.map(pool => pool.chain))];
   const validPlatforms = [...new Set(filteredByAPY.map(pool => pool.project))];
 
-  // 📌 Guardar la selección del usuario antes de regenerar opciones
   const selectedNetwork = networkFilter.value;
   const selectedPlatform = platformFilter.value;
 
-  // 📌 Regenerar los selects solo con valores válidos
   networkFilter.innerHTML = `<option value='all'>Todas</option>` + validNetworks.map(n => `<option value='${n}'>${n}</option>`).join("");
   platformFilter.innerHTML = `<option value='all'>Todas</option>` + validPlatforms.map(p => `<option value='${p}'>${p}</option>`).join("");
 
-  // 📌 Restaurar selección del usuario si sigue siendo válida
   if (validNetworks.includes(selectedNetwork)) networkFilter.value = selectedNetwork;
   if (validPlatforms.includes(selectedPlatform)) platformFilter.value = selectedPlatform;
 
-  // 📌 Filtrar datos según la red y plataforma seleccionada
-  const finalFilteredData = filteredByAPY.filter(pool => 
+  let finalFilteredData = filteredByAPY.filter(pool => 
       (networkFilter.value === "all" || pool.chain === networkFilter.value) &&
       (platformFilter.value === "all" || pool.project === platformFilter.value)
   );
 
-  // 📌 Renderizar la tabla con los datos finales
+  // 📌 Aplicar la ordenación según la selección del usuario
+  finalFilteredData.sort((a, b) => {
+      if (sortFilter === "apy-desc") return b.apy - a.apy;  // APY Mayor a Menor
+      if (sortFilter === "apy-asc") return a.apy - b.apy;  // APY Menor a Mayor
+      if (sortFilter === "name-asc") return a.project.localeCompare(b.project);  // Plataforma A-Z
+      if (sortFilter === "name-desc") return b.project.localeCompare(a.project);  // Plataforma Z-A
+  });
+
+  // 📌 Renderizar la tabla con los datos ordenados
   tableBody.innerHTML = finalFilteredData.length ? finalFilteredData.map(item => `
       <tr>
           <td>${item.project}</td>
@@ -90,3 +98,6 @@ async function loadYieldData() {
       </tr>
   `).join("") : "<tr><td colspan='4'>No hay datos disponibles</td></tr>";
 }
+
+// 📌 Agregar el evento al selector de ordenación
+document.getElementById("sortFilter").addEventListener("change", loadYieldData);

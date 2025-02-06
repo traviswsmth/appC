@@ -35,10 +35,19 @@
     <div class="col-md-4">
         <label for="apyFilter" class="form-label">Mostrar APY mayor a:</label>
         <select id="apyFilter" class="form-select">
-            <option value="5">5%</option>
-            <option value="10" selected>10%</option>
+            <option value="7">7%</option>
+            <option value="11" selected>11%</option>
         </select>
       </div>
+      <div class="col-md-4">
+        <label for="sortFilter" class="form-label">Ordenar por:</label>
+        <select id="sortFilter" class="form-select">
+            <option value="apy-desc" selected>APY: Mayor a Menor</option>
+            <option value="apy-asc">APY: Menor a Mayor</option>
+            <option value="name-asc">Plataforma: A-Z</option>
+            <option value="name-desc">Plataforma: Z-A</option>
+        </select>
+    </div>    
   </div>
 
   <table class="table table-bordered">
