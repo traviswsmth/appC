@@ -6,7 +6,8 @@
   <title>Holdings</title>
     <meta http-equiv="Content-Security-Policy" 
     content="default-src 'self'; 
-    script-src 'self'; style-src 'self';
+    script-src 'self'; 
+    style-src 'self' 'unsafe-inline';
     img-src 'self' data: filesystem:;"/>
     <link rel="stylesheet" href="css/otp.css">
 </head>
@@ -17,8 +18,8 @@
   <button id="homeBtn">Home</button>
   <div id="qr-code"></div>
   <div id="secret-code"></div>
-  <script src="js/otp.js"></script>
-  <script type="text/javascript" src="../../src/qrcode.js"></script>
+  <script src="../../src/lightw-charts.standa.prod.js"></script>
   <script type="text/javascript" src="../../src/SharedService.js"></script>
+  <script src="js/holdings.js"></script>
 </body>
 </html>

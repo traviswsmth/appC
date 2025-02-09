@@ -9,7 +9,7 @@ function loadOtp(){
 }
 
 function loadFarming(){
-  setTimeout(window.location.replace("src/farming.html")
+  setTimeout(window.location.replace("src/holdings.html")
   , 2000);
 }
 function loadCharts(){
