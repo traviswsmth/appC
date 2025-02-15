@@ -1,6 +1,11 @@
 const today = new Date().toISOString().split('T')[0];
 const storageKey = `apyAvg_${today}`;
 const savedData = localStorage.getItem(storageKey);
+const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core", 
+  "Flare", "Neutron", "Gnosis", "Rootstock", "Bifrost Network",
+  "zkSync Era", "Bsquared", "Linea",
+  "Cronos_zkevm", "Nolus", "Neon", "Starknet", "Osmosis", "Kujira"];
+  const includedSymbols = ["USDC", "USDT", "GHO", "DAI"];
 window.addEventListener('DOMContentLoaded', async() => {
   const homeBtn = document.getElementById("homeBtn");
   document.getElementById("networkFilter").addEventListener("change", verifyLS);
@@ -71,14 +76,10 @@ async function fetchDefiLlamaAPY() {
   const url = "https://yields.llama.fi/pools";
   try {
       const response = await fetch(url);
-      const data = await response.json();
-      const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core", 
-        "Flare", "Neutron", "Gnosis", "Rootstock", "Bifrost Network",
-        "zkSync Era", "Bsquared", "Linea",
-        "Cronos_zkevm", "Nolus", "Neon", "Starknet", "Osmosis", "Kujira"];
+      const data = await response.json();      
       return data.data.filter(pool => 
-        ["USDC", "DAI", "USDT"].includes(pool.symbol) && 
-        pool.apy >= 6 && 
+        includedSymbols.includes(pool.symbol) && 
+        pool.apy >= 6 && pool.apy < 210 &&
         !excludedChains.includes(pool.chain)
       );
   } catch (error) {
@@ -114,20 +115,36 @@ async function verifyLS() {
 
 async function loadYieldData(yieldData) {
   const tableBody = document.getElementById("yield-table");
-  tableBody.innerHTML = "<tr><td colspan='4'>Cargando...</td></tr>";  
+  tableBody.innerHTML = "<tr><td colspan='4'>Cargando...</td></tr>";
   const networkFilter = document.getElementById("networkFilter");
   const platformFilter = document.getElementById("platformFilter");
   const apyFilter = parseFloat(document.getElementById("apyFilter").value);
   const sortFilter = document.getElementById("sortFilter").value;
-  
+
   const filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
-  const validNetworks = [...new Set(filteredByAPY.map(pool => pool.chain))];
-  const validPlatforms = [...new Set(filteredByAPY.map(pool => pool.project))];
+
+  const networksByPlatform = {};
+  const platformsByNetwork = {};
+
+  filteredByAPY.forEach(pool => {
+    if (!networksByPlatform[pool.project]) networksByPlatform[pool.project] = new Set();
+    if (!platformsByNetwork[pool.chain]) platformsByNetwork[pool.chain] = new Set();
+    
+    networksByPlatform[pool.project].add(pool.chain);
+    platformsByNetwork[pool.chain].add(pool.project);
+  });
 
   const selectedNetwork = networkFilter.value;
   const selectedPlatform = platformFilter.value;
 
-  networkFilter.innerHTML = `<option value='all'>Todas</option>` + validNetworks.map(n => `<option value='${n}'>${n}</option>`).join("");
+  let validNetworks = Object.keys(platformsByNetwork);
+  let validPlatforms = Object.keys(networksByPlatform);
+
+  // Apply cross filter
+  if (selectedPlatform !== "all") validNetworks = [...networksByPlatform[selectedPlatform] || []];
+  if (selectedNetwork !== "all") validPlatforms = [...platformsByNetwork[selectedNetwork] || []];
+
+    networkFilter.innerHTML = `<option value='all'>Todas</option>` + validNetworks.map(n => `<option value='${n}'>${n}</option>`).join("");
   platformFilter.innerHTML = `<option value='all'>Todas</option>` + validPlatforms.map(p => `<option value='${p}'>${p}</option>`).join("");
 
   if (validNetworks.includes(selectedNetwork)) networkFilter.value = selectedNetwork;
@@ -139,10 +156,10 @@ async function loadYieldData(yieldData) {
   );
 
   finalFilteredData.sort((a, b) => {
-      if (sortFilter === "apy-desc") return b.apy - a.apy;  // APY + to -
-      if (sortFilter === "apy-asc") return a.apy - b.apy;  // APY - to +
-      if (sortFilter === "name-asc") return a.project.localeCompare(b.project);  // Platform A-Z
-      if (sortFilter === "name-desc") return b.project.localeCompare(a.project);  // Platform Z-A
+      if (sortFilter === "apy-desc") return b.apy - a.apy;
+      if (sortFilter === "apy-asc") return a.apy - b.apy;
+      if (sortFilter === "name-asc") return a.project.localeCompare(b.project);
+      if (sortFilter === "name-desc") return b.project.localeCompare(a.project);
   });
 
   saveDailyAPY(finalFilteredData);
