@@ -3,9 +3,14 @@ const storageKey = `apyAvg_${today}`;
 const savedData = localStorage.getItem(storageKey);
 const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core", 
   "Flare", "Neutron", "Gnosis", "Rootstock", "Bifrost Network",
-  "zkSync Era", "Bsquared", "Linea",
+  "Bsquared", "Moonriver", "IOTA EVM", "Cardano", "Sui",
+  //"Linea", "zkSync Era", "Sonic",
+  "Stellar", "Blast", "Polygon", "Optimism", "Ethereum",
+  "MultiversX", "Fraxtal", "Avalanche",
   "Cronos_zkevm", "Nolus", "Neon", "Starknet", "Osmosis", "Kujira"];
-  const includedSymbols = ["USDC", "USDT", "GHO", "DAI"];
+  const excludedPlatforms = ['bagful','psyoptions','yel-finance','goldlink','deltaprime'];
+  const includedSymbols = ["USDT","USDC","GHO", "DAI", 
+    "FDUSD", "USDE", "FRAX", "CRVUSD", "USDC.E"];
 window.addEventListener('DOMContentLoaded', async() => {
   const homeBtn = document.getElementById("homeBtn");
   document.getElementById("networkFilter").addEventListener("change", verifyLS);
@@ -53,7 +58,8 @@ window.addEventListener('DOMContentLoaded', async() => {
         barSpacing: 26,
         tickMarkFormatter: (time) => {
           // Usamos el índice para mostrar el nombre de la red
-          const networkName = Object.keys(networkIndexMap).find(key => networkIndexMap[key] === time);
+          const networkName = Object.keys(networkIndexMap).find(
+            key => networkIndexMap[key] === time);
           return networkName || "Unknown";
         }
       }
@@ -80,22 +86,23 @@ async function fetchDefiLlamaAPY() {
       return data.data.filter(pool => 
         includedSymbols.includes(pool.symbol) && 
         pool.apy >= 6 && pool.apy < 210 &&
-        !excludedChains.includes(pool.chain)
+        !excludedChains.includes(pool.chain) &&
+        !excludedPlatforms.includes(pool.project)
       );
   } catch (error) {
       console.error("Error obteniendo datos de DefiLlama:", error);
       return [];
   }
 }
-
+/*
 function getDateNow()  {
   d = new Date();
   console.log("Fecha actual:", d.toLocaleDateString());
   return d.toLocaleDateString();
-}
+}*/
 
 async function verifyLS() {
-  yieldDataLS = 'yieldData'.concat(getDateNow());
+  const yieldDataLS = `yieldData_${today}`;
   const storedYield = sessionStorage.getItem(yieldDataLS);
   let yieldData;
   if (storedYield) {
