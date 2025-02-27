@@ -9,7 +9,7 @@ function loadOtp(){
 }
 
 function loadFarming(){
-  setTimeout(window.location.replace("src/holdings.html")
+  setTimeout(window.location.replace("src/farming.html")
   , 2000);
 }
 function loadCharts(){
@@ -54,7 +54,7 @@ function financial(x) {
 
 $(() => {
   let url;
-  // Definimos un array de símbolos iniciales (como ejemplos)
+
   let stocks = {
     
     'BTC': 'btc.v',
@@ -64,7 +64,7 @@ $(() => {
   for (let symbol in stocks) {
     drawSymbol(symbol);
   }
-  // Función para actualizar los precios
+  
   function fetchData() {
     for (let symbol in stocks) {
       url = `https://stooq.com/q/l/?s=${stocks[symbol]}&f=sd2t2ohlc&h&e=csv`;
@@ -105,13 +105,13 @@ $(() => {
     getHour();
   }
 
-  // Función para agregar un símbolo dinámicamente
+
   function addSymbol(symbol) {
-    // Solo agregamos el símbolo si no existe
+   
     if (!stocks[symbol]) {
       stocks[symbol] = symbol;
       drawSymbol(symbol);
-      fetchData();  // Actualizar los datos del nuevo símbolo
+      fetchData();
     } else {
       alert(`${symbol} ya está en la lista.`);
     }
@@ -130,10 +130,10 @@ $(() => {
           </div>
         </div>
       `;
-      $('#prices-container').append(symbolRow);  // Agregar la fila con el nuevo símbolo
+      $('#prices-container').append(symbolRow);
   }
 
-  // Función para eliminar un símbolo dinámicamente
+  
   function removeSymbol(symbol) {
     if (stocks[symbol]) {
       delete stocks[symbol];
@@ -160,7 +160,7 @@ $(() => {
     const symbolInput = $('#symbol-input').val();
     if (symbolInput) {
       removeSymbol(symbolInput);
-      $('#symbol-input').val('');  // Limpiar el campo de entrada
+      $('#symbol-input').val('');
     }
   });
 

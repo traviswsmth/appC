@@ -1,22 +1,26 @@
 const today = new Date().toISOString().split('T')[0];
-const storageKey = `apyAvg_${today}`;
-const savedData = localStorage.getItem(storageKey);
-const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core", 
+const storageKeyAvg = `apyAvg_${today}`;
+const avgDataLS = localStorage.getItem(storageKeyAvg);
+const yieldDataKey = `yData_${today}`;
+const yDataLS = localStorage.getItem(storageKeyAvg);
+const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core",
   "Flare", "Neutron", "Gnosis", "Rootstock", "Bifrost Network",
   "Bsquared", "Moonriver", "IOTA EVM", "Cardano", "Sui",
   //"Linea", "zkSync Era", "Sonic",
   "Stellar", "Blast", "Polygon", "Optimism", "Ethereum",
   "MultiversX", "Fraxtal", "Avalanche",
   "Cronos_zkevm", "Nolus", "Neon", "Starknet", "Osmosis", "Kujira"];
-  const excludedPlatforms = ['bagful','psyoptions','yel-finance','goldlink','deltaprime'];
-  const includedSymbols = ["USDT","USDC","GHO", "DAI", 
-    "FDUSD", "USDE", "FRAX", "CRVUSD", "USDC.E"];
-window.addEventListener('DOMContentLoaded', async() => {
+const excludedPlatforms = ['bagful', 'psyoptions', 'yel-finance', 'goldlink', 'deltaprime'];
+const includedSymbols = ["USDT", "USDC", "GHO", "DAI",
+  "FDUSD", "USDE", "FRAX", "CRVUSD", "USDC.E"];
+
+window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
   document.getElementById("networkFilter").addEventListener("change", verifyLS);
   document.getElementById("platformFilter").addEventListener("change", verifyLS);
   document.getElementById("apyFilter").addEventListener("change", verifyLS);
   document.getElementById("sortFilter").addEventListener("change", verifyLS);
+  const darkBtn = document.getElementById('darkBtn');
   const chartContainer = document.getElementById('apyChart');
   chartContainer.addEventListener("resize", () => {
     chartContainer.style.width = document.body.width;
@@ -24,7 +28,7 @@ window.addEventListener('DOMContentLoaded', async() => {
   await verifyLS();
   requestAnimationFrame(() => {
     const chartapys = LightweightCharts.createChart(chartContainer, {
-      width: document.body.width, 
+      width: document.body.width,
       height: 300,
       rightPriceScale: {
         borderVisible: false,
@@ -44,11 +48,11 @@ window.addEventListener('DOMContentLoaded', async() => {
     });
     const { chartData, networkIndexMap } = loadChartData();
     const series = chartapys.addSeries(LightweightCharts.HistogramSeries);
-    
+
     chartapys.applyOptions({
       crosshair: {
         vertLine: {
-            labelVisible: false, // 🔥 Oculta la fecha en la línea vertical
+          labelVisible: false, // 🔥 Oculta la fecha en la línea vertical
         }
       },
       timeScale: {
@@ -72,7 +76,10 @@ window.addEventListener('DOMContentLoaded', async() => {
     homeBtn.addEventListener('click', () => {
       enterHome();
     });
-    
+    darkBtn.addEventListener('click', () => {
+      toggleDark();
+    });
+
   } else {
     console.error('Un botón no fue encontrado en el DOM.');
   }
@@ -81,39 +88,32 @@ window.addEventListener('DOMContentLoaded', async() => {
 async function fetchDefiLlamaAPY() {
   const url = "https://yields.llama.fi/pools";
   try {
-      const response = await fetch(url);
-      const data = await response.json();      
-      return data.data.filter(pool => 
-        includedSymbols.includes(pool.symbol) && 
-        pool.apy >= 6 && pool.apy < 210 &&
-        !excludedChains.includes(pool.chain) &&
-        !excludedPlatforms.includes(pool.project)
-      );
+    const response = await fetch(url);
+    const data = await response.json();
+    return data.data.filter(pool =>
+      includedSymbols.includes(pool.symbol) &&
+      pool.apy >= 6 && pool.apy < 210 &&
+      !excludedChains.includes(pool.chain) &&
+      !excludedPlatforms.includes(pool.project)
+    );
   } catch (error) {
-      console.error("Error obteniendo datos de DefiLlama:", error);
-      return [];
+    console.error("Error obteniendo datos de DefiLlama:", error);
+    return [];
   }
 }
-/*
-function getDateNow()  {
-  d = new Date();
-  console.log("Fecha actual:", d.toLocaleDateString());
-  return d.toLocaleDateString();
-}*/
 
 async function verifyLS() {
-  const yieldDataLS = `yieldData_${today}`;
-  const storedYield = sessionStorage.getItem(yieldDataLS);
-  let yieldData;
+  const storedYield = sessionStorage.getItem(yieldDataKey);
   if (storedYield) {
-    loadYieldData(JSON.parse(yieldDataLS));
-  } else  {
-    yieldData = await fetchDefiLlamaAPY();
-    localStorage.setItem(yieldDataLS, JSON.stringify(yieldData));
-    //loadYieldData(yieldData);
-    if (yieldData.length > 0) {
-      //saveDailyAPY(yieldData);
-      loadYieldData(yieldData);
+    loadYieldData(JSON.parse(storedYield));
+    console.log('ya hay datos yield');
+  } else {
+    console.log('no hay datos yield');
+    const yieldDataFetch = await fetchDefiLlamaAPY();
+    if (yieldDataFetch.length > 0) {
+      console.log('hay datos fetched');
+      localStorage.setItem(yieldDataKey, JSON.stringify(yieldDataFetch));
+      loadYieldData(yieldDataFetch);
     } else {
       console.warn("No hay datos de yield para almacenar.");
     }
@@ -136,7 +136,7 @@ async function loadYieldData(yieldData) {
   filteredByAPY.forEach(pool => {
     if (!networksByPlatform[pool.project]) networksByPlatform[pool.project] = new Set();
     if (!platformsByNetwork[pool.chain]) platformsByNetwork[pool.chain] = new Set();
-    
+
     networksByPlatform[pool.project].add(pool.chain);
     platformsByNetwork[pool.chain].add(pool.project);
   });
@@ -151,82 +151,94 @@ async function loadYieldData(yieldData) {
   if (selectedPlatform !== "all") validNetworks = [...networksByPlatform[selectedPlatform] || []];
   if (selectedNetwork !== "all") validPlatforms = [...platformsByNetwork[selectedNetwork] || []];
 
-    networkFilter.innerHTML = `<option value='all'>Todas</option>` + validNetworks.map(n => `<option value='${n}'>${n}</option>`).join("");
+  networkFilter.innerHTML = `<option value='all'>Todas</option>` + validNetworks.map(n => `<option value='${n}'>${n}</option>`).join("");
   platformFilter.innerHTML = `<option value='all'>Todas</option>` + validPlatforms.map(p => `<option value='${p}'>${p}</option>`).join("");
 
   if (validNetworks.includes(selectedNetwork)) networkFilter.value = selectedNetwork;
   if (validPlatforms.includes(selectedPlatform)) platformFilter.value = selectedPlatform;
 
-  let finalFilteredData = filteredByAPY.filter(pool => 
-      (networkFilter.value === "all" || pool.chain === networkFilter.value) &&
-      (platformFilter.value === "all" || pool.project === platformFilter.value)
+  let finalFilteredData = filteredByAPY.filter(pool =>
+    (networkFilter.value === "all" || pool.chain === networkFilter.value) &&
+    (platformFilter.value === "all" || pool.project === platformFilter.value)
   );
 
   finalFilteredData.sort((a, b) => {
-      if (sortFilter === "apy-desc") return b.apy - a.apy;
-      if (sortFilter === "apy-asc") return a.apy - b.apy;
-      if (sortFilter === "name-asc") return a.project.localeCompare(b.project);
-      if (sortFilter === "name-desc") return b.project.localeCompare(a.project);
+    if (sortFilter === "apy-desc") return b.apy - a.apy;
+    if (sortFilter === "apy-asc") return a.apy - b.apy;
+    if (sortFilter === "name-asc") return a.project.localeCompare(b.project);
+    if (sortFilter === "name-desc") return b.project.localeCompare(a.project);
   });
 
   saveDailyAPY(finalFilteredData);
-
+  const chartData = JSON.parse(avgDataLS);
+  const chains = chartData.map(item => item.chain);
   tableBody.innerHTML = finalFilteredData.length ? finalFilteredData.map(item => `
       <tr>
-          <td>${item.project}</td>
-          <td>${item.symbol}</td>
-          <td>${item.chain}</td>
-          <td>${item.apy.toFixed(2)}%</td>
+          <td style='color:white;background-color:black'>${item.project}</td>
+          <td style='color:white;background-color:black'>${item.symbol}</td>
+          <td style='color:white;background-color:black'>${item.chain}</td>
+          <td style='color:white;background-color:black'>${item.apy.toFixed(2)}%</td>
       </tr>
   `).join("") : "<tr><td colspan='4'>No hay datos disponibles</td></tr>";
 }
-
-function saveDailyAPY(filteredData) {
-  if (savedData) {
-      //console.log("Promedio ya guardado para hoy:", JSON.parse(savedData));
-      return;
+function toggleDark() {
+  //console.log(document.body.style.backgroundColor);
+  switch (document.body.style.backgroundColor) {
+    case 'lightblue':
+      document.body.style.backgroundColor = 'black';
+      break;
+    case 'black':
+      document.body.style.backgroundColor = 'lightblue';
+      break;
+    default:
+      document.body.style.backgroundColor = 'black';
+      break;
   }
 
-  // Agrupar por red y calcular promedios
+}
+
+function saveDailyAPY(filteredData) {
+  if (avgDataLS) {
+    return;
+  }
+
   const apyByNetwork = {};
   filteredData.forEach(pool => {
-    if (pool.apy > 5 && pool.apy < 100)  {
+    if (pool.apy > 5 && pool.apy < 100) {
       if (!apyByNetwork[pool.chain]) {
         apyByNetwork[pool.chain] = { totalAPY: 0, count: 0 };
       }
       apyByNetwork[pool.chain].totalAPY += pool.apy;
       apyByNetwork[pool.chain].count++;
-      }  else {
+    } else {
       console.warn(`APY descartado por ser muy grande o inválido: ${pool.apy} en ${pool.chain}`);
-      }
+    }
   });
 
   // Convertir los datos en un formato para Lightweight Charts
   const chartData = Object.keys(apyByNetwork).map(chain => ({
-      time: today,
-      value: (apyByNetwork[chain].totalAPY / apyByNetwork[chain].count).toFixed(2), // Promedio con 2 decimales
-      chain: chain
+    time: today,
+    value: (apyByNetwork[chain].totalAPY / apyByNetwork[chain].count).toFixed(2), // Promedio con 2 decimales
+    chain: chain
   }));
 
   if (chartData.length > 0) {
-    localStorage.setItem(storageKey, JSON.stringify(chartData));
+    localStorage.setItem(storageKeyAvg, JSON.stringify(chartData));
     console.log("Promedio de APYs guardado:", chartData);
   } else {
-      console.warn("No se guardaron datos en localStorage porque todos los APYs fueron descartados.");
+    console.warn("No se guardaron datos en localStorage porque todos los APYs fueron descartados.");
   }
 }
 
 function loadChartData() {
-  //console.log(`Buscando en localStorage con clave: ${storageKey}`);
-  const savedData = localStorage.getItem(storageKey);
+  //const savedData = localStorage.getItem(storageKeyAvg);
+  if (avgDataLS) {
+    let chartData = JSON.parse(avgDataLS);
 
-  if (savedData) {
-    let chartData = JSON.parse(savedData);
-    
     // Mapeamos cada cadena (red) a un índice numérico
     const networkIndexMap = {};
     let index = 1;
-    
+
     chartData = chartData.map(entry => {
       if (!(entry.chain in networkIndexMap)) {
         networkIndexMap[entry.chain] = index++;

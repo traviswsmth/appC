@@ -133,4 +133,6 @@
   #darkBtn:hover {
     background-color: #0b7dda;
   }
-  
+  .container-fluid {
+    min-height: 200px;
+  }

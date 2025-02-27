@@ -60,3 +60,10 @@ input   {
     margin-right: auto;
     margin-bottom: 64px;
 }
+.form-select    {
+    background-color: darkgray;
+}
+.col  {
+    color:white;
+    background-color:black
+}
