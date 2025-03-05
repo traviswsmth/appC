@@ -1,26 +1,3 @@
-function enterPrices()  {
-  setTimeout(window.location.replace("src/prices.html")
-  , 2000);
-}
-
-function loadOtp(){
-  setTimeout(window.location.replace("src/otp.html")
-  , 2000);
-}
-
-function loadFarming(){
-  setTimeout(window.location.replace("src/farming.html")
-  , 2000);
-}
-function loadCharts(){
-  setTimeout(window.location.replace("src/charts.html")
-  , 2000);
-}
-function loadPage(page){
-  setTimeout(window.location.replace("src/",page,".html")
-  , 2000);
-}
-
 window.addEventListener('DOMContentLoaded', () => {
   const pricesBtn = document.getElementById('pricesBtn');
   const otpBtn = document.getElementById('otpBtn');
@@ -28,20 +5,20 @@ window.addEventListener('DOMContentLoaded', () => {
   const farmBtn = document.getElementById('farmBtn');
   const chartsBtn = document.getElementById('chartsBtn');
   if (pricesBtn && otpBtn) {
-    otpBtn.addEventListener('mouseover', () =>  {
-      loadOtp();
+    otpBtn.addEventListener('click', () => {
+      loadPage("src/otp");
     });
     pricesBtn.addEventListener('click', () => {
-      enterPrices();
+      loadPage("src/prices");
     });
     darkBtn.addEventListener('click', () => {
       toggleDark();
     });
-    farmBtn.addEventListener('mouseover', () =>  {
-      loadFarming();
+    farmBtn.addEventListener('click', () => {
+      loadPage("src/farming");
     });
-    chartsBtn.addEventListener('mouseover', () =>  {
-      loadCharts();
+    chartsBtn.addEventListener('click', () => {
+      loadPage("src/charts");
     });
   } else {
     console.error('Un botón no fue encontrado en el DOM.');
@@ -56,7 +33,7 @@ $(() => {
   let url;
 
   let stocks = {
-    
+
     'BTC': 'btc.v',
     'ETH': 'eth.v',
     'SOL': 'sol.v',
@@ -64,7 +41,7 @@ $(() => {
   for (let symbol in stocks) {
     drawSymbol(symbol);
   }
-  
+
   function fetchData() {
     for (let symbol in stocks) {
       url = `https://stooq.com/q/l/?s=${stocks[symbol]}&f=sd2t2ohlc&h&e=csv`;
@@ -91,10 +68,10 @@ $(() => {
             $(`#${symbol}-price`).text(currentPrice.toLocaleString());
             $(`#${symbol}-change`).text(change);
             $(`#${symbol}-percent`).text(percent);
-          } catch(error)  {
+          } catch (error) {
             console.error(`Error al procesar los datos para ${symbol}:`, error);
             alert('Hubo un problema al procesar los datos del símbolo.');
-          }          
+          }
         },
         error: (error) => {
           console.error('Error al descargar o procesar el archivo CSV:', error);
@@ -107,7 +84,7 @@ $(() => {
 
 
   function addSymbol(symbol) {
-   
+
     if (!stocks[symbol]) {
       stocks[symbol] = symbol;
       drawSymbol(symbol);
@@ -118,7 +95,7 @@ $(() => {
   }
 
   function drawSymbol(symbol) {
-      const symbolRow = `
+    const symbolRow = `
         <div class="row ${symbol}">
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <i>${symbol}</i>
@@ -130,10 +107,10 @@ $(() => {
           </div>
         </div>
       `;
-      $('#prices-container').append(symbolRow);
+    $('#prices-container').append(symbolRow);
   }
 
-  
+
   function removeSymbol(symbol) {
     if (stocks[symbol]) {
       delete stocks[symbol];
@@ -168,19 +145,19 @@ $(() => {
   fetchData();
 });
 
-function getHour()  {
+function getHour() {
   d = new Date();
   h = (d.getHours()).toString();
   m = (d.getMinutes()).toString();
   s = '';//(d.getSeconds()).toString();
-  hour = h.concat(':',m,'',s);
+  hour = h.concat(':', m, '', s);
   document.getElementById("timestamp").innerHTML = hour;
   return hour;
 }
 
 function toggleDark() {
   console.log(document.body.style.backgroundColor);
-  switch (document.body.style.backgroundColor)  {
+  switch (document.body.style.backgroundColor) {
     case 'lightblue':
       document.body.style.backgroundColor = 'black';
       break;
@@ -191,5 +168,5 @@ function toggleDark() {
       document.body.style.backgroundColor = 'black';
       break;
   }
-  
+
 }

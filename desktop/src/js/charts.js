@@ -3,14 +3,6 @@ const storageKeyAvg = `apyAvg_${today}`;
 const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yData_${today}`;
 const yDataLS = localStorage.getItem(storageKeyAvg);
-const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core",
-  "Flare", "Neutron", "Gnosis", "Rootstock", "Bifrost Network",
-  "Bsquared", "Moonriver", "IOTA EVM", "Cardano", "Sui",
-  //"Linea", "zkSync Era", "Sonic",
-  "Stellar", "Blast", "Polygon", "Optimism", "Ethereum",
-  "MultiversX", "Fraxtal", "Avalanche",
-  "Cronos_zkevm", "Nolus", "Neon", "Starknet", "Osmosis", "Kujira"];
-const excludedPlatforms = ['bagful', 'psyoptions', 'yel-finance', 'goldlink', 'deltaprime'];
 const includedSymbols = ["USDT", "USDC", "GHO", "DAI",
   "FDUSD", "USDE", "FRAX", "CRVUSD", "USDC.E"];
 
@@ -22,6 +14,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   document.getElementById("sortFilter").addEventListener("change", verifyLS);
   const darkBtn = document.getElementById('darkBtn');
   const chartContainer = document.getElementById('apyChart');
+  const ethBtn = document.getElementById("ethBtn");
   chartContainer.addEventListener("resize", () => {
     chartContainer.style.width = document.body.width;
   });
@@ -58,8 +51,8 @@ window.addEventListener('DOMContentLoaded', async () => {
       timeScale: {
         timeVisible: false, // Oculta fechas
         secondsVisible: false,
-        rightOffset: 5,
-        barSpacing: 26,
+        rightOffset: 0,
+        barSpacing: 46,
         tickMarkFormatter: (time) => {
           // Usamos el índice para mostrar el nombre de la red
           const networkName = Object.keys(networkIndexMap).find(
@@ -72,14 +65,16 @@ window.addEventListener('DOMContentLoaded', async () => {
 
   });
 
-  if (homeBtn) {
+  if (homeBtn && ethBtn) {
     homeBtn.addEventListener('click', () => {
       enterHome();
     });
     darkBtn.addEventListener('click', () => {
       toggleDark();
     });
-
+    ethBtn.addEventListener('click', () => {
+      loadPage('ethy');
+    });
   } else {
     console.error('Un botón no fue encontrado en el DOM.');
   }
@@ -97,7 +92,7 @@ async function fetchDefiLlamaAPY() {
       !excludedPlatforms.includes(pool.project)
     );
   } catch (error) {
-    console.error("Error obteniendo datos de DefiLlama:", error);
+    console.error("Error fetching data from DefiLlama:", error);
     return [];
   }
 }
@@ -106,23 +101,20 @@ async function verifyLS() {
   const storedYield = sessionStorage.getItem(yieldDataKey);
   if (storedYield) {
     loadYieldData(JSON.parse(storedYield));
-    console.log('ya hay datos yield');
   } else {
-    console.log('no hay datos yield');
     const yieldDataFetch = await fetchDefiLlamaAPY();
     if (yieldDataFetch.length > 0) {
-      console.log('hay datos fetched');
       localStorage.setItem(yieldDataKey, JSON.stringify(yieldDataFetch));
       loadYieldData(yieldDataFetch);
     } else {
-      console.warn("No hay datos de yield para almacenar.");
+      console.warn("No yield data to store.");
     }
   }
 }
 
 async function loadYieldData(yieldData) {
   const tableBody = document.getElementById("yield-table");
-  tableBody.innerHTML = "<tr><td colspan='4'>Cargando...</td></tr>";
+  tableBody.innerHTML = "<tr><td colspan='4'>Loading...</td></tr>";
   const networkFilter = document.getElementById("networkFilter");
   const platformFilter = document.getElementById("platformFilter");
   const apyFilter = parseFloat(document.getElementById("apyFilter").value);
@@ -171,18 +163,29 @@ async function loadYieldData(yieldData) {
 
   saveDailyAPY(finalFilteredData);
   const chartData = JSON.parse(avgDataLS);
+  const symbols = chartData.map(item => item.project);
   const chains = chartData.map(item => item.chain);
+  const uniqueSymbols = [...new Set(chartData.map(item => item.symbol))];
+  const uniqueChains = [...new Set(chartData.map(item => item.chain))];
+
+  console.log(uniqueSymbols);
+  console.log(uniqueChains);
+
   tableBody.innerHTML = finalFilteredData.length ? finalFilteredData.map(item => `
       <tr>
           <td style='color:white;background-color:black'>${item.project}</td>
           <td style='color:white;background-color:black'>${item.symbol}</td>
           <td style='color:white;background-color:black'>${item.chain}</td>
           <td style='color:white;background-color:black'>${item.apy.toFixed(2)}%</td>
+          <td style='color:white;background-color:black'>
+            <input type='number' min='20' id='asignAss_${item.symbol}_${item.chain}' placeholder='${chains}'></input
+          </td>
       </tr>
   `).join("") : "<tr><td colspan='4'>No hay datos disponibles</td></tr>";
+  //const asignAssets = document.getElementById('asignAss_')
 }
+
 function toggleDark() {
-  //console.log(document.body.style.backgroundColor);
   switch (document.body.style.backgroundColor) {
     case 'lightblue':
       document.body.style.backgroundColor = 'black';
@@ -215,10 +218,10 @@ function saveDailyAPY(filteredData) {
     }
   });
 
-  // Convertir los datos en un formato para Lightweight Charts
+  // Lightweight Charts
   const chartData = Object.keys(apyByNetwork).map(chain => ({
     time: today,
-    value: (apyByNetwork[chain].totalAPY / apyByNetwork[chain].count).toFixed(2), // Promedio con 2 decimales
+    value: (apyByNetwork[chain].totalAPY / apyByNetwork[chain].count).toFixed(2),
     chain: chain
   }));
 
@@ -234,7 +237,6 @@ function loadChartData() {
   //const savedData = localStorage.getItem(storageKeyAvg);
   if (avgDataLS) {
     let chartData = JSON.parse(avgDataLS);
-
     // Mapeamos cada cadena (red) a un índice numérico
     const networkIndexMap = {};
     let index = 1;

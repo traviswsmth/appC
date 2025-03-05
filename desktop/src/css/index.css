@@ -96,7 +96,7 @@
     display: flex;
     flex-direction: column;
     gap: 14px;
-    margin-top: 30px;
+    margin-top: 0px;
   }
   
   .action-btn {
@@ -134,5 +134,5 @@
     background-color: #0b7dda;
   }
   .container-fluid {
-    min-height: 200px;
+    min-height: 190px;
   }

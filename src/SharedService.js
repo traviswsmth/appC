@@ -1,3 +1,11 @@
+const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core",
+  "Flare", "Neutron", "Gnosis", "Rootstock", "Bifrost Network",
+  "Bsquared", "Moonriver", "IOTA EVM", "Cardano", "Sui",
+  "Solana", //"Linea", "zkSync Era", "Sonic",
+  //"Stellar", "Blast", "Polygon", "Optimism", "Ethereum",
+  "MultiversX", "Fraxtal", "Avalanche",
+  "Cronos_zkevm", "Nolus", "Neon", "Starknet", "Osmosis", "Kujira"];
+const excludedPlatforms = ['bagful', 'psyoptions', 'yel-finance', 'goldlink', 'deltaprime'];
 async function digestMessage(message) {
   const encoder = new TextEncoder();
   const data = encoder.encode(message);
@@ -54,6 +62,11 @@ function enterHome() {
     window.location.replace("../index.html")
   }, 1000);
 }
+function loadPage(page){
+  link = page.concat(".html");
+  setTimeout(window.location.replace(link)
+  , 2000);
+}
 function confirmDeleteSecret() {
   let conf = null;
   if (confirm("~WARNING~\nDelete and generate new OTP QR code?")) {
@@ -73,4 +86,3 @@ function confirmDeleteSecret() {
   if(conf)
     console.log(conf);
 }
-

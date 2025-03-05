@@ -1,25 +1,13 @@
-body   {
-    background-color:lightblue;
+body {
+    background-color: lightblue;
 }
-input   {
+
+input {
     width: 50px;
 }
-#error-message  {
-    color: red; 
-    display: none;
-}
-#qr-code    {
-    filter: blur(2px);
-    position:fixed;
-}
-#secretCode    {
-    filter: blur(2px);
-    position:fixed;
-}
-#homeBtn {
+
+.btnSections {
     position: fixed;
-    right: 16px;
-    bottom: 16px;
     background-color: #2196F3;
     color: white;
     padding: 4px 8px;
@@ -27,32 +15,23 @@ input   {
     border-radius: 0%;
     font-size: 16px;
     cursor: pointer;
-  }
-  
-  #homeBtn:hover {
-    background-color: #0b7dda;
-  }
-  
-/* Custom styling */
-.dashboard-card {
-    margin-bottom: 1.5rem;
-}
-.card-header {
-    background-color: #f8f9fa;
-}
-.highlight {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-.percentage-change {
-    font-size: 1.2rem;
-    color: green;
-}
-.percentage-change.decrease {
-    color: red;
 }
 
-#apyChart   {
+.btnSections:hover {
+    background-color: #0b7dda;
+}
+
+#homeBtn {
+    right: 16px;
+    bottom: 16px;
+}
+
+#ethBtn {
+    right: 16px;
+    top: 16px;
+}
+
+#apyChart {
     height: "300px";
     align-self: center;
     display: block;
@@ -60,10 +39,12 @@ input   {
     margin-right: auto;
     margin-bottom: 64px;
 }
-.form-select    {
+
+.form-select {
     background-color: darkgray;
 }
-.col  {
-    color:white;
-    background-color:black
+
+.col {
+    color: white;
+    background-color: black
 }
