@@ -1,0 +1,80 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Yield Farming Dashboard</title>
+    <meta http-equiv="Content-Security-Policy" 
+    content="default-src 'self'; 
+             script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com data: filesystem:;
+             connect-src 'self'; 
+             style-src 'self' https://cdn.jsdelivr.net ; 
+             font-src 'self' https://cdn.jsdelivr.net;"/>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- Dashboard Header -->
+        <header class="text-center mb-4">
+          <button id="darkBtn">Dark Mode</button>
+            <h1>Crypto Yield Farming Dashboard</h1>
+            <p>Monitorea tus posiciones en yield farming en tiempo real.</p>
+        </header>
+
+        <div class="row">
+            <!-- Platform 1 - Aave -->
+            <div class="col-md-6">
+                <div class="card dashboard-card">
+                    <div class="card-header">
+                        <h5>Aave</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Balance Total:</strong> <span class="highlight">$2,500</span></p>
+                        <p><strong>Rendimiento Anual (APY):</strong> <span class="highlight">6.5%</span></p>
+                        <p><strong>Recompensas Acumuladas:</strong> <span class="highlight">250 AAVE</span></p>
+                        <p class="percentage-change">Cambio de rendimiento: <span class="percentage-change">+2.5%</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Platform 2 - Compound -->
+            <div class="col-md-6">
+                <div class="card dashboard-card">
+                    <div class="card-header">
+                        <h5>Compound</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Balance Total:</strong> <span class="highlight">$1,800</span></p>
+                        <p><strong>Rendimiento Anual (APY):</strong> <span class="highlight">5.2%</span></p>
+                        <p><strong>Recompensas Acumuladas:</strong> <span class="highlight">120 COMP</span></p>
+                        <p class="percentage-change decrease">Cambio de rendimiento: <span class="percentage-change decrease">-1.3%</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications Section -->
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-info" role="alert">
+                    ¡Recuerda revisar tus posiciones y ajustar tus inversiones según los cambios en las tasas!
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip de prueba">
+      Hover sobre mí
+    </button>
+    <button id="homeBtn">Home</button>
+    <!-- Bootstrap JS & Popper.js 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    -->
+    <script src="js/farming.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
