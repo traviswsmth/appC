@@ -75,6 +75,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     ethBtn.addEventListener('click', () => {
       loadPage('ethy');
     });
+
   } else {
     console.error('Un botón no fue encontrado en el DOM.');
   }
@@ -98,7 +99,7 @@ async function fetchDefiLlamaAPY() {
 }
 
 async function verifyLS() {
-  const storedYield = sessionStorage.getItem(yieldDataKey);
+  const storedYield = localStorage.getItem(yieldDataKey);
   if (storedYield) {
     loadYieldData(JSON.parse(storedYield));
   } else {
@@ -162,27 +163,51 @@ async function loadYieldData(yieldData) {
   });
 
   saveDailyAPY(finalFilteredData);
-  const chartData = JSON.parse(avgDataLS);
-  const symbols = chartData.map(item => item.project);
-  const chains = chartData.map(item => item.chain);
+  const chartData = finalFilteredData;
   const uniqueSymbols = [...new Set(chartData.map(item => item.symbol))];
   const uniqueChains = [...new Set(chartData.map(item => item.chain))];
 
   console.log(uniqueSymbols);
   console.log(uniqueChains);
+  //const dataInputSaved = localStorage.getItem('ybt_',item.symbol,'_',item.chain.substr(0, 3),'_',item.project.substr(0, 4));
+  //placeholder='${localStorage.getItem('ybt_',item.symbol,'_',item.chain.substr(0, 3),'_',item.project.substr(0, 4))}'></input
 
-  tableBody.innerHTML = finalFilteredData.length ? finalFilteredData.map(item => `
+  tableBody.innerHTML = finalFilteredData.length ? finalFilteredData.map(item => {
+    const inputId = `ybt_${item.symbol}_${item.chain.substr(0, 3)}_${item.project.substr(0, 4)}`;
+    const savedValue = localStorage.getItem(inputId) || '';
+
+    return `
       <tr>
           <td style='color:white;background-color:black'>${item.project}</td>
           <td style='color:white;background-color:black'>${item.symbol}</td>
           <td style='color:white;background-color:black'>${item.chain}</td>
           <td style='color:white;background-color:black'>${item.apy.toFixed(2)}%</td>
           <td style='color:white;background-color:black'>
-            <input type='number' min='20' id='asignAss_${item.symbol}_${item.chain}' placeholder='${chains}'></input
+            <input type='number' min='3' id='${inputId}' value='${savedValue}' 
+              placeholder='${item.project.substr(0, 4)}'>
           </td>
       </tr>
-  `).join("") : "<tr><td colspan='4'>No hay datos disponibles</td></tr>";
-  //const asignAssets = document.getElementById('asignAss_')
+  `;
+  }).join("") : "<tr><td colspan='4'>No hay datos disponibles</td></tr>";
+
+  // Evento para guardar en localStorage al presionar "Enter"
+  tableBody.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+      const input = event.target;
+      if (input.tagName === "INPUT") {
+        const id = input.id;
+        const value = input.value.trim();
+
+        if (value !== "") {
+          localStorage.setItem(id, value);
+          console.log(`Guardado en localStorage -> ${id}: ${value}`);
+        } else  {
+          localStorage.removeItem(id);
+        }
+      }
+    }
+  });
+
 }
 
 function toggleDark() {
@@ -234,9 +259,10 @@ function saveDailyAPY(filteredData) {
 }
 
 function loadChartData() {
-  //const savedData = localStorage.getItem(storageKeyAvg);
-  if (avgDataLS) {
-    let chartData = JSON.parse(avgDataLS);
+  let savedDataChart = [];
+  savedDataChart = localStorage.getItem(storageKeyAvg);
+  if (savedDataChart) {
+    let chartData = JSON.parse(savedDataChart);
     // Mapeamos cada cadena (red) a un índice numérico
     const networkIndexMap = {};
     let index = 1;
