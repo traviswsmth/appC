@@ -177,7 +177,7 @@ async function loadYieldData(yieldData) {
           <td style='color:white;background-color:black'>${item.chain}</td>
           <td style='color:white;background-color:black'>${item.apy.toFixed(2)}%</td>
           <td style='color:white;background-color:black'>
-            <input type='number' min='0.1' id='${inputId}' value='${savedValue}' 
+            <input type='number' min='0.1' step='0.1' id='${inputId}' value='${savedValue}' 
               placeholder='${item.project.substr(0, 4)}'>
           </td>
       </tr>

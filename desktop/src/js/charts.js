@@ -172,7 +172,7 @@ async function loadYieldData(yieldData) {
   //const dataInputSaved = localStorage.getItem('ybt_',item.symbol,'_',item.chain.substr(0, 3),'_',item.project.substr(0, 4));
   //placeholder='${localStorage.getItem('ybt_',item.symbol,'_',item.chain.substr(0, 3),'_',item.project.substr(0, 4))}'></input
 
-  tableBody.innerHTML = finalFilteredData.length ? finalFilteredData.map(item => {
+  const drawTableYields = finalFilteredData.length ? finalFilteredData.map(item => {
     const inputId = `ybt_${item.symbol}_${item.chain.substr(0, 3)}_${item.project.substr(0, 4)}`;
     const savedValue = localStorage.getItem(inputId) || '';
 
@@ -184,12 +184,14 @@ async function loadYieldData(yieldData) {
           <td style='color:white;background-color:black'>${item.apy.toFixed(2)}%</td>
           <td style='color:white;background-color:black'>
             <input type='number' min='3' id='${inputId}' value='${savedValue}' 
-              placeholder='${item.project.substr(0, 4)}'>
+              placeholder='${item.project.substr(0, 4)}'
+              style='color:blue;'>
           </td>
       </tr>
   `;
   }).join("") : "<tr><td colspan='4'>No hay datos disponibles</td></tr>";
-
+  const personalizatedRows = '';
+  tableBody.innerHTML = drawTableYields.concat(personalizatedRows);
   // Evento para guardar en localStorage al presionar "Enter"
   tableBody.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
