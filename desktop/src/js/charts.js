@@ -3,6 +3,7 @@ const storageKeyAvg = `apyAvg_${today}`;
 const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yData_${today}`;
 const yDataLS = localStorage.getItem(storageKeyAvg);
+const storageKeyCustomProjects = "customProjectS";
 const includedSymbols = ["USDT", "USDC", "GHO", "DAI",
   "FDUSD", "USDE", "FRAX", "CRVUSD", "USDC.E"];
 
@@ -140,7 +141,6 @@ async function loadYieldData(yieldData) {
   let validNetworks = Object.keys(platformsByNetwork);
   let validPlatforms = Object.keys(networksByPlatform);
 
-  // Apply cross filter
   if (selectedPlatform !== "all") validNetworks = [...networksByPlatform[selectedPlatform] || []];
   if (selectedNetwork !== "all") validPlatforms = [...platformsByNetwork[selectedNetwork] || []];
 
@@ -190,26 +190,97 @@ async function loadYieldData(yieldData) {
       </tr>
   `;
   }).join("") : "<tr><td colspan='4'>No hay datos disponibles</td></tr>";
-  const personalizatedRows = '';
-  tableBody.innerHTML = drawTableYields.concat(personalizatedRows);
-  // Evento para guardar en localStorage al presionar "Enter"
+  const personalizatedRows = `
+      <tr>
+          <td style='color:white;background-color:black'>
+            <input id='ybt_new_project' style='color:blue;'>
+          </td>
+          <td style='color:white;background-color:black'>
+            <input id='ybt_new_symbol' style='color:blue;'>
+          </td>
+          <td style='color:white;background-color:black'>
+            <input id='ybt_new_chain' style='color:blue;'>
+          </td>
+          <td style='color:white;background-color:black'>
+            <input type="number" step="0.1" min="6" id='ybt_new_apy' style='color:blue;'>
+          </td>
+          <td style='color:white;background-color:black'>
+            <input type='number' min='3' id='ybt_new_asign'
+              style='color:blue;'>
+          </td>
+      </tr>
+  `;
   tableBody.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
       const input = event.target;
-      if (input.tagName === "INPUT") {
+      const newAsign = document.getElementById("ybt_new_asign").value;
+      if (input.tagName === "INPUT" && newAsign.length<1) {
         const id = input.id;
         const value = input.value.trim();
 
         if (value !== "") {
           localStorage.setItem(id, value);
           console.log(`Guardado en localStorage -> ${id}: ${value}`);
-        } else  {
+        } else {
           localStorage.removeItem(id);
         }
       }
     }
   });
+  tableBody.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+      const newProject = document.getElementById("ybt_new_project").value.trim();
+      const newSymbol = document.getElementById("ybt_new_symbol").value.trim();
+      const newChain = document.getElementById("ybt_new_chain").value.trim();
+      const newApy = document.getElementById("ybt_new_apy").value.trim();
+      const newAsign = document.getElementById("ybt_new_asign").value.trim();
 
+      if (newProject && newSymbol && newChain && newApy && newAsign) {
+        const newProjectData = {
+          project: newProject,
+          symbol: newSymbol,
+          chain: newChain,
+          apy: parseFloat(newApy),
+          asign: parseFloat(newAsign),
+        };
+
+        const savedProjects = JSON.parse(localStorage.getItem(storageKeyCustomProjects)) || [];
+        savedProjects.push(newProjectData);
+        localStorage.setItem(storageKeyCustomProjects, JSON.stringify(savedProjects));
+
+        console.log("Nuevo proyecto guardado:", newProjectData);
+        document.getElementById("ybt_new_project").value = "";
+        document.getElementById("ybt_new_symbol").value = "";
+        document.getElementById("ybt_new_chain").value = "";
+        document.getElementById("ybt_new_apy").value = "";
+        document.getElementById("ybt_new_asign").value = "";
+
+      }
+    }
+  });
+
+  tableBody.innerHTML = drawTableYields.concat(loadCustomProjects())
+    .concat(personalizatedRows);
+}
+
+function loadCustomProjects() {
+  const savedProjects = JSON.parse(localStorage.getItem(storageKeyCustomProjects)) || [];
+  const customRows = savedProjects
+    .map((item) => {
+      return `
+      <tr>
+          <td style='color:white;background-color:black'>${item.project}</td>
+          <td style='color:white;background-color:black'>${item.symbol}</td>
+          <td style='color:white;background-color:black'>${item.chain}</td>
+          <td style='color:white;background-color:black'>${item.apy.toFixed(2)}%</td>
+          <td style='color:white;background-color:black'>
+            <input type='number' min='3' value='${item.asign}' style='color:blue;'>
+          </td>
+      </tr>
+  `;
+    })
+    .join("");
+  return customRows;
 }
 
 function toggleDark() {
@@ -265,7 +336,6 @@ function loadChartData() {
   savedDataChart = localStorage.getItem(storageKeyAvg);
   if (savedDataChart) {
     let chartData = JSON.parse(savedDataChart);
-    // Mapeamos cada cadena (red) a un índice numérico
     const networkIndexMap = {};
     let index = 1;
 
