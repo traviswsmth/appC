@@ -3,6 +3,7 @@ const storageKeyAvg = `apyAvgE_${today}`;
 const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yDataE_${today}`;
 const yDataLS = localStorage.getItem(storageKeyAvg);
+const storageKeyCustomProjects = "customProjectsE";
 const includedSymbols = ["ETH", "WETH"];
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -159,27 +160,121 @@ async function loadYieldData(yieldData) {
   });
 
   saveDailyAPY(finalFilteredData);
-  const chartData = JSON.parse(avgDataLS);
-  const symbols = chartData.map(item => item.project);
-  const chains = chartData.map(item => item.chain);
+  const chartData = finalFilteredData;
   const uniqueSymbols = [...new Set(chartData.map(item => item.symbol))];
   const uniqueChains = [...new Set(chartData.map(item => item.chain))];
 
   console.log(uniqueSymbols);
   console.log(uniqueChains);
 
-  tableBody.innerHTML = finalFilteredData.length ? finalFilteredData.map(item => `
+  const drawTableYields = finalFilteredData.length ? finalFilteredData.map(item => {
+    const inputId = `ybe_${item.symbol}_${item.chain.substr(0, 3)}_${item.project.substr(0, 4)}`;
+    const savedValue = localStorage.getItem(inputId) || '';
+
+    return `
       <tr>
           <td style='color:white;background-color:black'>${item.project}</td>
           <td style='color:white;background-color:black'>${item.symbol}</td>
           <td style='color:white;background-color:black'>${item.chain}</td>
           <td style='color:white;background-color:black'>${item.apy.toFixed(2)}%</td>
           <td style='color:white;background-color:black'>
-            <input type='number' min='20' id='asignAss_${item.symbol}_${item.chain}' placeholder='${chains}'></input
+            <input type='number' min='0.1' step='0.1' id='${inputId}' value='${savedValue}' 
+              placeholder='${item.project.substr(0, 4)}'>
           </td>
       </tr>
-  `).join("") : "<tr><td colspan='4'>No hay datos disponibles</td></tr>";
-  //const asignAssets = document.getElementById('asignAss_')
+  `;
+  }).join("") : "<tr><td colspan='4'>No hay datos disponibles</td></tr>";
+  const personalizatedRows = `
+  <tr>
+      <td style='color:white;background-color:black'>
+        <input id='ybe_new_project' style='color:blue;'>
+      </td>
+      <td style='color:white;background-color:black'>
+        <input id='ybe_new_symbol' style='color:blue;'>
+      </td>
+      <td style='color:white;background-color:black'>
+        <input id='ybe_new_chain' style='color:blue;'>
+      </td>
+      <td style='color:white;background-color:black'>
+        <input type="number" step="0.1" min="6" id='ybe_new_apy' style='color:blue;'>
+      </td>
+      <td style='color:white;background-color:black'>
+        <input type='number' min='3' id='ybe_new_asign'
+          style='color:blue;'>
+      </td>
+  </tr>
+`;
+  tableBody.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+      const input = event.target;
+      const newAsign = document.getElementById("ybe_new_asign").value;
+      if (input.tagName === "INPUT" && newAsign.length<1) {
+        const id = input.id;
+        const value = input.value.trim();
+
+        if (value !== "") {
+          localStorage.setItem(id, value);
+          console.log(`Guardado en localStorage -> ${id}: ${value}`);
+        } else  {
+          localStorage.removeItem(id);
+        }
+      }
+    }
+  });
+  tableBody.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+      const newProject = document.getElementById("ybe_new_project").value.trim();
+      const newSymbol = document.getElementById("ybe_new_symbol").value.trim();
+      const newChain = document.getElementById("ybe_new_chain").value.trim();
+      const newApy = document.getElementById("ybe_new_apy").value.trim();
+      const newAsign = document.getElementById("ybe_new_asign").value.trim();
+
+      if (newProject && newSymbol && newChain && newApy && newAsign) {
+        const newProjectData = {
+          project: newProject,
+          symbol: newSymbol,
+          chain: newChain,
+          apy: parseFloat(newApy),
+          asign: parseFloat(newAsign),
+        };
+
+        const savedProjects = JSON.parse(localStorage.getItem(storageKeyCustomProjects)) || [];
+        savedProjects.push(newProjectData);
+        localStorage.setItem(storageKeyCustomProjects, JSON.stringify(savedProjects));
+
+        console.log("Nuevo proyecto guardado:", newProjectData);
+        document.getElementById("ybe_new_project").value = "";
+        document.getElementById("ybe_new_symbol").value = "";
+        document.getElementById("ybe_new_chain").value = "";
+        document.getElementById("ybe_new_apy").value = "";
+        document.getElementById("ybe_new_asign").value = "";
+
+      }
+    }
+  });
+
+  tableBody.innerHTML = drawTableYields.concat(loadCustomProjects())
+    .concat(personalizatedRows);
+}
+
+function loadCustomProjects() {
+  const savedProjects = JSON.parse(localStorage.getItem(storageKeyCustomProjects)) || [];
+  const customRows = savedProjects
+    .map((item) => {
+      return `
+      <tr>
+          <td style='color:white;background-color:black'>${item.project}</td>
+          <td style='color:white;background-color:black'>${item.symbol}</td>
+          <td style='color:white;background-color:black'>${item.chain}</td>
+          <td style='color:white;background-color:black'>${item.apy.toFixed(2)}%</td>
+          <td style='color:white;background-color:black'>
+            <input type='number' min='3' value='${item.asign}' style='color:blue;'>
+          </td>
+      </tr>
+  `;
+    })
+    .join("");
+  return customRows;
 }
 
 function toggleDark() {
@@ -215,7 +310,6 @@ function saveDailyAPY(filteredData) {
     }
   });
 
-  //Lightweight Charts
   const chartData = Object.keys(apyByNetwork).map(chain => ({
     time: today,
     value: (apyByNetwork[chain].totalAPY / apyByNetwork[chain].count).toFixed(2),
@@ -231,7 +325,6 @@ function saveDailyAPY(filteredData) {
 }
 
 function loadChartData() {
-  //const savedData = localStorage.getItem(storageKeyAvg);
   if (avgDataLS) {
     let chartData = JSON.parse(avgDataLS);
     const networkIndexMap = {};

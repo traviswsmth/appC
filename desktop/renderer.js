@@ -79,7 +79,7 @@ $(() => {
         }
       });
     }
-    getHour();
+    const dateNow = getDate();
   }
 
 
@@ -153,6 +153,15 @@ function getHour() {
   hour = h.concat(':', m, '', s);
   document.getElementById("timestamp").innerHTML = hour;
   return hour;
+}
+
+function getDate() {
+  d = new Date();
+  day = (d.getDate()).toString();
+  m = (d.getMonth()).toString();
+  y = (d.getFullYear()).toString();
+  date = day.concat('-',m,'-',y);
+  return date;
 }
 
 function toggleDark() {

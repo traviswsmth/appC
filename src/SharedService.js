@@ -2,7 +2,7 @@ const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core",
   "Flare", "Neutron", "Gnosis", "Rootstock", "Bifrost Network",
   "Bsquared", "Moonriver", "IOTA EVM", "Cardano", "Sui",
   "Solana", //"Linea", "zkSync Era", "Sonic",
-  //"Stellar", "Blast", "Polygon", "Optimism", "Ethereum",
+  "Stellar", "Blast", "Polygon", "Optimism", //"Ethereum",
   "MultiversX", "Fraxtal", "Avalanche",
   "Cronos_zkevm", "Nolus", "Neon", "Starknet", "Osmosis", "Kujira"];
 const excludedPlatforms = ['bagful', 'psyoptions', 'yel-finance', 'goldlink', 'deltaprime'];
