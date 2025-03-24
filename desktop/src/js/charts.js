@@ -3,9 +3,16 @@ const storageKeyAvg = `apyAvg_${today}`;
 const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yData_${today}`;
 const yDataLS = localStorage.getItem(storageKeyAvg);
-const storageKeyCustomProjects = "customProjectS";
+const keyCustomProjects = "customProjectS";
 const includedSymbols = ["USDT", "USDC", "GHO", "DAI",
   "FDUSD", "USDE", "FRAX", "CRVUSD", "USDC.E"];
+const savedValuesYbt = {};
+Object.keys(localStorage).forEach((key) => {
+  if (key.startsWith("ybt_")) {
+    savedValuesYbt[key] = localStorage.getItem(key);
+  }
+});
+
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -172,90 +179,109 @@ async function loadYieldData(yieldData) {
   //const dataInputSaved = localStorage.getItem('ybt_',item.symbol,'_',item.chain.substr(0, 3),'_',item.project.substr(0, 4));
   //placeholder='${localStorage.getItem('ybt_',item.symbol,'_',item.chain.substr(0, 3),'_',item.project.substr(0, 4))}'></input
 
-  const drawTableYields = finalFilteredData.length ? finalFilteredData.map(item => {
-    const inputId = `ybt_${item.symbol}_${item.chain.substr(0, 3)}_${item.project.substr(0, 4)}`;
-    const savedValue = localStorage.getItem(inputId) || '';
+  const drawTableYields = finalFilteredData.length
+    ? finalFilteredData
+      .map((item) => {
+        const inputId = `ybt_${item.symbol}_${item.chain.substr(0, 3)}_${item.project.substr(0, 4)}`;
+        const savedValue = savedValuesYbt[inputId] || "";
 
-    return `
+        return `
       <tr>
           <td style='color:white;background-color:black'>${item.project}</td>
           <td style='color:white;background-color:black'>${item.symbol}</td>
           <td style='color:white;background-color:black'>${item.chain}</td>
           <td style='color:white;background-color:black'>${item.apy.toFixed(2)}%</td>
           <td style='color:white;background-color:black'>
-            <input type='number' min='3' id='${inputId}' value='${savedValue}' 
-              placeholder='${item.project.substr(0, 4)}'
-              style='color:blue;'>
+            <input type='number' min='10' id='${inputId}' value='${savedValue}' 
+              placeholder='${item.project.substr(0, 4)}' style='color:blue;'>
           </td>
       </tr>
   `;
-  }).join("") : "<tr><td colspan='4'>No hay datos disponibles</td></tr>";
+      })
+      .join("")
+    : "<tr><td colspan='4'>No hay datos disponibles</td></tr>";
+
+  // Fila de inputs para agregar nuevos proyectos
   const personalizatedRows = `
-      <tr>
-          <td style='color:white;background-color:black'>
-            <input id='ybt_new_project' style='color:blue;'>
-          </td>
-          <td style='color:white;background-color:black'>
-            <input id='ybt_new_symbol' style='color:blue;'>
-          </td>
-          <td style='color:white;background-color:black'>
-            <input id='ybt_new_chain' style='color:blue;'>
-          </td>
-          <td style='color:white;background-color:black'>
-            <input type="number" step="0.1" min="6" id='ybt_new_apy' style='color:blue;'>
-          </td>
-          <td style='color:white;background-color:black'>
-            <input type='number' min='3' id='ybt_new_asign'
-              style='color:blue;'>
-          </td>
-      </tr>
-  `;
+        <tr>
+            <td style='color:white;background-color:black'>
+              <input id='ybt_new_project' style='color:blue;' placeholder='Proyecto'>
+            </td>
+            <td style='color:white;background-color:black'>
+              <input id='ybt_new_symbol' style='color:blue;' placeholder='Símbolo'>
+            </td>
+            <td style='color:white;background-color:black'>
+              <input id='ybt_new_chain' style='color:blue;' placeholder='Red'>
+            </td>
+            <td style='color:white;background-color:black'>
+              <input id='ybt_new_apy' type='number' min='6' step='0.1' 
+              style='color:blue;' placeholder='APY'>
+            </td>
+            <td style='color:white;background-color:black'>
+              <input type='number' min='10' id='ybt_new_asign' style='color:blue;' placeholder='Asignar'>
+            </td>
+        </tr>
+    `;
+
   tableBody.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
       const input = event.target;
-      const newAsign = document.getElementById("ybt_new_asign").value;
-      if (input.tagName === "INPUT" && newAsign.length<1) {
-        const id = input.id;
-        const value = input.value.trim();
+      const id = input.id;
+      const value = input.value.trim();
+      const savedProjects = JSON.parse(localStorage.getItem(keyCustomProjects)) || [];
 
-        if (value !== "") {
-          localStorage.setItem(id, value);
-          console.log(`Guardado en localStorage -> ${id}: ${value}`);
+      if (id.startsWith("ybt_new")) {
+        const newProject = document.getElementById("ybt_new_project").value.trim();
+        const newSymbol = document.getElementById("ybt_new_symbol").value.trim();
+        const newChain = document.getElementById("ybt_new_chain").value.trim();
+        const newApy = document.getElementById("ybt_new_apy").value.trim();
+        const newAsign = document.getElementById("ybt_new_asign").value.trim();
+        if (newProject && newSymbol && newChain && newApy && newAsign) {
+          const newProjectData = {
+            project: newProject,
+            symbol: newSymbol,
+            chain: newChain,
+            apy: parseFloat(newApy),
+            asign: parseFloat(newAsign),
+            keyid: newSymbol.concat('_',newChain.substr(0, 3),'_',newProject.substr(0, 4))
+          };
+//          const savedProjects = JSON.parse(localStorage.getItem(keyCustomProjects)) || [];
+          savedProjects.push(newProjectData);
+          localStorage.setItem(keyCustomProjects, JSON.stringify(savedProjects));
+
+          console.log("Nuevo proyecto guardado:", newProjectData);
+          document.getElementById("ybt_new_project").value = "";
+          document.getElementById("ybt_new_symbol").value = "";
+          document.getElementById("ybt_new_chain").value = "";
+          document.getElementById("ybt_new_apy").value = "";
+          document.getElementById("ybt_new_asign").value = "";
+        }
+      } else {
+        // Si el input pertenece a una fila existente, guardar o actualizar el valor en localStorage
+        if (value !== "" && id) {
+          const savedYbt = JSON.parse(localStorage.getItem('ybt')) || [];
+
+          // Buscar si ya existe un proyecto con el mismo ID
+          const index = savedYbt.findIndex(item => item.project === id);
+
+          if (index !== -1) {
+            // Si ya existe, actualizar el valor
+            savedYbt[index].asign = value;
+            console.log(`Actualizado en localStorage -> ${id}: ${value}`);
+          } else {
+            // Si no existe, agregarlo como nuevo
+            savedYbt.push({ project: id, asign: value });
+            console.log(`Guardado en localStorage -> ${id}: ${value}`);
+          }
+          localStorage.setItem('ybt', JSON.stringify(savedYbt));
         } else {
-          localStorage.removeItem(id);
+          // Si el valor es vacío, eliminar el item correspondiente
+          const savedYbt = JSON.parse(localStorage.getItem('ybt')) || [];
+          const updatedYbt = savedYbt.filter(item => item.project !== id);
+          localStorage.setItem('ybt', JSON.stringify(updatedYbt));
         }
       }
-    }
-  });
-  tableBody.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
-      const newProject = document.getElementById("ybt_new_project").value.trim();
-      const newSymbol = document.getElementById("ybt_new_symbol").value.trim();
-      const newChain = document.getElementById("ybt_new_chain").value.trim();
-      const newApy = document.getElementById("ybt_new_apy").value.trim();
-      const newAsign = document.getElementById("ybt_new_asign").value.trim();
 
-      if (newProject && newSymbol && newChain && newApy && newAsign) {
-        const newProjectData = {
-          project: newProject,
-          symbol: newSymbol,
-          chain: newChain,
-          apy: parseFloat(newApy),
-          asign: parseFloat(newAsign),
-        };
-
-        const savedProjects = JSON.parse(localStorage.getItem(storageKeyCustomProjects)) || [];
-        savedProjects.push(newProjectData);
-        localStorage.setItem(storageKeyCustomProjects, JSON.stringify(savedProjects));
-
-        console.log("Nuevo proyecto guardado:", newProjectData);
-        document.getElementById("ybt_new_project").value = "";
-        document.getElementById("ybt_new_symbol").value = "";
-        document.getElementById("ybt_new_chain").value = "";
-        document.getElementById("ybt_new_apy").value = "";
-        document.getElementById("ybt_new_asign").value = "";
-
-      }
     }
   });
 
@@ -264,17 +290,25 @@ async function loadYieldData(yieldData) {
 }
 
 function loadCustomProjects() {
-  const savedProjects = JSON.parse(localStorage.getItem(storageKeyCustomProjects)) || [];
+  const savedProjects = JSON.parse(localStorage.getItem(keyCustomProjects)) || [];
   const customRows = savedProjects
-    .map((item) => {
+    .map((item, index) => {
+      const inputAsignId = `${item.keyid}`;
+      const inputApyId = `apy_${item.keyid}`;
+      const savedValue = savedValuesYbt[inputAsignId] || "";
       return `
       <tr>
           <td style='color:white;background-color:black'>${item.project}</td>
           <td style='color:white;background-color:black'>${item.symbol}</td>
           <td style='color:white;background-color:black'>${item.chain}</td>
-          <td style='color:white;background-color:black'>${item.apy.toFixed(2)}%</td>
           <td style='color:white;background-color:black'>
-            <input type='number' min='3' value='${item.asign}' style='color:blue;'>
+            <input type='number' min='6' step='0.1' id='${inputApyId}' 
+            data-index='${index}' data-field='apy' 
+            value='${item.apy}' style='color:blue;'>
+          </td>
+          <td style='color:white;background-color:black'>
+            <input type='number' min='10' data-index='${index}' id='${inputAsignId}'  
+            data-field='asign' value='${item.asign}' style='color:blue;'>
           </td>
       </tr>
   `;
