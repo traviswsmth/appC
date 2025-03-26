@@ -3,7 +3,7 @@ const storageKeyAvg = `apyAvgE_${today}`;
 const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yDataE_${today}`;
 const yDataLS = localStorage.getItem(storageKeyAvg);
-const storageKeyCustomProjects = "customProjectsE";
+const keyCustomProjects = "customProjectsE";
 const includedSymbols = ["ETH", "WETH"];
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -166,20 +166,25 @@ async function loadYieldData(yieldData) {
 
   console.log(uniqueSymbols);
   console.log(uniqueChains);
+  const savedProjectsAsign = JSON.parse(localStorage.getItem('ybe')) || [];
+  const drawTableYields = finalFilteredData.length
+    ? finalFilteredData
+      .map((item) => {
+        const inputIdYbe = `ybe_${item.symbol}_${item.chain.substr(0, 3)}_${item.project.substr(0, 4)}`;
+        const projectShort = item.project.length >= 4 ? item.project.substr(0, 4) : item.project;
+        const savedValueYbe = savedProjectsAsign.filter(
+          item => item.project === inputIdYbe).map(
+            item => item.asign);
 
-  const drawTableYields = finalFilteredData.length ? finalFilteredData.map(item => {
-    const inputId = `ybe_${item.symbol}_${item.chain.substr(0, 3)}_${item.project.substr(0, 4)}`;
-    const savedValue = localStorage.getItem(inputId) || '';
-
-    return `
+        return `
       <tr>
           <td style='color:white;background-color:black'>${item.project}</td>
           <td style='color:white;background-color:black'>${item.symbol}</td>
           <td style='color:white;background-color:black'>${item.chain}</td>
           <td style='color:white;background-color:black'>${item.apy.toFixed(2)}%</td>
           <td style='color:white;background-color:black'>
-            <input type='number' min='0.1' step='0.1' id='${inputId}' value='${savedValue}' 
-              placeholder='${item.project.substr(0, 4)}'>
+            <input type='number' min='10' id='${inputIdYbe}' value='${savedValueYbe}' 
+              placeholder='${projectShort}' style='color:blue;background-color:gray;'>
           </td>
       </tr>
   `;
@@ -204,76 +209,103 @@ async function loadYieldData(yieldData) {
       </td>
   </tr>
 `;
-  tableBody.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
-      const input = event.target;
-      const newAsign = document.getElementById("ybe_new_asign").value;
-      if (input.tagName === "INPUT" && newAsign.length<1) {
-        const id = input.id;
-        const value = input.value.trim();
+tableBody.addEventListener("keypress", function (event) {
+  if (event.key === "Enter") {
+    const input = event.target;
+    const id = input.id;
+    const value = input.value.trim();
+    const savedProjects = JSON.parse(localStorage.getItem(keyCustomProjects)) || [];
 
-        if (value !== "") {
-          localStorage.setItem(id, value);
-          console.log(`Guardado en localStorage -> ${id}: ${value}`);
-        } else  {
-          localStorage.removeItem(id);
-        }
-      }
-    }
-  });
-  tableBody.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
+    if (id.startsWith("ybe_new")) {
       const newProject = document.getElementById("ybe_new_project").value.trim();
       const newSymbol = document.getElementById("ybe_new_symbol").value.trim();
       const newChain = document.getElementById("ybe_new_chain").value.trim();
       const newApy = document.getElementById("ybe_new_apy").value.trim();
-      const newAsign = document.getElementById("ybe_new_asign").value.trim();
-
-      if (newProject && newSymbol && newChain && newApy && newAsign) {
+      if (newProject && newSymbol && newChain && newApy) {
         const newProjectData = {
           project: newProject,
           symbol: newSymbol,
           chain: newChain,
           apy: parseFloat(newApy),
-          asign: parseFloat(newAsign),
+          keyid: newSymbol.concat('_',newChain.substr(0, 3),'_',newProject.substr(0, 4))
         };
-
-        const savedProjects = JSON.parse(localStorage.getItem(storageKeyCustomProjects)) || [];
         savedProjects.push(newProjectData);
-        localStorage.setItem(storageKeyCustomProjects, JSON.stringify(savedProjects));
+        localStorage.setItem(keyCustomProjects, JSON.stringify(savedProjects));
 
         console.log("Nuevo proyecto guardado:", newProjectData);
         document.getElementById("ybe_new_project").value = "";
         document.getElementById("ybe_new_symbol").value = "";
         document.getElementById("ybe_new_chain").value = "";
         document.getElementById("ybe_new_apy").value = "";
-        document.getElementById("ybe_new_asign").value = "";
+      }
+    } else {
+      if (value !== "" && id) {
+        const savedYbe = JSON.parse(localStorage.getItem('ybe')) || [];
+        const index = savedYbe.findIndex(item => item.project === id);
 
+        if (index !== -1) {
+          savedYbe[index].asign = value;
+          console.log(`Updated in LS -> ${id}: ${value}`);
+        } else {
+          savedYbe.push({ project: id, asign: value, apy: '' });
+          console.log(`Saved in LS -> ${id}: ${value}`);
+        }
+        localStorage.setItem('ybe', JSON.stringify(savedYbe));
+      } else {
+        const savedYbe = JSON.parse(localStorage.getItem('ybe')) || [];
+        const updatedYbe = savedYbe.filter(item => item.project !== id);
+        localStorage.setItem('ybe', JSON.stringify(updatedYbe));
       }
     }
-  });
 
-  tableBody.innerHTML = drawTableYields.concat(loadCustomProjects())
-    .concat(personalizatedRows);
+  }
+});
+
+tableBody.innerHTML = drawTableYields.concat(loadCustomProjects())
+  .concat(personalizatedRows);
 }
 
 function loadCustomProjects() {
-  const savedProjects = JSON.parse(localStorage.getItem(storageKeyCustomProjects)) || [];
-  const customRows = savedProjects
-    .map((item) => {
-      return `
-      <tr>
-          <td style='color:white;background-color:black'>${item.project}</td>
-          <td style='color:white;background-color:black'>${item.symbol}</td>
-          <td style='color:white;background-color:black'>${item.chain}</td>
-          <td style='color:white;background-color:black'>${item.apy.toFixed(2)}%</td>
-          <td style='color:white;background-color:black'>
-            <input type='number' min='3' value='${item.asign}' style='color:blue;'>
-          </td>
-      </tr>
-  `;
-    })
-    .join("");
+  const savedProjects = JSON.parse(localStorage.getItem(keyCustomProjects)) || [];
+  const savedProjectsAsign = JSON.parse(localStorage.getItem('ybe')) || [];
+  
+  const customRows = savedProjects.length
+    ? savedProjects
+      .map((item) => {
+        const symbol = item.symbol || '';
+        const chain = item.chain || '';
+        const project = item.project || '';
+        
+        const chainShort = chain.length >= 3 ? chain.substr(0, 3) : chain;
+        const projectShort = project.length >= 4 ? project.substr(0, 4) : project;
+        
+        const inputAsignId = `ybt_${symbol}_${chainShort}_${projectShort}`;
+        const inputApyId = `apy_${symbol}_${chainShort}_${projectShort}`;
+        const savedValueYbt = savedProjectsAsign.filter(
+          asignItem => asignItem.project === inputAsignId).map(
+            asignItem => asignItem.asign);
+        
+        return `
+        <tr>
+            <td style='color:white;background-color:black'>${project}</td>
+            <td style='color:white;background-color:black'>${symbol}</td>
+            <td style='color:white;background-color:black'>${chain}</td>
+            <td style='color:white;background-color:black'>
+              <input type='number' min='6' step='0.1' id='${inputApyId}' 
+               data-field='apy' 
+              value='${item.apy || ''}' style='color:white;background-color:gray'>
+            </td>
+            <td style='color:white;background-color:black'>
+              <input type='number' min='10' id='${inputAsignId}'  
+              value='${savedValueYbt}' placeholder='${projectShort}' 
+              style='color:blue;background-color:gray;'>
+            </td>
+        </tr>
+        `;
+      })
+      .join("")
+    : "<tr><td colspan='4'>No custom projects saved yet</td></tr>";
+  
   return customRows;
 }
 
