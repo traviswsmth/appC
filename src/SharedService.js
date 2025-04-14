@@ -5,7 +5,8 @@ const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core",
   "Stellar", "Blast", "Polygon", "Optimism", //"Ethereum",
   "MultiversX", "Fraxtal", "Avalanche",
   "Cronos_zkevm", "Nolus", "Neon", "Starknet", "Osmosis", "Kujira"];
-const excludedPlatforms = ['bagful', 'psyoptions', 'yel-finance', 'goldlink', 'deltaprime'];
+const excludedPlatforms = ['bagful', 'psyoptions', 'yel-finance', 'goldlink', 
+  'deltaprime', 'vela-exchange'];
 async function digestMessage(message) {
   const encoder = new TextEncoder();
   const data = encoder.encode(message);

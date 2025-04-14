@@ -2,7 +2,7 @@ const today = new Date().toISOString().split('T')[0];
 const storageKeyAvg = `apyAvg_${today}`;
 const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yData_${today}`;
-const yDataLS = localStorage.getItem(storageKeyAvg);
+const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsU";
 const includedSymbols = ["USDT", "USDC", "GHO", "DAI",
   "FDUSD", "USDE", "FRAX", "CRVUSD", "USDC.E"];
@@ -234,11 +234,11 @@ async function loadYieldData(yieldData) {
       const value = input.value.trim();
       const savedProjects = JSON.parse(localStorage.getItem(keyCustomProjects)) || [];
       const savedYbt = JSON.parse(localStorage.getItem('ybt')) || [];
-      if (id.startsWith("ybt_new")) {
-        const newProject = document.getElementById("ybt_new_project").value.trim();
-        const newSymbol = document.getElementById("ybt_new_symbol").value.trim();
-        const newChain = document.getElementById("ybt_new_chain").value.trim();
-        const newApy = document.getElementById("ybt_new_apy").value.trim();
+      const newProject = document.getElementById("ybt_new_project").value.trim();
+      const newSymbol = document.getElementById("ybt_new_symbol").value.trim();
+      const newChain = document.getElementById("ybt_new_chain").value.trim();
+      const newApy = document.getElementById("ybt_new_apy").value.trim();
+      if (id.startsWith("ybe_new") && !(id.startsWith("apy_"))) {
         //const newAsign = document.getElementById("ybt_new_asign").value.trim();
         if (newProject && newSymbol && newChain && newApy) {
           const newProjectData = {
@@ -260,7 +260,7 @@ async function loadYieldData(yieldData) {
           document.getElementById("ybt_new_apy").value = "";
           //document.getElementById("ybt_new_asign").value = "";
         }
-      } else if (id.startsWith("apy_")) {
+      } else if (id.startsWith("apy_") && !newProject) {
         if (input.value === '') {
           const updatedProjects = savedProjects.filter(item => item.keyId !== id.substr(4));
           localStorage.setItem(keyCustomProjects, JSON.stringify(updatedProjects));
@@ -280,7 +280,7 @@ async function loadYieldData(yieldData) {
           }
           localStorage.setItem(keyCustomProjects, JSON.stringify(savedProjects));
         }
-      } else if (id.startsWith("asg_") ) {
+      } else if (id.startsWith("asg_")) {
         if (input.value === '') {
           const updatedAssign = savedYbt.filter(item => item.project !== id.substr(4));
           localStorage.setItem('ybt', JSON.stringify(updatedAssign));

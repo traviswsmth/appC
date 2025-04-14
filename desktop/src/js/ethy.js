@@ -2,7 +2,7 @@ const today = new Date().toISOString().split('T')[0];
 const storageKeyAvg = `apyAvgE_${today}`;
 const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yDataE_${today}`;
-const yDataLS = localStorage.getItem(storageKeyAvg);
+const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsE";
 const includedSymbols = ["ETH", "WETH"];
 
@@ -214,17 +214,18 @@ async function loadYieldData(yieldData) {
 `;
   tableBody.innerHTML = drawTableYields.concat(loadCustomProjects())
     .concat(personalizatedRows);
+
   tableBody.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
       const input = event.target;
       const id = input.id;
       const value = input.value.trim();
       const savedProjects = JSON.parse(localStorage.getItem(keyCustomProjects)) || [];
-      const newApy = document.getElementById("ybe_new_apy").value.trim();
       const savedYbe = JSON.parse(localStorage.getItem('ybe')) || [];
       const newProject = document.getElementById("ybe_new_project").value.trim();
       const newSymbol = document.getElementById("ybe_new_symbol").value.trim();
       const newChain = document.getElementById("ybe_new_chain").value.trim();
+      const newApy = document.getElementById("ybe_new_apy").value.trim();
       if (id.startsWith("ybe_new") && !(id.startsWith("apy_"))) {
         console.log('id pressed:', id);
         if (newProject && newSymbol && newChain && newApy) {
