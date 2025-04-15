@@ -47,7 +47,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         horzLines: { color: 'rgba(255, 255, 255, 0.1)' },
       },
     });
-    const { chartData, networkIndexMap } = loadChartData();
+    const { chartData, networkIndexMap } = loadChartData(storageKeyAvg);
     const series = chartapys.addSeries(LightweightCharts.HistogramSeries);
 
     chartapys.applyOptions({
@@ -318,29 +318,4 @@ function saveDailyAPY(filteredData) {
   } else {
     console.warn("No se guardaron datos en localStorage porque todos los APYs fueron descartados.");
   }
-}
-
-function loadChartData() {
-  let savedDataChart = [];
-  savedDataChart = localStorage.getItem(storageKeyAvg);
-  if (savedDataChart) {
-    let chartData = JSON.parse(savedDataChart);
-    const networkIndexMap = {};
-    let index = 1;
-
-    chartData = chartData.map(entry => {
-      if (!(entry.chain in networkIndexMap)) {
-        networkIndexMap[entry.chain] = index++;
-      }
-      return {
-        time: networkIndexMap[entry.chain],
-        value: parseFloat(entry.value),
-        chain: entry.chain
-      };
-    });
-
-    return { chartData, networkIndexMap };
-  }
-  console.log("No se cargaron los gráficos");
-  return { chartData: [], networkIndexMap: {} };
 }

@@ -1,3 +1,4 @@
+//const today = new Date().toISOString().split('T')[0];
 const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core",
   "Flare", "Neutron", "Gnosis", "Rootstock", "Bifrost Network",
   "Bsquared", "Moonriver", "IOTA EVM", "Cardano", "Sui",
@@ -5,7 +6,7 @@ const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core",
   "Stellar", "Blast", "Polygon", "Optimism", //"Ethereum",
   "MultiversX", "Fraxtal", "Avalanche",
   "Cronos_zkevm", "Nolus", "Neon", "Starknet", "Osmosis", "Kujira"];
-const excludedPlatforms = ['bagful', 'psyoptions', 'yel-finance', 'goldlink', 
+const excludedPlatforms = ['bagful', 'psyoptions', 'yel-finance', 'goldlink',
   'deltaprime', 'vela-exchange'];
 async function digestMessage(message) {
   const encoder = new TextEncoder();
@@ -42,7 +43,7 @@ function handleBlurEffect(element) {
     element.style.filter = 'blur(2px)';
   });
 }
-function genQR(dataQR)  {
+function genQR(dataQR) {
   const typeNumber = 0;
   const errorCorrectionLevel = 'L';
   const qr = qrcode(typeNumber, errorCorrectionLevel);
@@ -63,28 +64,28 @@ function enterHome() {
     window.location.replace("../index.html")
   }, 1000);
 }
-function loadPage(page){
+function loadPage(page) {
   link = page.concat(".html");
   setTimeout(window.location.replace(link)
-  , 2000);
+    , 2000);
 }
 function confirmDeleteSecret() {
   let conf = null;
   if (confirm("~WARNING~\nDelete and generate new OTP QR code?")) {
     txtDelOtp = "deleteotp";
-    window.sessionStorage.setItem(txtDelOtp,'true');
+    window.sessionStorage.setItem(txtDelOtp, 'true');
     if (confirm("~CONFIRM~\nConfirm delete and generate new OTP QR code")) {
       conf = "confirmDelete";
       window.localStorage.removeItem('secretl');
-      window.sessionStorage.setItem(conf,'true');
+      window.sessionStorage.setItem(conf, 'true');
     } else {
       conf = "notConfirm";
     }
   } else {
     txtDelOtp = "notdeleteotp";
-  }      
+  }
   console.log(txtDelOtp);
-  if(conf)
+  if (conf)
     console.log(conf);
 }
 
@@ -162,4 +163,29 @@ function toggleDark(colorBase) {
       break;
   }
 
+}
+
+function loadChartData(storageKeyAvg) {
+  let savedDataChart = [];
+  savedDataChart = localStorage.getItem(storageKeyAvg);
+  if (savedDataChart) {
+    let chartData = JSON.parse(savedDataChart);
+    const networkIndexMap = {};
+    let index = 1;
+
+    chartData = chartData.map(entry => {
+      if (!(entry.chain in networkIndexMap)) {
+        networkIndexMap[entry.chain] = index++;
+      }
+      return {
+        time: networkIndexMap[entry.chain],
+        value: parseFloat(entry.value),
+        chain: entry.chain
+      };
+    });
+
+    return { chartData, networkIndexMap };
+  }
+  console.log("No se cargaron los gráficos");
+  return { chartData: [], networkIndexMap: {} };
 }

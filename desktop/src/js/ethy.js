@@ -39,7 +39,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         horzLines: { color: 'rgba(255, 255, 255, 0.1)' },
       },
     });
-    const { chartData, networkIndexMap } = loadChartData();
+    const { chartData, networkIndexMap } = loadChartData(storageKeyAvg);
     const series = chartapys.addSeries(LightweightCharts.HistogramSeries);
 
     chartapys.applyOptions({
@@ -195,7 +195,7 @@ async function loadYieldData(yieldData) {
       </td>
   </tr>
 `;
-  tableBody.innerHTML = drawTableYields.concat(loadCustomProjects('customProjectsE','ybe',0.05))
+  tableBody.innerHTML = drawTableYields.concat(loadCustomProjects('customProjectsE', 'ybe', 0.05))
     .concat(personalizatedRows);
 
   tableBody.addEventListener("keypress", function (event) {
@@ -232,9 +232,6 @@ async function loadYieldData(yieldData) {
         if (value === '') {
           const updatedProjects = savedProjects.filter(item => item.keyId !== id.substr(4));
           localStorage.setItem(keyCustomProjects, JSON.stringify(updatedProjects));
-          /*const savedYbe = JSON.parse(localStorage.getItem('ybe')) || [];
-          const updatedAsign = savedYbe.filter(item => !item.project.includes(id));
-          localStorage.setItem('ybe', JSON.stringify(updatedAsign));*/
           const row = input.closest('tr');
           if (row) {
             row.remove();
@@ -305,27 +302,4 @@ function saveDailyAPY(filteredData) {
   } else {
     console.warn("No se guardaron datos en localStorage porque todos los APYs fueron descartados.");
   }
-}
-
-function loadChartData() {
-  if (avgDataLS) {
-    let chartData = JSON.parse(avgDataLS);
-    const networkIndexMap = {};
-    let index = 1;
-
-    chartData = chartData.map(entry => {
-      if (!(entry.chain in networkIndexMap)) {
-        networkIndexMap[entry.chain] = index++;
-      }
-      return {
-        time: networkIndexMap[entry.chain],
-        value: parseFloat(entry.value),
-        chain: entry.chain
-      };
-    });
-
-    return { chartData, networkIndexMap };
-  }
-  console.log("No se cargaron los gráficos");
-  return { chartData: [], networkIndexMap: {} };
 }
