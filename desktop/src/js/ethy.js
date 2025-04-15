@@ -69,7 +69,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       enterHome();
     });
     darkBtn.addEventListener('click', () => {
-      toggleDark();
+      toggleDark('grey');
     });
     stablesBtn.addEventListener('click', () => {
       loadPage('charts');
@@ -78,23 +78,6 @@ window.addEventListener('DOMContentLoaded', async () => {
     console.error('Un botón no fue encontrado en el DOM.');
   }
 });
-
-async function fetchDefiLlamaAPY() {
-  const url = "https://yields.llama.fi/pools";
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    return data.data.filter(pool =>
-      includedSymbols.includes(pool.symbol) &&
-      pool.apy >= 6 && pool.apy < 210 &&
-      !excludedChains.includes(pool.chain) &&
-      !excludedPlatforms.includes(pool.project)
-    );
-  } catch (error) {
-    console.error("Error fetching data from DefiLlama:", error);
-    return [];
-  }
-}
 
 async function verifyLS() {
   const storedYield = sessionStorage.getItem(yieldDataKey);
@@ -212,7 +195,7 @@ async function loadYieldData(yieldData) {
       </td>
   </tr>
 `;
-  tableBody.innerHTML = drawTableYields.concat(loadCustomProjects())
+  tableBody.innerHTML = drawTableYields.concat(loadCustomProjects('customProjectsE','ybe',0.05))
     .concat(personalizatedRows);
 
   tableBody.addEventListener("keypress", function (event) {
@@ -289,65 +272,6 @@ async function loadYieldData(yieldData) {
 
     }
   });
-
-}
-
-function loadCustomProjects() {
-  const savedProjects = JSON.parse(localStorage.getItem(keyCustomProjects)) || [];
-  const savedProjectsAsign = JSON.parse(localStorage.getItem('ybe')) || [];
-
-  const customRows = savedProjects.length
-    ? savedProjects
-      .map((item) => {
-        const symbol = item.symbol || '';
-        const chain = item.chain || '';
-        const project = item.project || '';
-        const keyId = item.keyId || '';
-
-        const projectShort = project.length >= 4 ? project.substr(0, 4) : project;
-        const inputApyId = `apy_${keyId}`;
-        const inputAsignId = `asg_${keyId}`;
-        const savedValueAsign = savedProjectsAsign.filter(
-          asignItem => asignItem.project === keyId).map(
-            asignItem => asignItem.asign);
-
-        return `
-        <tr>
-            <td style='color:white;background-color:black'>${project}</td>
-            <td style='color:white;background-color:black'>${symbol}</td>
-            <td style='color:white;background-color:black'>${chain}</td>
-            <td style='color:white;background-color:black'>
-              <input type='number' min='6' step='0.1' id='${inputApyId}' 
-               data-field='apy' 
-              value='${item.apy || ''}' style='color:white;background-color:gray'>
-            </td>
-            <td style='color:white;background-color:black'>
-              <input type='number' min='0.05' step='0.05' id='${inputAsignId}'  
-              value='${savedValueAsign}' placeholder='${projectShort}' 
-              style='color:blue;background-color:gray;'>
-            </td>
-        </tr>
-        `;
-      })
-      .join("")
-    : "<tr><td style='color:white;background-color:black' " +
-    "colspan='5'>No custom projects saved yet</td></tr>";
-
-  return customRows;
-}
-
-function toggleDark() {
-  switch (document.body.style.backgroundColor) {
-    case 'grey':
-      document.body.style.backgroundColor = 'black';
-      break;
-    case 'black':
-      document.body.style.backgroundColor = 'grey';
-      break;
-    default:
-      document.body.style.backgroundColor = 'black';
-      break;
-  }
 
 }
 
