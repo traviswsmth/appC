@@ -4,10 +4,12 @@ const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core",
   "Bsquared", "Moonriver", "IOTA EVM", "Cardano", "Sui",
   "Solana", //"Linea", "zkSync Era", "Sonic",
   "Stellar", "Blast", "Polygon", "Optimism", //"Ethereum",
-  "MultiversX", "Fraxtal", "Avalanche",
+  "MultiversX", "Fraxtal",// "Avalanche",
   "Cronos_zkevm", "Nolus", "Neon", "Starknet", "Osmosis", "Kujira"];
 const excludedPlatforms = ['bagful', 'psyoptions', 'yel-finance', 'goldlink',
   'deltaprime', 'vela-exchange'];
+const stylesTd = 'color:white;background-color:black;';
+const stylesTdNew = 'color:black;background-color:lightgrey;';
 async function digestMessage(message) {
   const encoder = new TextEncoder();
   const data = encoder.encode(message);

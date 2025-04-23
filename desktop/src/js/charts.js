@@ -93,12 +93,10 @@ async function verifyLS() {
   if (storedYield) {
     loadYieldData(JSON.parse(storedYield));
   } else {
-    const yieldDataFetch = await fetchDefiLlamaAPY();
-    if (yieldDataFetch.length > 0) {
-      localStorage.setItem(yieldDataKey, JSON.stringify(yieldDataFetch));
-      loadYieldData(yieldDataFetch);
-    } else {
-      console.warn("No yield data to store.");
+    const yieldData = await fetchDefiLlamaAPY();
+    if (yieldData.length) {
+      localStorage.setItem(yieldDataKey, JSON.stringify(yieldData));
+      loadYieldData(yieldData);
     }
   }
 }
@@ -152,12 +150,6 @@ async function loadYieldData(yieldData) {
   });
 
   saveDailyAPY(finalFilteredData);
-  const chartData = finalFilteredData;
-  const uniqueSymbols = [...new Set(chartData.map(item => item.symbol))];
-  const uniqueChains = [...new Set(chartData.map(item => item.chain))];
-
-  console.log(uniqueSymbols);
-  console.log(uniqueChains);
   const savedProjectsAsign = JSON.parse(localStorage.getItem('ybt')) || [];
   const drawTableYields = finalFilteredData.length
     ? finalFilteredData
@@ -170,39 +162,36 @@ async function loadYieldData(yieldData) {
 
         return `
       <tr>
-          <td style='color:white;background-color:black'>${item.project}</td>
-          <td style='color:white;background-color:black'>${item.symbol}</td>
-          <td style='color:white;background-color:black'>${item.chain}</td>
-          <td style='color:white;background-color:black'>${item.apy.toFixed(2)}%</td>
-          <td style='color:white;background-color:black'>
+          <td style='${stylesTd}'>${item.project}</td>
+          <td style='${stylesTd}'>${item.symbol}</td>
+          <td style='${stylesTd}'>${item.chain}</td>
+          <td style='${stylesTd}'>${item.apy.toFixed(2)}%</td>
+          <td style='${stylesTd}'>
             <input type='number' min='10' id='${inputIdAsign}' value='${savedValueAsign}' 
               placeholder='${projectShort}' style='color:blue;background-color:gray;'>
           </td>
       </tr>
   `;
-      })
-      .join("")
-    : "<tr><td colspan='4'>No hay datos disponibles</td></tr>";
-
+      }).join("") : "<tr><td colspan='4'>No hay datos disponibles</td></tr>";
   const personalizatedRows = `
         <tr>
-            <td style='color:white;background-color:black'>
+            <td style='${stylesTd}'>
               <input id='ybt_new_project' 
-              style='color:black;background-color:lightgrey;' placeholder='Project'>
+              style='${stylesTdNew}' placeholder='Project'>
             </td>
-            <td style='color:white;background-color:black'>
+            <td style='${stylesTd}'>
               <input id='ybt_new_symbol' 
-              style='color:black;background-color:lightgrey;' placeholder='Symbol'>
+              style='${stylesTdNew}' placeholder='Symbol'>
             </td>
-            <td style='color:white;background-color:black'>
+            <td style='${stylesTd}'>
               <input id='ybt_new_chain' 
-              style='color:black;background-color:lightgrey;' placeholder='Network'>
+              style='${stylesTdNew}' placeholder='Network'>
             </td>
-            <td style='color:white;background-color:black'>
+            <td style='${stylesTd}'>
               <input id='ybt_new_apy' type='number' min='6' step='0.1' 
-              style='color:black;background-color:lightgrey;' placeholder='APY'>
+              style='${stylesTdNew}' placeholder='APY'>
             </td>
-            <td style='color:white;background-color:black'>
+            <td style='${stylesTd}'>
               <h6>New Project</h6>
             </td>
         </tr>
@@ -222,17 +211,14 @@ async function loadYieldData(yieldData) {
       const newChain = document.getElementById("ybt_new_chain").value.trim();
       const newApy = document.getElementById("ybt_new_apy").value.trim();
       if (id.startsWith("ybt_new") && !(id.startsWith("apy_"))) {
-        //const newAsign = document.getElementById("ybt_new_asign").value.trim();
         if (newProject && newSymbol && newChain && newApy) {
           const newProjectData = {
             project: newProject,
             symbol: newSymbol,
             chain: newChain,
             apy: parseFloat(newApy),
-            //asign: parseFloat(newAsign),
             keyId: newSymbol.concat('_', newChain.substr(0, 3), '_', newProject.substr(0, 4))
           };
-          //const savedProjects = JSON.parse(localStorage.getItem(keyCustomProjects)) || [];
           savedProjects.push(newProjectData);
           localStorage.setItem(keyCustomProjects, JSON.stringify(savedProjects));
 
@@ -241,7 +227,6 @@ async function loadYieldData(yieldData) {
           document.getElementById("ybt_new_symbol").value = "";
           document.getElementById("ybt_new_chain").value = "";
           document.getElementById("ybt_new_apy").value = "";
-          //document.getElementById("ybt_new_asign").value = "";
         }
       } else if (id.startsWith("apy_") && !newProject) {
         if (input.value === '') {
@@ -305,7 +290,6 @@ function saveDailyAPY(filteredData) {
     }
   });
 
-  // Lightweight Charts
   const chartData = Object.keys(apyByNetwork).map(chain => ({
     time: today,
     value: (apyByNetwork[chain].totalAPY / apyByNetwork[chain].count).toFixed(2),
