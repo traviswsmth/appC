@@ -15,14 +15,12 @@ window.addEventListener('DOMContentLoaded', async () => {
   const darkBtn = document.getElementById('darkBtn');
   const chartContainer = document.getElementById('apyChart');
   const stablesBtn = document.getElementById("stablesBtn");
-  chartContainer.addEventListener("resize", () => {
-    chartContainer.style.width = document.body.width;
-  });
   await verifyLS();
   requestAnimationFrame(() => {
     const chartapys = LightweightCharts.createChart(chartContainer, {
-      width: document.body.width,
+      //width: document.body.width,
       height: 300,
+      autoSize: true,
       rightPriceScale: {
         borderVisible: false,
         scaleMargins: {
@@ -72,7 +70,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       toggleDark('grey');
     });
     stablesBtn.addEventListener('click', () => {
-      loadPage('charts');
+      loadPage('stables');
     });
   } else {
     console.error('Un botón no fue encontrado en el DOM.');
@@ -80,16 +78,14 @@ window.addEventListener('DOMContentLoaded', async () => {
 });
 
 async function verifyLS() {
-  const storedYield = sessionStorage.getItem(yieldDataKey);
+  const storedYield = localStorage.getItem(yieldDataKey);
   if (storedYield) {
     loadYieldData(JSON.parse(storedYield));
   } else {
-    const yieldDataFetch = await fetchDefiLlamaAPY();
-    if (yieldDataFetch.length > 0) {
-      localStorage.setItem(yieldDataKey, JSON.stringify(yieldDataFetch));
-      loadYieldData(yieldDataFetch);
-    } else {
-      console.warn("No yield data to store.");
+    const yieldData = await fetchDefiLlamaAPY();
+    if (yieldData.length) {
+      localStorage.setItem(yieldDataKey, JSON.stringify(yieldData));
+      loadYieldData(yieldData);
     }
   }
 }
@@ -142,13 +138,6 @@ async function loadYieldData(yieldData) {
     if (sortFilter === "name-desc") return b.project.localeCompare(a.project);
   });
 
-  saveDailyAPY(finalFilteredData);
-  const chartData = finalFilteredData;
-  const uniqueSymbols = [...new Set(chartData.map(item => item.symbol))];
-  const uniqueChains = [...new Set(chartData.map(item => item.chain))];
-
-  console.log(uniqueSymbols);
-  console.log(uniqueChains);
   const savedProjectsAsign = JSON.parse(localStorage.getItem('ybe')) || [];
   const drawTableYields = finalFilteredData.length
     ? finalFilteredData
@@ -161,11 +150,11 @@ async function loadYieldData(yieldData) {
 
         return `
       <tr>
-          <td style='color:white;background-color:black'>${item.project}</td>
-          <td style='color:white;background-color:black'>${item.symbol}</td>
-          <td style='color:white;background-color:black'>${item.chain}</td>
-          <td style='color:white;background-color:black'>${item.apy.toFixed(2)}%</td>
-          <td style='color:white;background-color:black'>
+          <td style='${stylesTd}'>${item.project}</td>
+          <td style='${stylesTd}'>${item.symbol}</td>
+          <td style='${stylesTd}'>${item.chain}</td>
+          <td style='${stylesTd}'>${item.apy.toFixed(2)}%</td>
+          <td style='${stylesTd}'>
             <input type='number' min='0.05' step='0.05' id='${inputIdAsign}' value='${savedValueAsign}' 
               placeholder='${projectShort}' style='color:blue;background-color:gray;'>
           </td>
@@ -174,23 +163,23 @@ async function loadYieldData(yieldData) {
       }).join("") : "<tr><td colspan='4'>No hay datos disponibles</td></tr>";
   const personalizatedRows = `
   <tr>
-      <td style='color:white;background-color:black'>
+      <td style='${stylesTd}'>
         <input id='ybe_new_project'
-        style='color:black;background-color:lightgrey;' placeholder='Project'>
+        style='${stylesTdNew}' placeholder='Project'>
       </td>
-      <td style='color:white;background-color:black'>
+      <td style='${stylesTd}'>
         <input id='ybe_new_symbol'
-        style='color:black;background-color:lightgrey;' placeholder='Symbol'>
+        style='${stylesTdNew}' placeholder='Symbol'>
       </td>
-      <td style='color:white;background-color:black'>
+      <td style='${stylesTd}'>
         <input id='ybe_new_chain'
-        style='color:black;background-color:lightgrey;' placeholder='Network'>
+        style='${stylesTdNew}' placeholder='Network'>
       </td>
-      <td style='color:white;background-color:black'>
+      <td style='${stylesTd}'>
         <input type="number" step="0.1" min="6" id='ybe_new_apy'
-        style='color:black;background-color:lightgrey;' placeholder='APY'>
+        style='${stylesTdNew}' placeholder='APY'>
       </td>
-      <td style='color:white;background-color:black'>
+      <td style='${stylesTd}'>
         <h6>New Project</h6>
       </td>
   </tr>
@@ -269,37 +258,5 @@ async function loadYieldData(yieldData) {
 
     }
   });
-
-}
-
-function saveDailyAPY(filteredData) {
-  if (avgDataLS) {
-    return;
-  }
-
-  const apyByNetwork = {};
-  filteredData.forEach(pool => {
-    if (pool.apy > 5 && pool.apy < 100) {
-      if (!apyByNetwork[pool.chain]) {
-        apyByNetwork[pool.chain] = { totalAPY: 0, count: 0 };
-      }
-      apyByNetwork[pool.chain].totalAPY += pool.apy;
-      apyByNetwork[pool.chain].count++;
-    } else {
-      console.warn(`APY descartado por ser muy grande o inválido: ${pool.apy} en ${pool.chain}`);
-    }
-  });
-
-  const chartData = Object.keys(apyByNetwork).map(chain => ({
-    time: today,
-    value: (apyByNetwork[chain].totalAPY / apyByNetwork[chain].count).toFixed(2),
-    chain: chain
-  }));
-
-  if (chartData.length > 0) {
-    localStorage.setItem(storageKeyAvg, JSON.stringify(chartData));
-    console.log("Promedio de APYs guardado:", chartData);
-  } else {
-    console.warn("No se guardaron datos en localStorage porque todos los APYs fueron descartados.");
-  }
+  saveDailyAPY(finalFilteredData, storageKeyAvg);
 }

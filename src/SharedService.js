@@ -4,10 +4,13 @@ const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core",
   "Bsquared", "Moonriver", "IOTA EVM", "Cardano", "Sui",
   "Solana", //"Linea", "zkSync Era", "Sonic",
   "Stellar", "Blast", "Polygon", "Optimism", //"Ethereum",
-  "MultiversX", "Fraxtal", "Avalanche",
+  "MultiversX", "Fraxtal",// "Avalanche",
   "Cronos_zkevm", "Nolus", "Neon", "Starknet", "Osmosis", "Kujira"];
 const excludedPlatforms = ['bagful', 'psyoptions', 'yel-finance', 'goldlink',
   'deltaprime', 'vela-exchange'];
+const stylesTd = 'color:white;background-color:black;';
+const stylesTdNew = 'color:black;background-color:lightgrey;';
+
 async function digestMessage(message) {
   const encoder = new TextEncoder();
   const data = encoder.encode(message);
@@ -60,14 +63,17 @@ function hideSecret() {
   secretCode.style.display = 'none';
 }
 function enterHome() {
-  setTimeout(() => {
+  document.body.classList.add('page-transition');
+  setTimeout(function () {
     window.location.replace("../index.html")
   }, 1000);
 }
 function loadPage(page) {
   link = page.concat(".html");
-  setTimeout(window.location.replace(link)
-    , 2000);
+  document.body.classList.add('page-transition');
+  setTimeout(function () {
+    window.location.replace(link);
+  }, 900);
 }
 function confirmDeleteSecret() {
   let conf = null;
@@ -162,7 +168,6 @@ function toggleDark(colorBase) {
       document.body.style.backgroundColor = 'black';
       break;
   }
-
 }
 
 function loadChartData(storageKeyAvg) {
@@ -188,4 +193,36 @@ function loadChartData(storageKeyAvg) {
   }
   console.log("No se cargaron los gráficos");
   return { chartData: [], networkIndexMap: {} };
+}
+
+function saveDailyAPY(filteredData, storageKeyAvg) {
+  if (localStorage.getItem(storageKeyAvg)) {
+    return;
+  }
+
+  const apyByNetwork = {};
+  filteredData.forEach(pool => {
+    if (pool.apy > 5 && pool.apy < 100) {
+      if (!apyByNetwork[pool.chain]) {
+        apyByNetwork[pool.chain] = { totalAPY: 0, count: 0 };
+      }
+      apyByNetwork[pool.chain].totalAPY += pool.apy;
+      apyByNetwork[pool.chain].count++;
+    } else {
+      console.warn(`APY descartado por ser muy grande o inválido: ${pool.apy} en ${pool.chain}`);
+    }
+  });
+
+  const chartData = Object.keys(apyByNetwork).map(chain => ({
+    time: today,
+    value: (apyByNetwork[chain].totalAPY / apyByNetwork[chain].count).toFixed(2),
+    chain: chain
+  }));
+
+  if (chartData.length > 0) {
+    localStorage.setItem(storageKeyAvg, JSON.stringify(chartData));
+    console.log("Promedio de APYs guardado:", chartData);
+  } else {
+    console.warn("No se guardaron datos en localStorage porque todos los APYs fueron descartados.");
+  }
 }
