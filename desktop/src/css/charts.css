@@ -1,5 +1,9 @@
 body {
-    background-color: lightblue;
+    background-color: grey;
+    transition: opacity 0.9s ease;
+}
+body.page-transition {
+    opacity: 0;
 }
 
 input {
@@ -15,10 +19,16 @@ input {
     border-radius: 0%;
     font-size: 16px;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .btnSections:hover {
     background-color: #0b7dda;
+}
+
+.btnSections:active {
+    background-color: darkblue;
+    transform: scale(0.95);
 }
 
 #homeBtn {

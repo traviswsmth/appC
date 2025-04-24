@@ -10,6 +10,7 @@ const excludedPlatforms = ['bagful', 'psyoptions', 'yel-finance', 'goldlink',
   'deltaprime', 'vela-exchange'];
 const stylesTd = 'color:white;background-color:black;';
 const stylesTdNew = 'color:black;background-color:lightgrey;';
+
 async function digestMessage(message) {
   const encoder = new TextEncoder();
   const data = encoder.encode(message);
@@ -62,14 +63,17 @@ function hideSecret() {
   secretCode.style.display = 'none';
 }
 function enterHome() {
-  setTimeout(() => {
+  document.body.classList.add('page-transition');
+  setTimeout(function () {
     window.location.replace("../index.html")
   }, 1000);
 }
 function loadPage(page) {
   link = page.concat(".html");
-  setTimeout(window.location.replace(link)
-    , 2000);
+  document.body.classList.add('page-transition');
+  setTimeout(function () {
+    window.location.replace(link);
+  }, 900);
 }
 function confirmDeleteSecret() {
   let conf = null;
@@ -164,7 +168,6 @@ function toggleDark(colorBase) {
       document.body.style.backgroundColor = 'black';
       break;
   }
-
 }
 
 function loadChartData(storageKeyAvg) {

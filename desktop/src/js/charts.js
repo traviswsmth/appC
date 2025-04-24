@@ -6,13 +6,6 @@ const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectS";
 const includedSymbols = ["USDT", "USDC", "GHO", "DAI",
   "FDUSD", "USDE", "FRAX", "CRVUSD", "USDC.E"];
-const savedValuesYbt = {};
-Object.keys(localStorage).forEach((key) => {
-  if (key.startsWith("ybt")) {
-    savedValuesYbt[key] = localStorage.getItem(key);
-  }
-});
-
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -23,14 +16,11 @@ window.addEventListener('DOMContentLoaded', async () => {
   const darkBtn = document.getElementById('darkBtn');
   const chartContainer = document.getElementById('apyChart');
   const ethBtn = document.getElementById("ethBtn");
-  chartContainer.addEventListener("resize", () => {
-    chartContainer.style.width = document.body.width;
-  });
   await verifyLS();
   requestAnimationFrame(() => {
     const chartapys = LightweightCharts.createChart(chartContainer, {
-      width: document.body.width,
       height: 300,
+      autoSize: true,
       rightPriceScale: {
         borderVisible: false,
         scaleMargins: {
@@ -77,7 +67,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       enterHome();
     });
     darkBtn.addEventListener('click', () => {
-      toggleDark('lightblue');
+      toggleDark('grey');
     });
     ethBtn.addEventListener('click', () => {
       loadPage('ethy');

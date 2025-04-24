@@ -15,14 +15,12 @@ window.addEventListener('DOMContentLoaded', async () => {
   const darkBtn = document.getElementById('darkBtn');
   const chartContainer = document.getElementById('apyChart');
   const stablesBtn = document.getElementById("stablesBtn");
-  chartContainer.addEventListener("resize", () => {
-    chartContainer.style.width = document.body.width;
-  });
   await verifyLS();
   requestAnimationFrame(() => {
     const chartapys = LightweightCharts.createChart(chartContainer, {
-      width: document.body.width,
+      //width: document.body.width,
       height: 300,
+      autoSize: true,
       rightPriceScale: {
         borderVisible: false,
         scaleMargins: {
