@@ -70,7 +70,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       toggleDark('grey');
     });
     stablesBtn.addEventListener('click', () => {
-      loadPage('charts');
+      loadPage('stables');
     });
   } else {
     console.error('Un botón no fue encontrado en el DOM.');
@@ -138,7 +138,6 @@ async function loadYieldData(yieldData) {
     if (sortFilter === "name-desc") return b.project.localeCompare(a.project);
   });
 
-  saveDailyAPY(finalFilteredData);
   const savedProjectsAsign = JSON.parse(localStorage.getItem('ybe')) || [];
   const drawTableYields = finalFilteredData.length
     ? finalFilteredData
@@ -259,37 +258,5 @@ async function loadYieldData(yieldData) {
 
     }
   });
-
-}
-
-function saveDailyAPY(filteredData) {
-  if (avgDataLS) {
-    return;
-  }
-
-  const apyByNetwork = {};
-  filteredData.forEach(pool => {
-    if (pool.apy > 5 && pool.apy < 100) {
-      if (!apyByNetwork[pool.chain]) {
-        apyByNetwork[pool.chain] = { totalAPY: 0, count: 0 };
-      }
-      apyByNetwork[pool.chain].totalAPY += pool.apy;
-      apyByNetwork[pool.chain].count++;
-    } else {
-      console.warn(`APY descartado por ser muy grande o inválido: ${pool.apy} en ${pool.chain}`);
-    }
-  });
-
-  const chartData = Object.keys(apyByNetwork).map(chain => ({
-    time: today,
-    value: (apyByNetwork[chain].totalAPY / apyByNetwork[chain].count).toFixed(2),
-    chain: chain
-  }));
-
-  if (chartData.length > 0) {
-    localStorage.setItem(storageKeyAvg, JSON.stringify(chartData));
-    console.log("Promedio de APYs guardado:", chartData);
-  } else {
-    console.warn("No se guardaron datos en localStorage porque todos los APYs fueron descartados.");
-  }
+  saveDailyAPY(finalFilteredData, storageKeyAvg);
 }

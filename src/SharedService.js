@@ -194,3 +194,35 @@ function loadChartData(storageKeyAvg) {
   console.log("No se cargaron los gráficos");
   return { chartData: [], networkIndexMap: {} };
 }
+
+function saveDailyAPY(filteredData, storageKeyAvg) {
+  if (localStorage.getItem(storageKeyAvg)) {
+    return;
+  }
+
+  const apyByNetwork = {};
+  filteredData.forEach(pool => {
+    if (pool.apy > 5 && pool.apy < 100) {
+      if (!apyByNetwork[pool.chain]) {
+        apyByNetwork[pool.chain] = { totalAPY: 0, count: 0 };
+      }
+      apyByNetwork[pool.chain].totalAPY += pool.apy;
+      apyByNetwork[pool.chain].count++;
+    } else {
+      console.warn(`APY descartado por ser muy grande o inválido: ${pool.apy} en ${pool.chain}`);
+    }
+  });
+
+  const chartData = Object.keys(apyByNetwork).map(chain => ({
+    time: today,
+    value: (apyByNetwork[chain].totalAPY / apyByNetwork[chain].count).toFixed(2),
+    chain: chain
+  }));
+
+  if (chartData.length > 0) {
+    localStorage.setItem(storageKeyAvg, JSON.stringify(chartData));
+    console.log("Promedio de APYs guardado:", chartData);
+  } else {
+    console.warn("No se guardaron datos en localStorage porque todos los APYs fueron descartados.");
+  }
+}

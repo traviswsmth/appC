@@ -1,24 +1,28 @@
 window.addEventListener('DOMContentLoaded', () => {
-  const pricesBtn = document.getElementById('pricesBtn');
+  //const pricesBtn = document.getElementById('pricesBtn');
   const otpBtn = document.getElementById('otpBtn');
   const darkBtn = document.getElementById('darkBtn');
   const farmBtn = document.getElementById('farmBtn');
-  const chartsBtn = document.getElementById('chartsBtn');
-  if (pricesBtn && otpBtn) {
+  const stablesBtn = document.getElementById('stablesBtn');
+  const ethBtn = document.getElementById('ethBtn');
+  if (farmBtn && otpBtn) {
     otpBtn.addEventListener('click', () => {
       loadPage("src/otp");
     });
-    pricesBtn.addEventListener('click', () => {
+    /*pricesBtn.addEventListener('click', () => {
       loadPage("src/prices");
-    });
+    });*/
     darkBtn.addEventListener('click', () => {
-      toggleDark();
+      toggleDark('lightgray');
     });
     farmBtn.addEventListener('click', () => {
       loadPage("src/farming");
     });
-    chartsBtn.addEventListener('click', () => {
-      loadPage("src/charts");
+    stablesBtn.addEventListener('click', () => {
+      loadPage("src/stables");
+    });
+    ethBtn.addEventListener('click', () => {
+      loadPage("src/ethy");
     });
   } else {
     console.error('Un botón no fue encontrado en el DOM.');
@@ -30,8 +34,6 @@ function financial(x) {
 }
 
 $(() => {
-  let url;
-
   let stocks = {
 
     'BTC': 'btc.v',
@@ -43,9 +45,10 @@ $(() => {
   }
 
   function fetchData() {
+    const infoLbl = document.getElementById('infoLbl');
     for (let symbol in stocks) {
-      url = `https://stooq.com/q/l/?s=${stocks[symbol]}&f=sd2t2ohlc&h&e=csv`;
-      window.api.csv.parse(url, {
+      const urlStooq = `https://stooq.com/q/l/?s=${stocks[symbol]}&f=sd2t2ohlc&h&e=csv`;
+      window.api.csv.parse(urlStooq, {
         download: true,
         delimiter: ',',
         complete: (results) => {
@@ -64,7 +67,6 @@ $(() => {
             } else {
               percent = `-${percentNeg}%`;
             }
-            // Actualizamos el DOM dinámicamente
             $(`#${symbol}-price`).text(currentPrice.toLocaleString());
             $(`#${symbol}-change`).text(change);
             $(`#${symbol}-percent`).text(percent);
@@ -74,12 +76,14 @@ $(() => {
           }
         },
         error: (error) => {
+          infoLbl.innerHTML = 'Error connecting to internet...';
+          if (sessionStorage.getItem('errfetchData'))
+            return;
           console.error('Error al descargar o procesar el archivo CSV:', error);
-          alert('Hubo un problema al obtener los datos. Intenta nuevamente más tarde.');
+          sessionStorage.setItem('errfetchData', error);
         }
       });
     }
-    const dateNow = getDate();
   }
 
 
@@ -140,8 +144,8 @@ $(() => {
       $('#symbol-input').val('');
     }
   });
-
-  setInterval(fetchData, 60000);
+  getHour();
+  setInterval(fetchData, 90000);
   fetchData();
 });
 
@@ -162,20 +166,4 @@ function getDate() {
   y = (d.getFullYear()).toString();
   date = day.concat('-',m,'-',y);
   return date;
-}
-
-function toggleDark() {
-  console.log(document.body.style.backgroundColor);
-  switch (document.body.style.backgroundColor) {
-    case 'lightblue':
-      document.body.style.backgroundColor = 'black';
-      break;
-    case 'black':
-      document.body.style.backgroundColor = 'lightblue';
-      break;
-    default:
-      document.body.style.backgroundColor = 'black';
-      break;
-  }
-
 }
