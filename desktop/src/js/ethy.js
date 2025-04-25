@@ -4,7 +4,7 @@ const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yDataE_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsE";
-const includedSymbols = ["ETH", "WETH"];
+const includedSymbols = ["ETH", "WETH", "wstETH", "weETH"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -153,7 +153,8 @@ async function loadYieldData(yieldData) {
           <td style='${stylesTd}'>${item.project}</td>
           <td style='${stylesTd}'>${item.symbol}</td>
           <td style='${stylesTd}'>${item.chain}</td>
-          <td style='${stylesTd}'>${item.apy.toFixed(2)}%</td>
+          <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
+            style='${stylesTd}'>${item.apy.toFixed(2)}%</td>
           <td style='${stylesTd}'>
             <input type='number' min='0.05' step='0.05' id='${inputIdAsign}' value='${savedValueAsign}' 
               placeholder='${projectShort}' style='color:blue;background-color:gray;'>
