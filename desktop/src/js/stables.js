@@ -185,7 +185,7 @@ async function loadYieldData(yieldData) {
             </td>
         </tr>
     `;
-  tableBody.innerHTML = drawTableYields.concat(loadCustomProjects('customProjectS', 'ybt', 10))
+  tableBody.innerHTML = drawTableYields.concat(loadCustomProjects(keyCustomProjects, 'ybt', 10))
     .concat(personalizatedRows);
 
   tableBody.addEventListener("keypress", function (event) {

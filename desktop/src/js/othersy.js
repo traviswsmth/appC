@@ -3,9 +3,10 @@ const storageKeyAvg = `apyAvgO_${today}`;
 const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yDataO_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
-const keyCustomProjects = "customProjectsE";
+const keyCustomProjects = "customProjectsO";
 const includedSymbols = ["SUSD", "DAI", "USDE", "FDUSD", "CRVUSD", "FRAX", "PYUSD",
-  "BNB", "POLY", "ARB", "OP", "TIA", "KLIMA", "scUSD"];
+  "BNB", "TIA", "LINK", "ADA", "AVAX", "WAVAX", "MOVE", "S", "WS", "WBERA",
+  "POL", "MANTA", "ARB", "OP", "KLIMA", "scUSD", "OM", "XAI"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -160,7 +161,7 @@ async function loadYieldData(yieldData) {
 
         return `
       <tr>
-          <td style='${stylesTd}'>${item.project}</td>
+          <td title='${item.tvlUsd}' style='${stylesTd}'>${item.project}</td>
           <td style='${stylesTd}'>${item.symbol}</td>
           <td style='${stylesTd}'>${item.chain}</td>
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
@@ -195,7 +196,7 @@ async function loadYieldData(yieldData) {
       </td>
   </tr>
 `;
-  tableBody.innerHTML = drawTableYields.concat(loadCustomProjects('customProjectsE', 'ybo', 1))
+  tableBody.innerHTML = drawTableYields.concat(loadCustomProjects(keyCustomProjects, 'ybo', 1))
     .concat(personalizatedRows);
 
   tableBody.addEventListener("keypress", function (event) {
@@ -204,7 +205,7 @@ async function loadYieldData(yieldData) {
       const id = input.id;
       const value = input.value.trim();
       const savedProjects = JSON.parse(localStorage.getItem(keyCustomProjects)) || [];
-      const savedYbe = JSON.parse(localStorage.getItem('ybo')) || [];
+      const savedYbo = JSON.parse(localStorage.getItem('ybo')) || [];
       const newProject = document.getElementById("ybo_new_project").value.trim();
       const newSymbol = document.getElementById("ybo_new_symbol").value.trim();
       const newChain = document.getElementById("ybo_new_chain").value.trim();
@@ -250,20 +251,20 @@ async function loadYieldData(yieldData) {
         }
       } else if (id.startsWith("asg_") && !newProject) {
         if (input.value === '') {
-          const updatedAssign = savedYbe.filter(item => item.project !== id.substr(4));
+          const updatedAssign = savedYbo.filter(item => item.project !== id.substr(4));
           localStorage.setItem('ybo', JSON.stringify(updatedAssign));
         } else if (value !== "" && id) {
-          const index = savedYbe.findIndex(item => item.project === id.substr(4));
+          const index = savedYbo.findIndex(item => item.project === id.substr(4));
           console.log(index);
           console.log(id.substr(4));
           if (index !== -1) {
-            savedYbe[index].asign = value;
+            savedYbo[index].asign = value;
             console.log(`Updated in LS -> ${id.substr(4)}: ${value}`);
           } else {
-            savedYbe.push({ project: id.substr(4), asign: value });
+            savedYbo.push({ project: id.substr(4), asign: value });
             console.log(`Saved in LS -> ${id.substr(4)}: ${value}`);
           }
-          localStorage.setItem('ybo', JSON.stringify(savedYbe));
+          localStorage.setItem('ybo', JSON.stringify(savedYbo));
         }
       }
 

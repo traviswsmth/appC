@@ -4,7 +4,7 @@ const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yDataE_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsE";
-const includedSymbols = ["ETH", "WETH", "wstETH", "weETH"];
+const includedSymbols = ["ETH", "WETH", "STETH", "WSTETH", "WEETH", "STONE", "WRSETH"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -185,7 +185,7 @@ async function loadYieldData(yieldData) {
       </td>
   </tr>
 `;
-  tableBody.innerHTML = drawTableYields.concat(loadCustomProjects('customProjectsE', 'ybe', 0.05))
+  tableBody.innerHTML = drawTableYields.concat(loadCustomProjects(keyCustomProjects, 'ybe', 0.05))
     .concat(personalizatedRows);
 
   tableBody.addEventListener("keypress", function (event) {
