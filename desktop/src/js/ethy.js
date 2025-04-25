@@ -4,7 +4,8 @@ const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yDataE_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsE";
-const includedSymbols = ["ETH", "WETH", "STETH", "WSTETH", "WEETH", "STONE", "WRSETH"];
+const includedSymbols = ["ETH", "WETH", "STETH", "WSTETH", "WEETH", 
+  "STONE", "RSETH", "WRSETH", "EZETH"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -120,8 +121,10 @@ async function loadYieldData(yieldData) {
   if (selectedPlatform !== "all") validNetworks = [...networksByPlatform[selectedPlatform] || []];
   if (selectedNetwork !== "all") validPlatforms = [...platformsByNetwork[selectedNetwork] || []];
 
-  networkFilter.innerHTML = `<option value='all'>Todas</option>` + validNetworks.map(n => `<option value='${n}'>${n}</option>`).join("");
-  platformFilter.innerHTML = `<option value='all'>Todas</option>` + validPlatforms.map(p => `<option value='${p}'>${p}</option>`).join("");
+  networkFilter.innerHTML = `<option value='all'>Todas</option>` +
+   validNetworks.map(n => `<option value='${n}'>${n}</option>`).join("");
+  platformFilter.innerHTML = `<option value='all'>Todas</option>` +
+   validPlatforms.map(p => `<option value='${p}'>${p}</option>`).join("");
 
   if (validNetworks.includes(selectedNetwork)) networkFilter.value = selectedNetwork;
   if (validPlatforms.includes(selectedPlatform)) platformFilter.value = selectedPlatform;
@@ -150,7 +153,7 @@ async function loadYieldData(yieldData) {
 
         return `
       <tr>
-          <td style='${stylesTd}'>${item.project}</td>
+          <td title='${item.tvlUsd}' style='${stylesTd}'>${item.project}</td>
           <td style='${stylesTd}'>${item.symbol}</td>
           <td style='${stylesTd}'>${item.chain}</td>
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 

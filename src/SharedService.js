@@ -1,13 +1,13 @@
 //const today = new Date().toISOString().split('T')[0];
 const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core",
   "Flare", "Neutron", "Gnosis", "Rootstock", "Bifrost Network",
-  "Bsquared", "Moonriver", "IOTA EVM", "Cardano", "Sui",
+  "Bsquared", "Moonriver", "IOTA EVM", "Cardano", //"Sui",
   "Solana", //"Linea", "zkSync Era", "Sonic",
-  "Stellar", "Blast", "Polygon", "Optimism", //"Ethereum",
+  "Stellar", "Blast", "Optimism",// "Polygon", //"Ethereum",
   "MultiversX", "Fraxtal",// "Avalanche",
   "Cronos_zkevm", "Nolus", "Neon", "Starknet", "Osmosis", "Kujira"];
 const excludedPlatforms = ['bagful', 'psyoptions', 'yel-finance', 'goldlink',
-  'deltaprime', 'vela-exchange'];
+  'deltaprime', 'vela-exchange', 'degenprime'];
 const stylesTd = 'color:white;background-color:black;';
 const stylesTdNew = 'color:black;background-color:lightgrey;';
 
@@ -102,7 +102,7 @@ async function fetchDefiLlamaAPY() {
     const data = await response.json();
     return data.data.filter(pool =>
       includedSymbols.includes(pool.symbol) &&
-      pool.apy >= 6 && pool.apy < 210 &&
+      pool.apy >= 7 && pool.apy < 210 &&
       !excludedChains.includes(pool.chain) &&
       !excludedPlatforms.includes(pool.project)
     );

@@ -4,9 +4,9 @@ const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yDataO_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsO";
-const includedSymbols = ["SUSD", "DAI", "USDE", "FDUSD", "CRVUSD", "FRAX", "PYUSD",
-  "BNB", "TIA", "LINK", "ADA", "AVAX", "WAVAX", "MOVE", "S", "WS", "WBERA",
-  "POL", "MANTA", "ARB", "OP", "KLIMA", "scUSD", "OM", "XAI"];
+const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "FRAX", "PYUSD",
+  "WBTC", "BNB", "SUI", "TIA", "LINK", "AVAX", "WAVAX", "MOVE", "S", "WS", "WBERA",
+  "POL", "ADA", "MANTA", "ARB", "OP", "KLIMA", "scUSD", "OM", "XAI", "LBTC", "EBTC"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -131,8 +131,10 @@ async function loadYieldData(yieldData) {
   if (selectedPlatform !== "all") validNetworks = [...networksByPlatform[selectedPlatform] || []];
   if (selectedNetwork !== "all") validPlatforms = [...platformsByNetwork[selectedNetwork] || []];
 
-  networkFilter.innerHTML = `<option value='all'>Todas</option>` + validNetworks.map(n => `<option value='${n}'>${n}</option>`).join("");
-  platformFilter.innerHTML = `<option value='all'>Todas</option>` + validPlatforms.map(p => `<option value='${p}'>${p}</option>`).join("");
+  networkFilter.innerHTML = `<option value='all'>Todas</option>` +
+   validNetworks.map(n => `<option value='${n}'>${n}</option>`).join("");
+  platformFilter.innerHTML = `<option value='all'>Todas</option>` +
+   validPlatforms.map(p => `<option value='${p}'>${p}</option>`).join("");
 
   if (validNetworks.includes(selectedNetwork)) networkFilter.value = selectedNetwork;
   if (validPlatforms.includes(selectedPlatform)) platformFilter.value = selectedPlatform;
@@ -188,7 +190,7 @@ async function loadYieldData(yieldData) {
         style='${stylesTdNew}' placeholder='Network'>
       </td>
       <td style='${stylesTd}'>
-        <input type="number" step="0.1" min="6" id='ybo_new_apy'
+        <input type="number" step="0.1" min="7" id='ybo_new_apy'
         style='${stylesTdNew}' placeholder='APY'>
       </td>
       <td style='${stylesTd}'>
