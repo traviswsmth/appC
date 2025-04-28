@@ -4,9 +4,10 @@ const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yDataO_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsO";
-const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "FRAX", "PYUSD",
-  "WBTC", "BNB", "SUI", "TIA", "LINK", "AVAX", "WAVAX", "MOVE", "S", "WS", "WBERA",
-  "POL", "ADA", "MANTA", "ARB", "OP", "KLIMA", "scUSD", "OM", "XAI", "LBTC", "EBTC"];
+const includedSymbols = ["USDS","DAI","USDE","FDUSD","CRVUSD","FRAX","PYUSD","HONEY",
+  "BTC","WBTC","BNB","WBNB","SUI","LINK","AVAX","WAVAX","MOVE","S","WS",//"WBERA",
+  "POL", "ADA", "MANTA", "ARB", "OP", "SUSDE", "AAVE","TIA", //"KLIMA", //"RUSD",
+  "OM", "XAI", "LBTC", "EBTC", "USDP", "ZUSDC"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -179,11 +180,11 @@ async function loadYieldData(yieldData) {
   <tr>
       <td style='${stylesTd}'>
         <input id='ybo_new_project'
-        style='${stylesTdNew}' placeholder='Project'>
+        style='${stylesTdNew}' placeholder='Site'>
       </td>
       <td style='${stylesTd}'>
         <input id='ybo_new_symbol'
-        style='${stylesTdNew}' placeholder='Symbol'>
+        style='${stylesTdNew}' placeholder='Ticker'>
       </td>
       <td style='${stylesTd}'>
         <input id='ybo_new_chain'
@@ -230,6 +231,7 @@ async function loadYieldData(yieldData) {
           document.getElementById("ybo_new_symbol").value = "";
           document.getElementById("ybo_new_chain").value = "";
           document.getElementById("ybo_new_apy").value = "";
+          location.reload();
         }
       } else if (id.startsWith("apy_") && !newProject) {
         if (value === '') {

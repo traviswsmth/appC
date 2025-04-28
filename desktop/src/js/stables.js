@@ -4,7 +4,7 @@ const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yData_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectS";
-const includedSymbols = ["USDT", "USDC", "USDC.E", "GHO"];
+const includedSymbols = ["USDT", "USDC", "USDC.E", "EURC", "GHO", "EURT"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -179,7 +179,7 @@ async function loadYieldData(yieldData) {
               style='${stylesTdNew}' placeholder='Network'>
             </td>
             <td style='${stylesTd}'>
-              <input id='ybt_new_apy' type='number' min='6' step='0.1' 
+              <input id='ybt_new_apy' type='number' min='7' step='0.1' 
               style='${stylesTdNew}' placeholder='APY'>
             </td>
             <td style='${stylesTd}'>
@@ -218,6 +218,7 @@ async function loadYieldData(yieldData) {
           document.getElementById("ybt_new_symbol").value = "";
           document.getElementById("ybt_new_chain").value = "";
           document.getElementById("ybt_new_apy").value = "";
+          location.reload();
         }
       } else if (id.startsWith("apy_") && !newProject) {
         if (input.value === '') {

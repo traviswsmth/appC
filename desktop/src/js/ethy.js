@@ -5,7 +5,7 @@ const yieldDataKey = `yDataE_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsE";
 const includedSymbols = ["ETH", "WETH", "STETH", "WSTETH", "WEETH", 
-  "STONE", "RSETH", "WRSETH", "EZETH"];
+  "STONE", "RSETH", "WRSETH", "EZETH", "WSUPEROETHB"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -180,7 +180,7 @@ async function loadYieldData(yieldData) {
         style='${stylesTdNew}' placeholder='Network'>
       </td>
       <td style='${stylesTd}'>
-        <input type="number" step="0.1" min="6" id='ybe_new_apy'
+        <input type="number" step="0.1" min="7" id='ybe_new_apy'
         style='${stylesTdNew}' placeholder='APY'>
       </td>
       <td style='${stylesTd}'>
@@ -220,6 +220,7 @@ async function loadYieldData(yieldData) {
           document.getElementById("ybe_new_symbol").value = "";
           document.getElementById("ybe_new_chain").value = "";
           document.getElementById("ybe_new_apy").value = "";
+          location.reload();
         }
       } else if (id.startsWith("apy_") && !newProject) {
         if (value === '') {

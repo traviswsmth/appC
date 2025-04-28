@@ -1,13 +1,14 @@
 //const today = new Date().toISOString().split('T')[0];
 const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core",
   "Flare", "Neutron", "Gnosis", "Rootstock", "Bifrost Network",
-  "Bsquared", "Moonriver", "IOTA EVM", "Cardano", //"Sui",
-  "Solana", //"Linea", "zkSync Era", "Sonic",
-  "Stellar", "Blast", "Optimism",// "Polygon", //"Ethereum",
-  "MultiversX", "Fraxtal",// "Avalanche",
+  "Bsquared", "Moonriver", "IOTA EVM", "Cardano", "Sui",
+  "Solana", "Etherlink", //"Linea", "zkSync Era", "Sonic",
+  "Stellar", "Blast", "Optimism", "Polygon", "Ethereum",
+  "MultiversX", "Fraxtal", "Aptos", // "Avalanche",
   "Cronos_zkevm", "Nolus", "Neon", "Starknet", "Osmosis", "Kujira"];
 const excludedPlatforms = ['bagful', 'psyoptions', 'yel-finance', 'goldlink',
-  'deltaprime', 'vela-exchange', 'degenprime'];
+  'deltaprime', 'vela-exchange', 'degenprime', 'c3-exchange', 'balmy',
+  'ensuro', 'impermax-v2'];
 const stylesTd = 'color:white;background-color:black;';
 const stylesTdNew = 'color:black;background-color:lightgrey;';
 

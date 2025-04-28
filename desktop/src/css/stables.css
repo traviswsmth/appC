@@ -20,10 +20,12 @@ input {
     font-size: 16px;
     cursor: pointer;
     transition: all 0.3s ease;
+    opacity: 0.6;
 }
 
 .btnSections:hover {
     background-color: #0b7dda;
+    opacity: 0.9;
 }
 
 .btnSections:active {
