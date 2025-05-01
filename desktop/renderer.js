@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
-  //const pricesBtn = document.getElementById('pricesBtn');
+  const othersBtn = document.getElementById('othersBtn');
   const otpBtn = document.getElementById('otpBtn');
   const darkBtn = document.getElementById('darkBtn');
   const farmBtn = document.getElementById('farmBtn');
@@ -9,9 +9,9 @@ window.addEventListener('DOMContentLoaded', () => {
     otpBtn.addEventListener('click', () => {
       loadPage("src/otp");
     });
-    /*pricesBtn.addEventListener('click', () => {
-      loadPage("src/prices");
-    });*/
+    othersBtn.addEventListener('click', () => {
+      loadPage("src/othersy");
+    });
     darkBtn.addEventListener('click', () => {
       toggleDark('lightgray');
     });

@@ -4,7 +4,8 @@ const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yDataE_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsE";
-const includedSymbols = ["ETH", "WETH"];
+const includedSymbols = ["ETH", "WETH", "STETH", "WSTETH", "WEETH",
+  "STONE", "RSETH", "WRSETH", "EZETH", "WSUPEROETHB"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -24,8 +25,8 @@ window.addEventListener('DOMContentLoaded', async () => {
       rightPriceScale: {
         borderVisible: false,
         scaleMargins: {
-          top: 0.2,
-          bottom: 0.2,
+          top: 0.1,
+          bottom: 0.1,
         },
       },
       layout: {
@@ -86,6 +87,7 @@ async function verifyLS() {
     if (yieldData.length) {
       localStorage.setItem(yieldDataKey, JSON.stringify(yieldData));
       loadYieldData(yieldData);
+      deletePrevMonthLS(yieldDataKey);
     }
   }
 }
@@ -120,8 +122,10 @@ async function loadYieldData(yieldData) {
   if (selectedPlatform !== "all") validNetworks = [...networksByPlatform[selectedPlatform] || []];
   if (selectedNetwork !== "all") validPlatforms = [...platformsByNetwork[selectedNetwork] || []];
 
-  networkFilter.innerHTML = `<option value='all'>Todas</option>` + validNetworks.map(n => `<option value='${n}'>${n}</option>`).join("");
-  platformFilter.innerHTML = `<option value='all'>Todas</option>` + validPlatforms.map(p => `<option value='${p}'>${p}</option>`).join("");
+  networkFilter.innerHTML = `<option value='all'>Todas</option>` +
+    validNetworks.map(n => `<option value='${n}'>${n}</option>`).join("");
+  platformFilter.innerHTML = `<option value='all'>Todas</option>` +
+    validPlatforms.map(p => `<option value='${p}'>${p}</option>`).join("");
 
   if (validNetworks.includes(selectedNetwork)) networkFilter.value = selectedNetwork;
   if (validPlatforms.includes(selectedPlatform)) platformFilter.value = selectedPlatform;
@@ -150,10 +154,11 @@ async function loadYieldData(yieldData) {
 
         return `
       <tr>
-          <td style='${stylesTd}'>${item.project}</td>
+          <td title='${item.tvlUsd}' style='${stylesTd}'>${item.project}</td>
           <td style='${stylesTd}'>${item.symbol}</td>
           <td style='${stylesTd}'>${item.chain}</td>
-          <td style='${stylesTd}'>${item.apy.toFixed(2)}%</td>
+          <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
+            style='${stylesTd}'>${item.apy.toFixed(2)}%</td>
           <td style='${stylesTd}'>
             <input type='number' min='0.05' step='0.05' id='${inputIdAsign}' value='${savedValueAsign}' 
               placeholder='${projectShort}' style='color:blue;background-color:gray;'>
@@ -176,7 +181,7 @@ async function loadYieldData(yieldData) {
         style='${stylesTdNew}' placeholder='Network'>
       </td>
       <td style='${stylesTd}'>
-        <input type="number" step="0.1" min="6" id='ybe_new_apy'
+        <input type="number" step="0.1" min="7" id='ybe_new_apy'
         style='${stylesTdNew}' placeholder='APY'>
       </td>
       <td style='${stylesTd}'>
@@ -184,7 +189,7 @@ async function loadYieldData(yieldData) {
       </td>
   </tr>
 `;
-  tableBody.innerHTML = drawTableYields.concat(loadCustomProjects('customProjectsE', 'ybe', 0.05))
+  tableBody.innerHTML = drawTableYields.concat(loadCustomProjects(keyCustomProjects, 'ybe', 0.05))
     .concat(personalizatedRows);
 
   tableBody.addEventListener("keypress", function (event) {
@@ -255,6 +260,7 @@ async function loadYieldData(yieldData) {
           localStorage.setItem('ybe', JSON.stringify(savedYbe));
         }
       }
+      location.reload();
 
     }
   });
