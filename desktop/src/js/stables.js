@@ -1,12 +1,13 @@
 const today = new Date().toISOString().split('T')[0];
-const storageKeyAvg = `apyAvg_${today}`;
+const storageKeyAvg = `apyAvgS_${today}`;
 const avgDataLS = localStorage.getItem(storageKeyAvg);
-const yieldDataKey = `yData_${today}`;
+const yieldDataKey = `yDataS_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectS";
 const includedSymbols = ["USDT", "USDC", "USDC.E", "EURC", "GHO", "EURT"];
 
 window.addEventListener('DOMContentLoaded', async () => {
+  document.body.classList.add('fade-in');
   const homeBtn = document.getElementById("homeBtn");
   document.getElementById("networkFilter").addEventListener("change", verifyLS);
   document.getElementById("platformFilter").addEventListener("change", verifyLS);
@@ -23,8 +24,8 @@ window.addEventListener('DOMContentLoaded', async () => {
       rightPriceScale: {
         borderVisible: false,
         scaleMargins: {
-          top: 0.2,
-          bottom: 0.2,
+          top: 0.1,
+          bottom: 0.1,
         },
       },
       layout: {
@@ -49,7 +50,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         timeVisible: false,
         secondsVisible: false,
         rightOffset: 0,
-        barSpacing: 46,
+        barSpacing: 80,
         tickMarkFormatter: (time) => {
           const networkName = Object.keys(networkIndexMap).find(
             key => networkIndexMap[key] === time);
@@ -86,6 +87,7 @@ async function verifyLS() {
     if (yieldData.length) {
       localStorage.setItem(yieldDataKey, JSON.stringify(yieldData));
       loadYieldData(yieldData);
+      deletePrevMonthLS(yieldDataKey);
     }
   }
 }
@@ -121,9 +123,9 @@ async function loadYieldData(yieldData) {
   if (selectedNetwork !== "all") validPlatforms = [...platformsByNetwork[selectedNetwork] || []];
 
   networkFilter.innerHTML = `<option value='all'>Todas</option>` +
-   validNetworks.map(n => `<option value='${n}'>${n}</option>`).join("");
+    validNetworks.map(n => `<option value='${n}'>${n}</option>`).join("");
   platformFilter.innerHTML = `<option value='all'>Todas</option>` +
-   validPlatforms.map(p => `<option value='${p}'>${p}</option>`).join("");
+    validPlatforms.map(p => `<option value='${p}'>${p}</option>`).join("");
 
   if (validNetworks.includes(selectedNetwork)) networkFilter.value = selectedNetwork;
   if (validPlatforms.includes(selectedPlatform)) platformFilter.value = selectedPlatform;
@@ -218,7 +220,6 @@ async function loadYieldData(yieldData) {
           document.getElementById("ybt_new_symbol").value = "";
           document.getElementById("ybt_new_chain").value = "";
           document.getElementById("ybt_new_apy").value = "";
-          location.reload();
         }
       } else if (id.startsWith("apy_") && !newProject) {
         if (input.value === '') {
@@ -258,7 +259,7 @@ async function loadYieldData(yieldData) {
           localStorage.setItem('ybt', JSON.stringify(savedYbt));
         }
       }
-
+      location.reload();
     }
   });
   saveDailyAPY(finalFilteredData, storageKeyAvg);

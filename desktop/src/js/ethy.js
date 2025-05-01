@@ -4,7 +4,7 @@ const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yDataE_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsE";
-const includedSymbols = ["ETH", "WETH", "STETH", "WSTETH", "WEETH", 
+const includedSymbols = ["ETH", "WETH", "STETH", "WSTETH", "WEETH",
   "STONE", "RSETH", "WRSETH", "EZETH", "WSUPEROETHB"];
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -25,8 +25,8 @@ window.addEventListener('DOMContentLoaded', async () => {
       rightPriceScale: {
         borderVisible: false,
         scaleMargins: {
-          top: 0.2,
-          bottom: 0.2,
+          top: 0.1,
+          bottom: 0.1,
         },
       },
       layout: {
@@ -87,6 +87,7 @@ async function verifyLS() {
     if (yieldData.length) {
       localStorage.setItem(yieldDataKey, JSON.stringify(yieldData));
       loadYieldData(yieldData);
+      deletePrevMonthLS(yieldDataKey);
     }
   }
 }
@@ -122,9 +123,9 @@ async function loadYieldData(yieldData) {
   if (selectedNetwork !== "all") validPlatforms = [...platformsByNetwork[selectedNetwork] || []];
 
   networkFilter.innerHTML = `<option value='all'>Todas</option>` +
-   validNetworks.map(n => `<option value='${n}'>${n}</option>`).join("");
+    validNetworks.map(n => `<option value='${n}'>${n}</option>`).join("");
   platformFilter.innerHTML = `<option value='all'>Todas</option>` +
-   validPlatforms.map(p => `<option value='${p}'>${p}</option>`).join("");
+    validPlatforms.map(p => `<option value='${p}'>${p}</option>`).join("");
 
   if (validNetworks.includes(selectedNetwork)) networkFilter.value = selectedNetwork;
   if (validPlatforms.includes(selectedPlatform)) platformFilter.value = selectedPlatform;
@@ -220,7 +221,6 @@ async function loadYieldData(yieldData) {
           document.getElementById("ybe_new_symbol").value = "";
           document.getElementById("ybe_new_chain").value = "";
           document.getElementById("ybe_new_apy").value = "";
-          location.reload();
         }
       } else if (id.startsWith("apy_") && !newProject) {
         if (value === '') {
@@ -260,6 +260,7 @@ async function loadYieldData(yieldData) {
           localStorage.setItem('ybe', JSON.stringify(savedYbe));
         }
       }
+      location.reload();
 
     }
   });

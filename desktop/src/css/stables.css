@@ -1,9 +1,11 @@
 body {
     background-color: grey;
-    transition: opacity 0.9s ease;
-}
-body.page-transition {
     opacity: 0;
+    transition: opacity 1s ease-in;
+}
+
+body.fade-in {
+    opacity: 1;
 }
 
 input {

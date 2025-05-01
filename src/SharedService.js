@@ -1,4 +1,5 @@
-//const today = new Date().toISOString().split('T')[0];
+//const todayShared = new Date().toISOString().split('T')[0];
+const todayShared = new Date();
 const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core",
   "Flare", "Neutron", "Gnosis", "Rootstock", "Bifrost Network",
   "Bsquared", "Moonriver", "IOTA EVM", "Cardano", "Sui",
@@ -74,7 +75,7 @@ function loadPage(page) {
   document.body.classList.add('page-transition');
   setTimeout(function () {
     window.location.replace(link);
-  }, 900);
+  }, 500);
 }
 function confirmDeleteSecret() {
   let conf = null;
@@ -200,7 +201,7 @@ function saveDailyAPY(filteredData, storageKeyAvg) {
   if (localStorage.getItem(storageKeyAvg)) {
     return;
   }
-
+  deletePrevMonthLS(storageKeyAvg);
   const apyByNetwork = {};
   filteredData.forEach(pool => {
     if (pool.apy > 5 && pool.apy < 100) {
@@ -226,4 +227,21 @@ function saveDailyAPY(filteredData, storageKeyAvg) {
   } else {
     console.warn("No se guardaron datos en localStorage porque todos los APYs fueron descartados.");
   }
+}
+
+function deletePrevMonthLS(key) {
+  const currentDate = todayShared;
+  currentDate.setDate(1);
+  currentDate.setMonth(currentDate.getMonth() - 1);
+
+  const firstChain = key.substr(0,7);
+  const prevYear = currentDate.getFullYear();
+  const prevMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const prefixToDelete = `${firstChain}${prevYear}-${prevMonth}-`;
+  Object.keys(localStorage).forEach((key) => {
+    if (key.startsWith(prefixToDelete)) {
+      console.log('key deleted:',key);
+      localStorage.removeItem(key);
+    }
+  });
 }
