@@ -4,7 +4,7 @@ const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yDataS_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectS";
-const includedSymbols = ["USDT", "USDC", "USDC.E", "EURC", "GHO", "EURT"];
+const includedSymbols = ["USDT", "USDC", "USDC.E", "EURC", "GHO", "EURT", "USD₮0", "USDT.E"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   document.body.classList.add('fade-in');
@@ -83,7 +83,7 @@ async function verifyLS() {
   if (storedYield) {
     loadYieldData(JSON.parse(storedYield));
   } else {
-    const yieldData = await fetchDefiLlamaAPY();
+    const yieldData = await fetchDefiLlamaAPY(8);
     if (yieldData.length) {
       localStorage.setItem(yieldDataKey, JSON.stringify(yieldData));
       loadYieldData(yieldData);
@@ -146,8 +146,11 @@ async function loadYieldData(yieldData) {
   const drawTableYields = finalFilteredData.length
     ? finalFilteredData
       .map((item) => {
+        let warnTvl = false;
         const inputIdAsign = `asg_${item.symbol}_${item.chain.substr(0, 3)}_${item.project.substr(0, 4)}`;
         const projectShort = item.project.length >= 4 ? item.project.substr(0, 4) : item.project;
+        if (item.tvlUsd<100000)
+          warnTvl = true;
         const savedValueAsign = savedProjectsAsign.filter(
           item => item.project === inputIdAsign.substr(4)).map(
             item => item.asign);
@@ -155,7 +158,7 @@ async function loadYieldData(yieldData) {
         return `
       <tr>
           <td title='${item.tvlUsd}' style='${stylesTd}'>${item.project}</td>
-          <td style='${stylesTd}'>${item.symbol}</td>
+          <td style='${stylesTd}'>${item.symbol}${warnTvl ? "!":""}</td>
           <td style='${stylesTd}'>${item.chain}</td>
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
             style='${stylesTd}'>${item.apy.toFixed(2)}%</td>

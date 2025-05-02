@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LPs</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; 
+           script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com data: filesystem:;
+           connect-src 'self' https://yields.llama.fi/pools;
+           style-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'; 
+           font-src 'self' https://cdn.jsdelivr.net;
+           img-src 'self' data: filesystem:" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/ethy.css">
+</head>
+
+<body class="container mt-4">
+
+    <h2 class="mb-3">📊 Yield Farming - LPs</h2>
+    <button id="darkBtn" class="col">Dark Mode</button>
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label for="networkFilter" class="form-label">Filtrar por Red:</label>
+            <select id="networkFilter" class="form-select">
+                <option value="all">Todas</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="platformFilter" class="form-label">Filtrar por Plataforma:</label>
+            <select id="platformFilter" class="form-select">
+                <option value="all">Todas</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="apyFilter" class="form-label">Mostrar APY mayor a:</label>
+            <select id="apyFilter" class="form-select">
+                <option value="10" selected>10%</option>
+                <option value="20">20%</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="sortFilter" class="form-label">Ordenar por:</label>
+            <select id="sortFilter" class="form-select">
+                <option value="apy-desc" selected>APY: Mayor a Menor</option>
+                <option value="apy-asc">APY: Menor a Mayor</option>
+                <option value="name-asc">Plataforma: A-Z</option>
+                <option value="name-desc">Plataforma: Z-A</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="tickerFilter" class="form-label">Ticker:</label>
+            <select id="tickerFilter" class="form-select">
+                <option value="all" selected>Todos</option>
+                <option value="USDC-USDT">USDC-USDT</option>
+                <option value="USDT-USDC">USDT-USDC</option>
+                <option value="USDE-USDC">USDE-USDC</option>
+                <!--<option value="SUSD">SUSD</option>-->
+            </select>
+        </div>
+    </div>
+
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Site</th>
+                <th>Ticker</th>
+                <th>Network</th>
+                <th>APY (%)</th>
+                <th>Asign</th>
+            </tr>
+        </thead>
+        <tbody id="yield-table">
+            <tr>
+                <td colspan="4">Loading data...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div id="apyChart"></div>
+    <button id="homeBtn" class="btnSections">Home</button>
+    <button id="stablesBtn" class="btnSections">Stables</button>
+    <div id="qr-code"></div>
+    <div id="secret-code"></div>
+    <script src="../../src/lightw-charts.standa.prod.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="../../src/SharedService.js"></script>
+    <script src="js/lps.js"></script>
+</body>
+
+</html>

@@ -5,6 +5,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const farmBtn = document.getElementById('farmBtn');
   const stablesBtn = document.getElementById('stablesBtn');
   const ethBtn = document.getElementById('ethBtn');
+  const lpsBtn = document.getElementById('lpsBtn');
   if (farmBtn && otpBtn) {
     otpBtn.addEventListener('click', () => {
       loadPage("src/otp");
@@ -23,6 +24,9 @@ window.addEventListener('DOMContentLoaded', () => {
     });
     ethBtn.addEventListener('click', () => {
       loadPage("src/ethy");
+    });
+    lpsBtn.addEventListener('click', () => {
+      loadPage("src/lps");
     });
   } else {
     console.error('Un botón no fue encontrado en el DOM.');
