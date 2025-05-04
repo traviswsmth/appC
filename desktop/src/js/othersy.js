@@ -5,9 +5,10 @@ const yieldDataKey = `yDataO_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsO";
 const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "FRAX", "PYUSD", "HONEY",
-  "BTC", "WBTC", "BNB", "WBNB", "SUI", "LINK", "AVAX", "WAVAX", "MOVE", "S", "WS",//"WBERA",
+  "BTC", "WBTC", "BNB", "WBNB", "SUI", "LINK", "AVAX", "WAVAX", //"MOVE", "S", "WS",//"WBERA",
   "POL", "ADA", "MANTA", "ARB", "OP", "SUSDE", "AAVE", "TIA", "JITOSOL",//"KLIMA", //"RUSD",
-  "OM", "XAI", "LBTC", "EBTC", "USDP", "ZUSDC", "EURS", "USDT.E", "CERESUSDE", "CBBTC"];
+  "OM", "XAI", "CERESUSDE", "APRUSDE",
+  "LBTC", "EBTC", "USDP", "ZUSDC", "EURS", "USDT.E", "CBBTC", "BTC.B"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -167,7 +168,7 @@ async function loadYieldData(yieldData) {
 
         return `
       <tr>
-          <td title='${item.tvlUsd}' style='${stylesTd}'>${item.project}</td>
+          <td title='${item.tvlUsd.toLocaleString('en-US')}' style='${stylesTd}'>${item.project}${item.apyBase<8 ? "*" : ""}</td>
           <td style='${stylesTd}'>${item.symbol}${warnTvl ? "!":""}</td>
           <td style='${stylesTd}'>${item.chain}</td>
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 

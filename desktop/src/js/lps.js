@@ -6,16 +6,16 @@ const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsL";
 const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E", "USDT.E-USDC", "USDT.E-USDC.E", 
   "USDE-USDC", "PYUSD-USDC", "EURS-USDT", "SUSDE-USDC", "HONEY-USDC", "USDS-USDT", "CRVUSD-USDT", "SUSD-DAI",
-  "SUSD-CRVUSD", "SUSD-SUSDE", "FRAX-USDT", "CRVUSD-USDC", "SDAI-SUSDE", "FRAX-USDC",// "WETH-USDBC",
+  "SUSD-CRVUSD", "SUSD-SUSDE", "FRAX-USDT", "CRVUSD-USDC", "SDAI-SUSDE", "FRAX-USDC",// "WETH-USDBC","WPOL-USDT",
   "SFRXUSD-SUSDE", "USDC-AXLUSDC", 
-  //"WETH-USDC", "WETH-USDT", "WETH-USDS", "WETH-DAI", "CRVUSD-WETH", "FRAX-WETH", "WBTC.B-USDC",
-  //"ETH-USDT", "WEETH-USDC", "USDC-ETH", "USDC-WETH", "WBTC-USDC", "CRVUSD-ARB", "WETH-USDBC",
-  //"USDC-WBTC", "USDC-WBNB", "BNB-USDC", "SOL-USDC", "USDT-XRP", "USDC-LINK", "ARB-USDC.E", 
-  //"WBTC-WETH", "WETH-WBTC", "WBNB-AAVE", "WETH-AAVE", "WBNB-AAVE", "NOT-USD₮", "WTTON-USD₮",
-  //"WETH-WEETH", "STONE-WETH", "WETH-STONE", "WETH-ETHFI", "ZRO-WETH", "WEETH-WETH","UNIETH-WETH",
-  //"ZEREBRO-USDC", "CELO-USD₮", "USDT-WEGLD", "WSOL-ME", "OM-WETH", "WETH-WRSETH", "EZETH-WETH",
-  //"SUI-STSUI", "WETH-CRV", "WETH-UNI", "LBTC-SUI", "DOGE-WETH", "TON-USD₮","WAVAX-FRAX", "WETH-GMX",
-  //"WSTETH-WRSETH", "AURA-EZETH-WSTETH", "CRVUSDETHCRV", "CRVUSDETHCRV", "WETH-ODOS", "USDT-THE",
+  //"WETH-USDC", "WETH-USDT", "WETH-USDS", "WETH-DAI", "CRVUSD-WETH", "FRAX-WETH", "WBTC.B-USDC","WPOL-USDC.E",
+  //"ETH-USDT", "WEETH-USDC", "USDC-ETH", "USDC-WETH", "WBTC-USDC", "CRVUSD-ARB", "WETH-USDBC", "USDC-LYNX",
+  //"USDC-WBTC", "USDC-WBNB", "BNB-USDC", "SOL-USDC", "USDT-XRP", "USDC-LINK", "ARB-USDC.E", "USDT-ABRA", "WPOL-USDC",
+  //"WBTC-WETH", "WETH-WBTC", "WBNB-AAVE", "WETH-AAVE", "WBNB-AAVE", "NOT-USD₮", "WTTON-USD₮", "USDC.E-WETH.E",
+  //"WETH-WEETH", "STONE-WETH", "WETH-STONE", "WETH-ETHFI", "ZRO-WETH", "WEETH-WETH","UNIETH-WETH", "MENDI-WETH",
+  //"ZEREBRO-USDC", "CELO-USD₮", "USDT-WEGLD", "WSOL-ME", "OM-WETH", "WETH-WRSETH", "EZETH-WETH","WETH.E-WAVAX",
+  //"SUI-STSUI", "WETH-CRV", "WETH-UNI", "LBTC-SUI", "DOGE-WETH", "TON-USD₮","WAVAX-FRAX", "WETH-GMX", "APE-WETH",
+  //"WSTETH-WRSETH", "AURA-EZETH-WSTETH", "CRVUSDETHCRV", "CRVUSDETHCRV", "WETH-ODOS", "USDT-THE", "POL-WETH",
   ];
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -94,7 +94,7 @@ async function verifyLS() {
   if (storedYield) {
     loadYieldData(JSON.parse(storedYield));
   } else {
-    const yieldData = await fetchDefiLlamaAPY(12);
+    const yieldData = await fetchDefiLlamaAPY(10);
     if (yieldData.length) {
       localStorage.setItem(yieldDataKey, JSON.stringify(yieldData));
       loadYieldData(yieldData);
@@ -176,7 +176,7 @@ async function loadYieldData(yieldData) {
 
         return `
       <tr>
-          <td title='${item.tvlUsd}' style='${stylesTd}'>${item.project}</td>
+          <td title='${item.tvlUsd.toLocaleString('en-US')}' style='${stylesTd}'>${item.project}${item.apyBase<8 ? "*" : ""}</td>
           <td style='${stylesTd}'>${item.symbol}${warnTvl ? "!":""}</td>
           <td style='${stylesTd}'>${item.chain}</td>
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 

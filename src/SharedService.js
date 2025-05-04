@@ -3,13 +3,13 @@ const todayShared = new Date();
 const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core", "Aurora",
   "Flare", "Neutron", "Gnosis", "Rootstock", "Bifrost Network", "LightLink",
   "Bsquared", "Moonriver", "IOTA EVM", "Cardano", "Telos", "Sui", //"Move",
-  "Solana", "Etherlink", //"Linea", "zkSync Era", "Sonic",
-  "Stellar", "Blast", "Optimism", "Polygon", "Ethereum",
-  "MultiversX", "Fraxtal", "Aptos", // "Avalanche",
-  "Cronos_zkevm", "Nolus", "Neon", "Starknet", "Osmosis", "Kujira"];
+  "Solana", "Etherlink", "Mantle", //"Linea", "zkSync Era", "Sonic",
+  "Stellar", "Polygon zkEVM", "Blast", "Polygon", "Ethereum",
+  "MultiversX", "Fraxtal", "Aptos", "Scroll", //"Avalanche", "Ton", // "Optimism",
+  "Cronos_zkevm", "Nolus", "Neon", "Starknet", "Osmosis", "Kujira", "Fantom"];
 const excludedPlatforms = ['bagful', 'psyoptions', 'yel-finance', 'goldlink', 'balmy', 
   'deltaprime', 'vela-exchange', 'degenprime', 'c3-exchange', "sonne-finance",
-  'ensuro', 'impermax-v2'];
+  'ensuro', 'impermax-v2','impermax-v3', 'clearpool-lending', 'arcadia-v2'];
 const stylesTd = 'color:white;background-color:black;';
 const stylesTdNew = 'color:black;background-color:lightgrey;';
 

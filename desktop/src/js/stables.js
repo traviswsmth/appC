@@ -157,7 +157,7 @@ async function loadYieldData(yieldData) {
 
         return `
       <tr>
-          <td title='${item.tvlUsd}' style='${stylesTd}'>${item.project}</td>
+          <td title='${item.tvlUsd.toLocaleString('en-US')}' style='${stylesTd}'>${item.project}${item.apyBase<8 ? "*" : ""}</td>
           <td style='${stylesTd}'>${item.symbol}${warnTvl ? "!":""}</td>
           <td style='${stylesTd}'>${item.chain}</td>
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
