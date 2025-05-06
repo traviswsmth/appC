@@ -16,6 +16,8 @@ window.addEventListener('DOMContentLoaded', async () => {
   const darkBtn = document.getElementById('darkBtn');
   const chartContainer = document.getElementById('apyChart');
   const ethBtn = document.getElementById("ethBtn");
+  const othersBtn = document.getElementById("othersBtn");
+  const lpsBtn = document.getElementById("lpsBtn");
   await verifyLS();
   requestAnimationFrame(() => {
     const chartapys = LightweightCharts.createChart(chartContainer, {
@@ -71,6 +73,12 @@ window.addEventListener('DOMContentLoaded', async () => {
     });
     ethBtn.addEventListener('click', () => {
       loadPage('ethy');
+    });
+    othersBtn.addEventListener('click', () => {
+      loadPage('othersy');
+    });
+    lpsBtn.addEventListener('click', () => {
+      loadPage('lps');
     });
 
   } else {
@@ -163,7 +171,7 @@ async function loadYieldData(yieldData) {
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
             style='${stylesTd}'>${item.apy.toFixed(2)}%</td>
           <td style='${stylesTd}'>
-            <input type='number' min='10' id='${inputIdAsign}' value='${savedValueAsign}' 
+            <input type='number' min='30' step='10' id='${inputIdAsign}' value='${savedValueAsign}' 
               placeholder='${projectShort}' style='color:blue;background-color:gray;'>
           </td>
       </tr>

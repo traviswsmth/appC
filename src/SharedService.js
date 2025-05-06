@@ -3,7 +3,7 @@ const todayShared = new Date();
 const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core", "Aurora",
   "Flare", "Neutron", "Gnosis", "Rootstock", "Bifrost Network", "LightLink",
   "Bsquared", "Moonriver", "IOTA EVM", "Cardano", "Telos", "Sui", //"Move",
-  "Solana", "Etherlink", "Mantle", //"Linea", "zkSync Era", "Sonic",
+  "Etherlink", "Mantle", //"Solana", //"Linea", "zkSync Era", "Sonic",
   "Stellar", "Polygon zkEVM", "Blast", "Polygon", "Ethereum",
   "MultiversX", "Fraxtal", "Aptos", "Scroll", //"Avalanche", "Ton", // "Optimism",
   "Cronos_zkevm", "Nolus", "Neon", "Starknet", "Osmosis", "Kujira", "Fantom"];

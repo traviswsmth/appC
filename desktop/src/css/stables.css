@@ -16,7 +16,7 @@ input {
     position: fixed;
     background-color: #2196F3;
     color: white;
-    padding: 4px 8px;
+    padding: 4px 6px;
     border: none;
     border-radius: 0%;
     font-size: 16px;
@@ -36,13 +36,23 @@ input {
 }
 
 #homeBtn {
-    right: 16px;
+    right: 12px;
     bottom: 16px;
 }
 
 #ethBtn {
-    right: 16px;
+    right: 12px;
     top: 16px;
+}
+
+#othersBtn {
+    right: 12px;
+    top: 64px;
+}
+
+#lpsBtn {
+    right: 12px;
+    top: 112px;
 }
 
 #apyChart {

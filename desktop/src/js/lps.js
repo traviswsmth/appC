@@ -7,7 +7,7 @@ const keyCustomProjects = "customProjectsL";
 const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E", "USDT.E-USDC", "USDT.E-USDC.E", 
   "USDE-USDC", "PYUSD-USDC", "EURS-USDT", "SUSDE-USDC", "HONEY-USDC", "USDS-USDT", "CRVUSD-USDT", "SUSD-DAI",
   "SUSD-CRVUSD", "SUSD-SUSDE", "FRAX-USDT", "CRVUSD-USDC", "SDAI-SUSDE", "FRAX-USDC",// "WETH-USDBC","WPOL-USDT",
-  "SFRXUSD-SUSDE", "USDC-AXLUSDC", 
+  "SFRXUSD-SUSDE", "USDC-AXLUSDC", "HONEY-USDC", "USDT-WBTC-WETH", //"WBERA-HONEY",//"OAC-WBERA-IBGT-A", "HONEY-JITOSOL",
   //"WETH-USDC", "WETH-USDT", "WETH-USDS", "WETH-DAI", "CRVUSD-WETH", "FRAX-WETH", "WBTC.B-USDC","WPOL-USDC.E",
   //"ETH-USDT", "WEETH-USDC", "USDC-ETH", "USDC-WETH", "WBTC-USDC", "CRVUSD-ARB", "WETH-USDBC", "USDC-LYNX",
   //"USDC-WBTC", "USDC-WBNB", "BNB-USDC", "SOL-USDC", "USDT-XRP", "USDC-LINK", "ARB-USDC.E", "USDT-ABRA", "WPOL-USDC",
@@ -16,6 +16,7 @@ const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E",
   //"ZEREBRO-USDC", "CELO-USD₮", "USDT-WEGLD", "WSOL-ME", "OM-WETH", "WETH-WRSETH", "EZETH-WETH","WETH.E-WAVAX",
   //"SUI-STSUI", "WETH-CRV", "WETH-UNI", "LBTC-SUI", "DOGE-WETH", "TON-USD₮","WAVAX-FRAX", "WETH-GMX", "APE-WETH",
   //"WSTETH-WRSETH", "AURA-EZETH-WSTETH", "CRVUSDETHCRV", "CRVUSDETHCRV", "WETH-ODOS", "USDT-THE", "POL-WETH",
+  "SW-USR", "DOLA-USR", "GHO-USR", "FRXUSD-SCUSD", "USR-USDC", "GHO-USDC"
   ];
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -182,7 +183,7 @@ async function loadYieldData(yieldData) {
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
             style='${stylesTd}'>${item.apy.toFixed(2)}%</td>
           <td style='${stylesTd}'>
-            <input type='number' min='0.05' step='0.05' id='${inputIdAsign}' value='${savedValueAsign}' 
+            <input type='number' min='30' step='10' id='${inputIdAsign}' value='${savedValueAsign}' 
               placeholder='${projectShort}' style='color:blue;background-color:gray;'>
           </td>
       </tr>

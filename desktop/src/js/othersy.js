@@ -5,10 +5,10 @@ const yieldDataKey = `yDataO_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsO";
 const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "FRAX", "PYUSD", "HONEY",
-  "BTC", "WBTC", "BNB", "WBNB", "SUI", "LINK", "AVAX", "WAVAX", //"MOVE", "S", "WS",//"WBERA",
-  "POL", "ADA", "MANTA", "ARB", "OP", "SUSDE", "AAVE", "TIA", "JITOSOL",//"KLIMA", //"RUSD",
-  "OM", "XAI", "CERESUSDE", "APRUSDE",
-  "LBTC", "EBTC", "USDP", "ZUSDC", "EURS", "USDT.E", "CBBTC", "BTC.B"];
+  "BTC", "WBTC", "BNB", "WBNB", "SUI", "LINK", "AVAX", "WAVAX", //"WBERA",//"MOVE", "S", "WS",
+  "POL", "ADA", "MANTA", "ARB", "OP", "SUSDE", "AAVE", "TIA", //"JITOSOL",//"KLIMA", "RUSD",
+  "OM", "XAI", "CERESUSDE", "APRUSDE", "EUSD", //"SOL", "WSOL", "USOL", "USUI", "STS", "WANS",
+  "LBTC", "EBTC", "USDP", "ZUSDC", "EURS", "USDT.E", "CBBTC", "BTC.B", "USR", "SCUSD", "WSTUSR"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -174,7 +174,7 @@ async function loadYieldData(yieldData) {
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
             style='${stylesTd}'>${item.apy.toFixed(2)}%</td>
           <td style='${stylesTd}'>
-            <input type='number' min='0.05' step='0.05' id='${inputIdAsign}' value='${savedValueAsign}' 
+            <input type='number' min='30' step='10' id='${inputIdAsign}' value='${savedValueAsign}' 
               placeholder='${projectShort}' style='color:blue;background-color:gray;'>
           </td>
       </tr>
