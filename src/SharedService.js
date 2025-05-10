@@ -104,7 +104,7 @@ async function fetchDefiLlamaAPY(minApy) {
     const data = await response.json();
     return data.data.filter(pool =>
       includedSymbols.includes(pool.symbol) &&
-      pool.apy >= minApy && pool.apy < 210 &&
+      pool.apy >= minApy && pool.apy < 220 &&
       !excludedChains.includes(pool.chain) &&
       !excludedPlatforms.includes(pool.project) &&
       pool.tvlUsd > 15000// &&
@@ -206,7 +206,7 @@ function saveDailyAPY(filteredData, storageKeyAvg) {
   deletePrevMonthLS(storageKeyAvg);
   const apyByNetwork = {};
   filteredData.forEach(pool => {
-    if (pool.apy > 5 && pool.apy < 100) {
+    if (pool.apy > 8 && pool.apy < 160) {
       if (!apyByNetwork[pool.chain]) {
         apyByNetwork[pool.chain] = { totalAPY: 0, count: 0 };
       }

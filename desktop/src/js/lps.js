@@ -4,7 +4,7 @@ const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yDataL_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsL";
-const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E", "USDT.E-USDC", "USDT.E-USDC.E", 
+const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E", "USDT.E-USDC", "USDT.E-USDC.E",
   "USDE-USDC", "PYUSD-USDC", "EURS-USDT", "SUSDE-USDC", "HONEY-USDC", "USDS-USDT", "CRVUSD-USDT", "SUSD-DAI",
   "SUSD-CRVUSD", "SUSD-SUSDE", "FRAX-USDT", "CRVUSD-USDC", "SDAI-SUSDE", "FRAX-USDC",// "WETH-USDBC","WPOL-USDT",
   "SFRXUSD-SUSDE", "USDC-AXLUSDC", "HONEY-USDC", "USDT-WBTC-WETH", //"WBERA-HONEY",//"OAC-WBERA-IBGT-A", "HONEY-JITOSOL",
@@ -16,8 +16,9 @@ const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E",
   //"ZEREBRO-USDC", "CELO-USD₮", "USDT-WEGLD", "WSOL-ME", "OM-WETH", "WETH-WRSETH", "EZETH-WETH","WETH.E-WAVAX",
   //"SUI-STSUI", "WETH-CRV", "WETH-UNI", "LBTC-SUI", "DOGE-WETH", "TON-USD₮","WAVAX-FRAX", "WETH-GMX", "APE-WETH",
   //"WSTETH-WRSETH", "AURA-EZETH-WSTETH", "CRVUSDETHCRV", "CRVUSDETHCRV", "WETH-ODOS", "USDT-THE", "POL-WETH",
-  "SW-USR", "DOLA-USR", "GHO-USR", "FRXUSD-SCUSD", "USR-USDC", "GHO-USDC"
-  ];
+  "SW-USR", "DOLA-USR", "GHO-USR", "FRXUSD-SCUSD", "USR-USDC", "GHO-USDC", "AVUSD-USDC", "OP-USDC", "OP-USDT",
+  "AXLUSDC.E-USDC", "USDC-USDBC-AXLUSDC-CRVUSD", "CELO-USD₮", "CELO-CUSD", "USDC-OP"// "WAVAX-AVUSD", "CELO-WETH",
+];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -63,7 +64,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         timeVisible: false,
         secondsVisible: false,
         rightOffset: 1,
-        barSpacing: 86,
+        barSpacing: 80,
         tickMarkFormatter: (time) => {
           const networkName = Object.keys(networkIndexMap).find(
             key => networkIndexMap[key] === time);
@@ -167,23 +168,31 @@ async function loadYieldData(yieldData) {
     ? finalFilteredData
       .map((item) => {
         let warnTvl = false;
-        const inputIdAsign = `asg_${item.symbol}_${item.chain.substr(0, 3)}_${item.project.substr(0, 4)}`;
+        let rewardTkn;
+        const inputIdAsign = `asg_${item.symbol}_${item.chain.substr(0, 3)}_${item.project.substr(0, 4)}_
+          ${item.poolMeta ? item.poolMeta.substr(0, 3) : ""}`;
         const projectShort = item.project.length >= 4 ? item.project.substr(0, 4) : item.project;
-        if (item.tvlUsd<100000)
+        if (item.tvlUsd < 100000)
           warnTvl = true;
+        rewardTkn = item.rewardTokens &&
+          item.rewardTokens.length > 0
+          ? `<br/><small>${item.rewardTokens}</small>`
+          : "";
         const savedValueAsign = savedProjectsAsign.filter(
           item => item.project === inputIdAsign.substr(4)).map(
             item => item.asign);
 
         return `
       <tr>
-          <td title='${item.tvlUsd.toLocaleString('en-US')}' style='${stylesTd}'>${item.project}${item.apyBase<8 ? "*" : ""}</td>
-          <td style='${stylesTd}'>${item.symbol}${warnTvl ? "!":""}</td>
+          <td title='${item.poolMeta ? item.poolMeta : ""}' style='${stylesTd}'>
+            ${item.project}<small>${item.poolMeta ? "_" + item.poolMeta.substr(0, 4) : ""}</small></td>
+          <td title='${item.tvlUsd.toLocaleString('en-US')}' style='${stylesTd}'>
+            ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward>item.apyBase?rewardTkn.substr(0, 31):''}</td>
           <td style='${stylesTd}'>${item.chain}</td>
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
-            style='${stylesTd}'>${item.apy.toFixed(2)}%</td>
+            style='${stylesTd}'>${item.apy.toFixed(2)}%${item.apyBase < 8 ? "*" : ""}</td>
           <td style='${stylesTd}'>
-            <input type='number' min='30' step='10' id='${inputIdAsign}' value='${savedValueAsign}' 
+            <input type='number' min='20' step='5' id='${inputIdAsign}' value='${savedValueAsign}' 
               placeholder='${projectShort}' style='color:blue;background-color:gray;'>
           </td>
       </tr>
