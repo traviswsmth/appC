@@ -4,8 +4,9 @@ const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yDataE_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsE";
-const includedSymbols = ["ETH", "WETH", "STETH", "WSTETH", "WEETH",
-  "STONE", "RSETH", "WRSETH", "EZETH", "WSUPEROETHB"];
+const includedSymbols = ["ETH", "WETH", "STETH", "WSTETH", "WEETH", "CBETH",
+  "STONE", "RSETH", "WRSETH", "EZETH", "WBETH", "WSUPEROETHB", "PUFETH", "SWETH",
+  "CMETH","WETH.E", "TACETH", "TACBTC", "CBBTC", "BTC.B", "RSWETH", "UNIFIETH"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -51,7 +52,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         timeVisible: false,
         secondsVisible: false,
         rightOffset: 1,
-        barSpacing: 86,
+        barSpacing: 80,
         tickMarkFormatter: (time) => {
           const networkName = Object.keys(networkIndexMap).find(
             key => networkIndexMap[key] === time);
@@ -83,7 +84,7 @@ async function verifyLS() {
   if (storedYield) {
     loadYieldData(JSON.parse(storedYield));
   } else {
-    const yieldData = await fetchDefiLlamaAPY();
+    const yieldData = await fetchDefiLlamaAPY(8);
     if (yieldData.length) {
       localStorage.setItem(yieldDataKey, JSON.stringify(yieldData));
       loadYieldData(yieldData);
@@ -146,19 +147,29 @@ async function loadYieldData(yieldData) {
   const drawTableYields = finalFilteredData.length
     ? finalFilteredData
       .map((item) => {
+        let warnTvl = false;
+        let rewardTkn;
         const inputIdAsign = `asg_${item.symbol}_${item.chain.substr(0, 3)}_${item.project.substr(0, 4)}`;
         const projectShort = item.project.length >= 4 ? item.project.substr(0, 4) : item.project;
+        if (item.tvlUsd<100000)
+          warnTvl = true;
+        rewardTkn = item.rewardTokens &&
+          item.rewardTokens.length > 0
+          ? `<br/><small>${item.rewardTokens}</small>`
+          : "";
         const savedValueAsign = savedProjectsAsign.filter(
           item => item.project === inputIdAsign.substr(4)).map(
             item => item.asign);
 
         return `
       <tr>
-          <td title='${item.tvlUsd}' style='${stylesTd}'>${item.project}</td>
-          <td style='${stylesTd}'>${item.symbol}</td>
+          <td title='${item.poolMeta ? item.poolMeta : ""}' style='${stylesTd}'>
+            ${item.project}<small>${item.poolMeta ? "_" + item.poolMeta.substr(0, 4) : ""}</small></td>
+          <td title='${item.tvlUsd.toLocaleString('en-US')}' style='${stylesTd}'>
+            ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward>item.apyBase?rewardTkn.substr(0, 31):''}</td>
           <td style='${stylesTd}'>${item.chain}</td>
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
-            style='${stylesTd}'>${item.apy.toFixed(2)}%</td>
+            style='${stylesTd}'>${item.apy.toFixed(2)}%${item.apyBase<8 ? "*" : ""}</td>
           <td style='${stylesTd}'>
             <input type='number' min='0.05' step='0.05' id='${inputIdAsign}' value='${savedValueAsign}' 
               placeholder='${projectShort}' style='color:blue;background-color:gray;'>

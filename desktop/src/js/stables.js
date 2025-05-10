@@ -4,7 +4,7 @@ const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yDataS_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectS";
-const includedSymbols = ["USDT", "USDC", "USDC.E", "EURC", "GHO", "EURT"];
+const includedSymbols = ["USDT", "USDC", "USDC.E", "EURC", "GHO", "EURT", "USD₮0", "USDT.E"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   document.body.classList.add('fade-in');
@@ -16,6 +16,8 @@ window.addEventListener('DOMContentLoaded', async () => {
   const darkBtn = document.getElementById('darkBtn');
   const chartContainer = document.getElementById('apyChart');
   const ethBtn = document.getElementById("ethBtn");
+  const othersBtn = document.getElementById("othersBtn");
+  const lpsBtn = document.getElementById("lpsBtn");
   await verifyLS();
   requestAnimationFrame(() => {
     const chartapys = LightweightCharts.createChart(chartContainer, {
@@ -72,6 +74,12 @@ window.addEventListener('DOMContentLoaded', async () => {
     ethBtn.addEventListener('click', () => {
       loadPage('ethy');
     });
+    othersBtn.addEventListener('click', () => {
+      loadPage('othersy');
+    });
+    lpsBtn.addEventListener('click', () => {
+      loadPage('lps');
+    });
 
   } else {
     console.error('Un botón no fue encontrado en el DOM.');
@@ -83,7 +91,7 @@ async function verifyLS() {
   if (storedYield) {
     loadYieldData(JSON.parse(storedYield));
   } else {
-    const yieldData = await fetchDefiLlamaAPY();
+    const yieldData = await fetchDefiLlamaAPY(8);
     if (yieldData.length) {
       localStorage.setItem(yieldDataKey, JSON.stringify(yieldData));
       loadYieldData(yieldData);
@@ -146,21 +154,31 @@ async function loadYieldData(yieldData) {
   const drawTableYields = finalFilteredData.length
     ? finalFilteredData
       .map((item) => {
+        let warnTvl = false;
+        let rewardTkn;
         const inputIdAsign = `asg_${item.symbol}_${item.chain.substr(0, 3)}_${item.project.substr(0, 4)}`;
         const projectShort = item.project.length >= 4 ? item.project.substr(0, 4) : item.project;
+        if (item.tvlUsd<100000)
+          warnTvl = true;
+        rewardTkn = item.rewardTokens &&
+          item.rewardTokens.length > 0
+          ? `<br/><small>${item.rewardTokens}</small>`
+          : "";
         const savedValueAsign = savedProjectsAsign.filter(
           item => item.project === inputIdAsign.substr(4)).map(
             item => item.asign);
 
         return `
       <tr>
-          <td title='${item.tvlUsd}' style='${stylesTd}'>${item.project}</td>
-          <td style='${stylesTd}'>${item.symbol}</td>
+          <td title='${item.poolMeta ? item.poolMeta : ""}' style='${stylesTd}'>
+            ${item.project}<small>${item.poolMeta ? "_" + item.poolMeta.substr(0, 4) : ""}</small></td>
+          <td title='${item.tvlUsd.toLocaleString('en-US')}' style='${stylesTd}'>
+            ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward>item.apyBase?rewardTkn.substr(0, 31):''}</td>
           <td style='${stylesTd}'>${item.chain}</td>
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
-            style='${stylesTd}'>${item.apy.toFixed(2)}%</td>
+            style='${stylesTd}'>${item.apy.toFixed(2)}%${item.apyBase<8 ? "*" : ""}</td>
           <td style='${stylesTd}'>
-            <input type='number' min='10' id='${inputIdAsign}' value='${savedValueAsign}' 
+            <input type='number' min='30' step='10' id='${inputIdAsign}' value='${savedValueAsign}' 
               placeholder='${projectShort}' style='color:blue;background-color:gray;'>
           </td>
       </tr>

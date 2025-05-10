@@ -1,15 +1,15 @@
 //const todayShared = new Date().toISOString().split('T')[0];
 const todayShared = new Date();
-const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core",
-  "Flare", "Neutron", "Gnosis", "Rootstock", "Bifrost Network",
-  "Bsquared", "Moonriver", "IOTA EVM", "Cardano", "Sui",
-  "Solana", "Etherlink", //"Linea", "zkSync Era", "Sonic",
-  "Stellar", "Blast", "Optimism", "Polygon", "Ethereum",
-  "MultiversX", "Fraxtal", "Aptos", // "Avalanche",
-  "Cronos_zkevm", "Nolus", "Neon", "Starknet", "Osmosis", "Kujira"];
-const excludedPlatforms = ['bagful', 'psyoptions', 'yel-finance', 'goldlink',
-  'deltaprime', 'vela-exchange', 'degenprime', 'c3-exchange', 'balmy',
-  'ensuro', 'impermax-v2'];
+const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core", "Aurora",
+  "Flare", "Neutron", "Gnosis", "Rootstock", "Bifrost Network", "LightLink",
+  "Bsquared", "Moonriver", "IOTA EVM", "Cardano", "Telos", "Sui", //"Move",
+  "Etherlink", "Mantle", //"Solana", //"Linea", "zkSync Era", "Sonic",
+  "Stellar", "Polygon zkEVM", "Blast", "Polygon", "Ethereum",
+  "MultiversX", "Fraxtal", "Aptos", "Scroll", //"Avalanche", "Ton", // "Optimism",
+  "Cronos_zkevm", "Nolus", "Neon", "Starknet", "Osmosis", "Kujira", "Fantom"];
+const excludedPlatforms = ['bagful', 'psyoptions', 'yel-finance', 'goldlink', 'balmy', 
+  'deltaprime', 'vela-exchange', 'degenprime', 'c3-exchange', "sonne-finance",
+  'ensuro', 'impermax-v2','impermax-v3', 'clearpool-lending', 'arcadia-v2'];
 const stylesTd = 'color:white;background-color:black;';
 const stylesTdNew = 'color:black;background-color:lightgrey;';
 
@@ -97,16 +97,18 @@ function confirmDeleteSecret() {
     console.log(conf);
 }
 
-async function fetchDefiLlamaAPY() {
+async function fetchDefiLlamaAPY(minApy) {
   const url = "https://yields.llama.fi/pools";
   try {
     const response = await fetch(url);
     const data = await response.json();
     return data.data.filter(pool =>
       includedSymbols.includes(pool.symbol) &&
-      pool.apy >= 7 && pool.apy < 210 &&
+      pool.apy >= minApy && pool.apy < 220 &&
       !excludedChains.includes(pool.chain) &&
-      !excludedPlatforms.includes(pool.project)
+      !excludedPlatforms.includes(pool.project) &&
+      pool.tvlUsd > 15000// &&
+      //(pool.apyMean30d > minApy || pool.apyBase > minApy)
     );
   } catch (error) {
     console.error("Error fetching data from DefiLlama:", error);
@@ -204,7 +206,7 @@ function saveDailyAPY(filteredData, storageKeyAvg) {
   deletePrevMonthLS(storageKeyAvg);
   const apyByNetwork = {};
   filteredData.forEach(pool => {
-    if (pool.apy > 5 && pool.apy < 100) {
+    if (pool.apy > 8 && pool.apy < 160) {
       if (!apyByNetwork[pool.chain]) {
         apyByNetwork[pool.chain] = { totalAPY: 0, count: 0 };
       }
@@ -231,10 +233,15 @@ function saveDailyAPY(filteredData, storageKeyAvg) {
 
 function deletePrevMonthLS(key) {
   const currentDate = todayShared;
+  let firstChain;
   currentDate.setDate(1);
-  currentDate.setMonth(currentDate.getMonth() - 1);
-
-  const firstChain = key.substr(0,7);
+  if (key.length === 17)  {
+    firstChain = key.substr(0,7);
+  }
+  if (key.length === 18)  {
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    firstChain = key.substr(0,8);
+  }
   const prevYear = currentDate.getFullYear();
   const prevMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
   const prefixToDelete = `${firstChain}${prevYear}-${prevMonth}-`;
