@@ -1,3 +1,4 @@
+"use strict";
 //const todayShared = new Date().toISOString().split('T')[0];
 const todayShared = new Date();
 const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core", "Aurora",
@@ -71,7 +72,7 @@ function enterHome() {
   }, 1000);
 }
 function loadPage(page) {
-  link = page.concat(".html");
+  const link = page.concat(".html");
   document.body.classList.add('page-transition');
   setTimeout(function () {
     window.location.replace(link);

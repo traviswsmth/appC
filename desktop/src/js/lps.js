@@ -1,3 +1,4 @@
+"use strict";
 const today = new Date().toISOString().split('T')[0];
 const storageKeyAvg = `apyAvgL_${today}`;
 const avgDataLS = localStorage.getItem(storageKeyAvg);
@@ -17,7 +18,7 @@ const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E",
   //"SUI-STSUI", "WETH-CRV", "WETH-UNI", "LBTC-SUI", "DOGE-WETH", "TON-USD₮","WAVAX-FRAX", "WETH-GMX", "APE-WETH",
   //"WSTETH-WRSETH", "AURA-EZETH-WSTETH", "CRVUSDETHCRV", "CRVUSDETHCRV", "WETH-ODOS", "USDT-THE", "POL-WETH",
   "SW-USR", "DOLA-USR", "GHO-USR", "FRXUSD-SCUSD", "USR-USDC", "GHO-USDC", "AVUSD-USDC", "OP-USDC", "OP-USDT",
-  "AXLUSDC.E-USDC", "USDC-USDBC-AXLUSDC-CRVUSD", "CELO-USD₮", "CELO-CUSD", "USDC-OP"// "WAVAX-AVUSD", "CELO-WETH",
+  "AXLUSDC.E-USDC", "USDC-USDBC-AXLUSDC-CRVUSD", "USDC.E-USD₮0", "CELO-CUSD", "USDC-OP"// "WAVAX-AVUSD", "CELO-WETH",
 ];
 
 window.addEventListener('DOMContentLoaded', async () => {

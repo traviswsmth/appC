@@ -1,3 +1,4 @@
+"use strict";
 const today = new Date().toISOString().split('T')[0];
 const storageKeyAvg = `apyAvgS_${today}`;
 const avgDataLS = localStorage.getItem(storageKeyAvg);
