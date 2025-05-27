@@ -1,6 +1,6 @@
 const { contextBridge } = require('electron');
 const { authenticator } = require('otplib');
-const csvp = require('../src/papaparse');
+const csvp = require('./src/lib/papaparse');
 contextBridge.exposeInMainWorld('api', {
   generateKeyOtp: () => {
     const secret = authenticator.generateSecret();
