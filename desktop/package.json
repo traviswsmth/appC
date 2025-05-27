@@ -1,17 +1,31 @@
 {
   "name": "app-c",
+  "productName": "App C",
   "version": "1.0.0",
   "description": "An interesting app",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron main.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "package": "build"
   },
   "author": "GD",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^33.3.1"
+    "electron": "^33.3.1",
+    "electron-builder": "^26.0.12"
   },
   "dependencies": {
+  },
+  "build":  {
+    "appId": "com.gd.appc",
+    "productName": "App C",
+    "files": [
+      "**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "./assets/icon.ico"
+    }
   }
 }

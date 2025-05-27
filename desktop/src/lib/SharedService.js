@@ -68,7 +68,7 @@ function hideSecret() {
 function enterHome() {
   document.body.classList.add('page-transition');
   setTimeout(function () {
-    window.location.replace("../index.html")
+    window.location.replace("../../index.html")
   }, 1000);
 }
 function loadPage(page) {
