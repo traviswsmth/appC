@@ -43,7 +43,7 @@ e2e/*.map
 platforms/
 plugins/
 plugins/**/*.json
-www/
+#www/
 
 # Ionic3 Specific
 *~
