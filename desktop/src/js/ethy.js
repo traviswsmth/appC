@@ -52,7 +52,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       timeScale: {
         timeVisible: false,
         secondsVisible: false,
-        rightOffset: 1,
+        rightOffset: 0,
         barSpacing: 80,
         tickMarkFormatter: (time) => {
           const networkName = Object.keys(networkIndexMap).find(
@@ -205,7 +205,7 @@ async function loadYieldData(yieldData) {
     .concat(personalizatedRows);
 
   tableBody.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" || event.key === "-") {
       const input = event.target;
       const id = input.id;
       const value = input.value.trim();
@@ -235,7 +235,7 @@ async function loadYieldData(yieldData) {
           document.getElementById("ybe_new_apy").value = "";
         }
       } else if (id.startsWith("apy_") && !newProject) {
-        if (value === '') {
+        if (value === '' || value === '-') {
           const updatedProjects = savedProjects.filter(item => item.keyId !== id.substr(4));
           localStorage.setItem(keyCustomProjects, JSON.stringify(updatedProjects));
           const row = input.closest('tr');
@@ -255,7 +255,7 @@ async function loadYieldData(yieldData) {
           localStorage.setItem(keyCustomProjects, JSON.stringify(savedProjects));
         }
       } else if (id.startsWith("asg_") && !newProject) {
-        if (input.value === '') {
+        if (value === '' || value === '-') {
           const updatedAssign = savedYbe.filter(item => item.project !== id.substr(4));
           localStorage.setItem('ybe', JSON.stringify(updatedAssign));
         } else if (value !== "" && id) {
