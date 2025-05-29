@@ -205,7 +205,7 @@ async function loadYieldData(yieldData) {
     .concat(personalizatedRows);
 
   tableBody.addEventListener("keypress", function (event) {
-    if (event.key === "Enter" || event.key === "-") {
+    if (event.key === "Enter" || event.key === "-" || event.key === ",") {
       const input = event.target;
       const id = input.id;
       const value = input.value.trim();
@@ -243,7 +243,7 @@ async function loadYieldData(yieldData) {
             row.remove();
           }
           console.log("Deleted custom project, id: ", id.substr(4));
-        } else if (value !== "" && id) {
+        } else if ((value !== "" || event.key === ",") && id) {
           const index = savedProjects.findIndex(item => item.keyId === id.substr(4));
           if (index !== -1) {
             savedProjects[index].apy = value;
@@ -258,7 +258,7 @@ async function loadYieldData(yieldData) {
         if (value === '' || value === '-') {
           const updatedAssign = savedYbe.filter(item => item.project !== id.substr(4));
           localStorage.setItem('ybe', JSON.stringify(updatedAssign));
-        } else if (value !== "" && id) {
+        } else if ((value !== "" || event.key === ",") && id) {
           const index = savedYbe.findIndex(item => item.project === id.substr(4));
           console.log(index);
           console.log(id.substr(4));
