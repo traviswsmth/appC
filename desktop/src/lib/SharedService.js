@@ -1,3 +1,4 @@
+"use strict";
 //const todayShared = new Date().toISOString().split('T')[0];
 const todayShared = new Date();
 const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core", "Aurora",
@@ -67,11 +68,11 @@ function hideSecret() {
 function enterHome() {
   document.body.classList.add('page-transition');
   setTimeout(function () {
-    window.location.replace("../index.html")
+    window.location.replace("../../index.html")
   }, 1000);
 }
 function loadPage(page) {
-  link = page.concat(".html");
+  const link = page.concat(".html");
   document.body.classList.add('page-transition');
   setTimeout(function () {
     window.location.replace(link);
@@ -107,7 +108,7 @@ async function fetchDefiLlamaAPY(minApy) {
       pool.apy >= minApy && pool.apy < 220 &&
       !excludedChains.includes(pool.chain) &&
       !excludedPlatforms.includes(pool.project) &&
-      pool.tvlUsd > 15000// &&
+      pool.tvlUsd > 19000// &&
       //(pool.apyMean30d > minApy || pool.apyBase > minApy)
     );
   } catch (error) {

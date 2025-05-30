@@ -1,3 +1,4 @@
+"use strict";
 const today = new Date().toISOString().split('T')[0];
 const storageKeyAvg = `apyAvgE_${today}`;
 const avgDataLS = localStorage.getItem(storageKeyAvg);
@@ -6,7 +7,7 @@ const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsE";
 const includedSymbols = ["ETH", "WETH", "STETH", "WSTETH", "WEETH", "CBETH",
   "STONE", "RSETH", "WRSETH", "EZETH", "WBETH", "WSUPEROETHB", "PUFETH", "SWETH",
-  "CMETH","WETH.E", "TACETH", "TACBTC", "CBBTC", "BTC.B", "RSWETH", "UNIFIETH"];
+  "CMETH", "WETH.E", "TACETH", "TACBTC", "CBBTC", "BTC.B", "RSWETH", "UNIFIETH"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -51,7 +52,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       timeScale: {
         timeVisible: false,
         secondsVisible: false,
-        rightOffset: 1,
+        rightOffset: 0,
         barSpacing: 80,
         tickMarkFormatter: (time) => {
           const networkName = Object.keys(networkIndexMap).find(
@@ -151,7 +152,7 @@ async function loadYieldData(yieldData) {
         let rewardTkn;
         const inputIdAsign = `asg_${item.symbol}_${item.chain.substr(0, 3)}_${item.project.substr(0, 4)}`;
         const projectShort = item.project.length >= 4 ? item.project.substr(0, 4) : item.project;
-        if (item.tvlUsd<100000)
+        if (item.tvlUsd < 100000)
           warnTvl = true;
         rewardTkn = item.rewardTokens &&
           item.rewardTokens.length > 0
@@ -166,10 +167,10 @@ async function loadYieldData(yieldData) {
           <td title='${item.poolMeta ? item.poolMeta : ""}' style='${stylesTd}'>
             ${item.project}<small>${item.poolMeta ? "_" + item.poolMeta.substr(0, 4) : ""}</small></td>
           <td title='${item.tvlUsd.toLocaleString('en-US')}' style='${stylesTd}'>
-            ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward>item.apyBase?rewardTkn.substr(0, 31):''}</td>
+            ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward > item.apyBase ? rewardTkn.substr(0, 31) : ''}</td>
           <td style='${stylesTd}'>${item.chain}</td>
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
-            style='${stylesTd}'>${item.apy.toFixed(2)}%${item.apyBase<8 ? "*" : ""}</td>
+            style='${stylesTd}'>${item.apy.toFixed(2)}%${item.apyBase < 8 ? "*" : ""}</td>
           <td style='${stylesTd}'>
             <input type='number' min='0.05' step='0.05' id='${inputIdAsign}' value='${savedValueAsign}' 
               placeholder='${projectShort}' style='color:blue;background-color:gray;'>
@@ -204,7 +205,7 @@ async function loadYieldData(yieldData) {
     .concat(personalizatedRows);
 
   tableBody.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" || event.key === "-" || event.key === ",") {
       const input = event.target;
       const id = input.id;
       const value = input.value.trim();
@@ -234,7 +235,7 @@ async function loadYieldData(yieldData) {
           document.getElementById("ybe_new_apy").value = "";
         }
       } else if (id.startsWith("apy_") && !newProject) {
-        if (value === '') {
+        if (value === '' || value === '-') {
           const updatedProjects = savedProjects.filter(item => item.keyId !== id.substr(4));
           localStorage.setItem(keyCustomProjects, JSON.stringify(updatedProjects));
           const row = input.closest('tr');
@@ -242,7 +243,7 @@ async function loadYieldData(yieldData) {
             row.remove();
           }
           console.log("Deleted custom project, id: ", id.substr(4));
-        } else if (value !== "" && id) {
+        } else if ((value !== "" || event.key === ",") && id) {
           const index = savedProjects.findIndex(item => item.keyId === id.substr(4));
           if (index !== -1) {
             savedProjects[index].apy = value;
@@ -254,10 +255,10 @@ async function loadYieldData(yieldData) {
           localStorage.setItem(keyCustomProjects, JSON.stringify(savedProjects));
         }
       } else if (id.startsWith("asg_") && !newProject) {
-        if (input.value === '') {
+        if (value === '' || value === '-') {
           const updatedAssign = savedYbe.filter(item => item.project !== id.substr(4));
           localStorage.setItem('ybe', JSON.stringify(updatedAssign));
-        } else if (value !== "" && id) {
+        } else if ((value !== "" || event.key === ",") && id) {
           const index = savedYbe.findIndex(item => item.project === id.substr(4));
           console.log(index);
           console.log(id.substr(4));

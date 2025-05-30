@@ -1,3 +1,4 @@
+"use strict";
 const today = new Date().toISOString().split('T')[0];
 const storageKeyAvg = `apyAvgL_${today}`;
 const avgDataLS = localStorage.getItem(storageKeyAvg);
@@ -17,7 +18,7 @@ const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E",
   //"SUI-STSUI", "WETH-CRV", "WETH-UNI", "LBTC-SUI", "DOGE-WETH", "TON-USD₮","WAVAX-FRAX", "WETH-GMX", "APE-WETH",
   //"WSTETH-WRSETH", "AURA-EZETH-WSTETH", "CRVUSDETHCRV", "CRVUSDETHCRV", "WETH-ODOS", "USDT-THE", "POL-WETH",
   "SW-USR", "DOLA-USR", "GHO-USR", "FRXUSD-SCUSD", "USR-USDC", "GHO-USDC", "AVUSD-USDC", "OP-USDC", "OP-USDT",
-  "AXLUSDC.E-USDC", "USDC-USDBC-AXLUSDC-CRVUSD", "CELO-USD₮", "CELO-CUSD", "USDC-OP"// "WAVAX-AVUSD", "CELO-WETH",
+  "AXLUSDC.E-USDC", "USDC-USDBC-AXLUSDC-CRVUSD", "USDC.E-USD₮0", "CELO-CUSD", "USDC-OP"// "WAVAX-AVUSD", "CELO-WETH",
 ];
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -63,7 +64,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       timeScale: {
         timeVisible: false,
         secondsVisible: false,
-        rightOffset: 1,
+        rightOffset: 0,
         barSpacing: 80,
         tickMarkFormatter: (time) => {
           const networkName = Object.keys(networkIndexMap).find(
@@ -225,7 +226,7 @@ async function loadYieldData(yieldData) {
     .concat(personalizatedRows);
 
   tableBody.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" || event.key === "-" || event.key === ",") {
       const input = event.target;
       const id = input.id;
       const value = input.value.trim();
@@ -255,7 +256,7 @@ async function loadYieldData(yieldData) {
           document.getElementById("ybl_new_apy").value = "";
         }
       } else if (id.startsWith("apy_") && !newProject) {
-        if (value === '') {
+        if (value === '' || value === '-') {
           const updatedProjects = savedProjects.filter(item => item.keyId !== id.substr(4));
           localStorage.setItem(keyCustomProjects, JSON.stringify(updatedProjects));
           const row = input.closest('tr');
@@ -263,7 +264,7 @@ async function loadYieldData(yieldData) {
             row.remove();
           }
           console.log("Deleted custom project, id: ", id.substr(4));
-        } else if (value !== "" && id) {
+        } else if ((value !== "" || event.key === ",") && id) {
           const index = savedProjects.findIndex(item => item.keyId === id.substr(4));
           if (index !== -1) {
             savedProjects[index].apy = value;
@@ -275,10 +276,10 @@ async function loadYieldData(yieldData) {
           localStorage.setItem(keyCustomProjects, JSON.stringify(savedProjects));
         }
       } else if (id.startsWith("asg_") && !newProject) {
-        if (input.value === '') {
+        if (value === '' || value === '-') {
           const updatedAssign = savedYbo.filter(item => item.project !== id.substr(4));
           localStorage.setItem('ybl', JSON.stringify(updatedAssign));
-        } else if (value !== "" && id) {
+        } else if ((value !== "" || event.key === ",") && id) {
           const index = savedYbo.findIndex(item => item.project === id.substr(4));
           console.log(index);
           console.log(id.substr(4));

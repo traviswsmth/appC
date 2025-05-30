@@ -1,3 +1,4 @@
+"use strict";
 const today = new Date().toISOString().split('T')[0];
 const storageKeyAvg = `apyAvgS_${today}`;
 const avgDataLS = localStorage.getItem(storageKeyAvg);
@@ -211,7 +212,7 @@ async function loadYieldData(yieldData) {
     .concat(personalizatedRows);
 
   tableBody.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" || event.key === "-" || event.key === ",") {
       const input = event.target;
       const id = input.id;
       const value = input.value.trim();
@@ -240,7 +241,7 @@ async function loadYieldData(yieldData) {
           document.getElementById("ybt_new_apy").value = "";
         }
       } else if (id.startsWith("apy_") && !newProject) {
-        if (input.value === '') {
+        if (value === '' || value === '-') {
           const updatedProjects = savedProjects.filter(item => item.keyId !== id.substr(4));
           localStorage.setItem(keyCustomProjects, JSON.stringify(updatedProjects));
           const row = input.closest('tr');
@@ -248,7 +249,7 @@ async function loadYieldData(yieldData) {
             row.remove();
           }
           console.log("Deleted custom project, id: ", id.substr(4));
-        } else if (value !== "" && id) {
+        } else if ((value !== "" || event.key === ",") && id) {
           const index = savedProjects.findIndex(item => item.keyId === id.substr(4));
           if (index !== -1) {
             savedProjects[index].apy = value;
@@ -260,10 +261,10 @@ async function loadYieldData(yieldData) {
           localStorage.setItem(keyCustomProjects, JSON.stringify(savedProjects));
         }
       } else if (id.startsWith("asg_")) {
-        if (input.value === '') {
+        if (value === '' || value === '-') {
           const updatedAssign = savedYbt.filter(item => item.project !== id.substr(4));
           localStorage.setItem('ybt', JSON.stringify(updatedAssign));
-        } else if (value !== "" && id) {
+        } else if ((value !== "" || event.key === ",") && id) {
           const index = savedYbt.findIndex(item => item.project === id.substr(4));
           console.log(index);
           console.log(id.substr(4));

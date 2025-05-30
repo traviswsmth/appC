@@ -8,25 +8,25 @@ window.addEventListener('DOMContentLoaded', () => {
   const lpsBtn = document.getElementById('lpsBtn');
   if (farmBtn && otpBtn) {
     otpBtn.addEventListener('click', () => {
-      loadPage("src/otp");
+      loadPage("src/html/otp");
     });
     othersBtn.addEventListener('click', () => {
-      loadPage("src/othersy");
+      loadPage("src/html/othersy");
     });
     darkBtn.addEventListener('click', () => {
       toggleDark('lightgray');
     });
     farmBtn.addEventListener('click', () => {
-      loadPage("src/farming");
+      loadPage("src/html/farming");
     });
     stablesBtn.addEventListener('click', () => {
-      loadPage("src/stables");
+      loadPage("src/html/stables");
     });
     ethBtn.addEventListener('click', () => {
-      loadPage("src/ethy");
+      loadPage("src/html/ethy");
     });
     lpsBtn.addEventListener('click', () => {
-      loadPage("src/lps");
+      loadPage("src/html/lps");
     });
   } else {
     console.error('Un botón no fue encontrado en el DOM.');
