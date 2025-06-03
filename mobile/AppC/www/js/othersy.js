@@ -212,10 +212,19 @@ async function loadYieldData(yieldData) {
       </td>
   </tr>
 `;
+  saveDailyAPY(finalFilteredData, storageKeyAvg);
+}
+
+document.addEventListener("deviceready", onDeviceReady, false);
+
+function onDeviceReady()  {
+  //document.addEventListener("volumedownbutton", onVolumeDown, false);
+  //document.addEventListener("volumeupbutton", onVolumeUp, false);
   tableBody.innerHTML = drawTableYields.concat(loadCustomProjects(keyCustomProjects, 'ybo', 1))
     .concat(personalizatedRows);
 
-  tableBody.addEventListener("keypress", function (event) {
+  tableBody.addEventListener("keypress", "volumedownbutton", "volumeupbutton", function (event) {
+    alert("Table listener enter");
     if (event.key === "Enter" || event.key === "-" || event.key === ",") {
       const input = event.target;
       const id = input.id;
@@ -287,5 +296,10 @@ async function loadYieldData(yieldData) {
 
     }
   });
-  saveDailyAPY(finalFilteredData, storageKeyAvg);
+}
+function onVolumeDown() {
+ alert("On Volume Down") ;
+}
+function onVolumeUp() {
+ alert("On Volume Up") ;
 }
