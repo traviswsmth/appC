@@ -92,7 +92,7 @@ async function verifyLS() {
   if (storedYield) {
     loadYieldData(JSON.parse(storedYield));
   } else {
-    const yieldData = await fetchDefiLlamaAPY(8);
+    const yieldData = await fetchDefiLlamaAPY(10);
     if (yieldData.length) {
       localStorage.setItem(yieldDataKey, JSON.stringify(yieldData));
       loadYieldData(yieldData);
@@ -210,9 +210,16 @@ async function loadYieldData(yieldData) {
     `;
   tableBody.innerHTML = drawTableYields.concat(loadCustomProjects(keyCustomProjects, 'ybt', 10))
     .concat(personalizatedRows);
+saveDailyAPY(finalFilteredData, storageKeyAvg);
+}
 
-  tableBody.addEventListener("keypress", function (event) {
-    if (event.key === "Enter" || event.key === "-" || event.key === ",") {
+document.addEventListener("deviceready", onDeviceReady, false);
+
+function onDeviceReady()  {
+  const tableBody = document.getElementById("yield-table");
+
+  tableBody.addEventListener("focusout", function (event) {
+    //if (event.key === "Enter" || event.key === "-" || event.key === ",") {
       const input = event.target;
       const id = input.id;
       const value = input.value.trim();
@@ -223,6 +230,7 @@ async function loadYieldData(yieldData) {
       const newChain = document.getElementById("ybt_new_chain").value.trim();
       const newApy = document.getElementById("ybt_new_apy").value.trim();
       if (id.startsWith("ybt_new") && !(id.startsWith("apy_"))) {
+        console.log('id pressed:', id);
         if (newProject && newSymbol && newChain && newApy) {
           const newProjectData = {
             project: newProject,
@@ -240,7 +248,7 @@ async function loadYieldData(yieldData) {
           document.getElementById("ybt_new_chain").value = "";
           document.getElementById("ybt_new_apy").value = "";
         }
-      } else if (id.startsWith("apy_") && !newProject) {
+      } else if ((id.startsWith("apy_") || id.startsWith("-"))&& !newProject) {
         if (value === '' || value === '-') {
           const updatedProjects = savedProjects.filter(item => item.keyId !== id.substr(4));
           localStorage.setItem(keyCustomProjects, JSON.stringify(updatedProjects));
@@ -260,7 +268,7 @@ async function loadYieldData(yieldData) {
           }
           localStorage.setItem(keyCustomProjects, JSON.stringify(savedProjects));
         }
-      } else if (id.startsWith("asg_")) {
+      } else if (id.startsWith("asg_") && !newProject) {
         if (value === '' || value === '-') {
           const updatedAssign = savedYbt.filter(item => item.project !== id.substr(4));
           localStorage.setItem('ybt', JSON.stringify(updatedAssign));
@@ -279,7 +287,13 @@ async function loadYieldData(yieldData) {
         }
       }
       location.reload();
-    }
+
+    //}
   });
-  saveDailyAPY(finalFilteredData, storageKeyAvg);
+}
+function onVolumeDown() {
+ alert("On Volume Down") ;
+}
+function onVolumeUp() {
+ alert("On Volume Up") ;
 }

@@ -203,9 +203,16 @@ async function loadYieldData(yieldData) {
 `;
   tableBody.innerHTML = drawTableYields.concat(loadCustomProjects(keyCustomProjects, 'ybe', 0.05))
     .concat(personalizatedRows);
+saveDailyAPY(finalFilteredData, storageKeyAvg);
+}
 
-  tableBody.addEventListener("keypress", function (event) {
-    if (event.key === "Enter" || event.key === "-" || event.key === ",") {
+document.addEventListener("deviceready", onDeviceReady, false);
+
+function onDeviceReady()  {
+  const tableBody = document.getElementById("yield-table");
+
+  tableBody.addEventListener("focusout", function (event) {
+    //if (event.key === "Enter" || event.key === "-" || event.key === ",") {
       const input = event.target;
       const id = input.id;
       const value = input.value.trim();
@@ -234,7 +241,7 @@ async function loadYieldData(yieldData) {
           document.getElementById("ybe_new_chain").value = "";
           document.getElementById("ybe_new_apy").value = "";
         }
-      } else if (id.startsWith("apy_") && !newProject) {
+      } else if ((id.startsWith("apy_") || id.startsWith("-"))&& !newProject) {
         if (value === '' || value === '-') {
           const updatedProjects = savedProjects.filter(item => item.keyId !== id.substr(4));
           localStorage.setItem(keyCustomProjects, JSON.stringify(updatedProjects));
@@ -274,7 +281,12 @@ async function loadYieldData(yieldData) {
       }
       location.reload();
 
-    }
+    //}
   });
-  saveDailyAPY(finalFilteredData, storageKeyAvg);
+}
+function onVolumeDown() {
+ alert("On Volume Down") ;
+}
+function onVolumeUp() {
+ alert("On Volume Up") ;
 }

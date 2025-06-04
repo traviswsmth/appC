@@ -212,20 +212,18 @@ async function loadYieldData(yieldData) {
       </td>
   </tr>
 `;
+  tableBody.innerHTML = drawTableYields.concat(loadCustomProjects(keyCustomProjects, 'ybo', 1))
+    .concat(personalizatedRows);
   saveDailyAPY(finalFilteredData, storageKeyAvg);
 }
 
 document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady()  {
-  //document.addEventListener("volumedownbutton", onVolumeDown, false);
-  //document.addEventListener("volumeupbutton", onVolumeUp, false);
-  tableBody.innerHTML = drawTableYields.concat(loadCustomProjects(keyCustomProjects, 'ybo', 1))
-    .concat(personalizatedRows);
+  const tableBody = document.getElementById("yield-table");
 
-  tableBody.addEventListener("keypress", "volumedownbutton", "volumeupbutton", function (event) {
-    alert("Table listener enter");
-    if (event.key === "Enter" || event.key === "-" || event.key === ",") {
+  tableBody.addEventListener("focusout", function (event) {
+    //if (event.key === "Enter" || event.key === "-" || event.key === ",") {
       const input = event.target;
       const id = input.id;
       const value = input.value.trim();
@@ -294,7 +292,7 @@ function onDeviceReady()  {
       }
       location.reload();
 
-    }
+    //}
   });
 }
 function onVolumeDown() {
