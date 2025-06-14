@@ -10,7 +10,8 @@ const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core", "Aurora",
   "Cronos_zkevm", "Nolus", "Neon", "Starknet", "Osmosis", "Kujira", "Fantom"];
 const excludedPlatforms = ['bagful', 'psyoptions', 'yel-finance', 'goldlink', 'balmy', 
   'deltaprime', 'vela-exchange', 'degenprime', 'c3-exchange', "sonne-finance",
-  'ensuro', 'impermax-v2','impermax-v3', 'clearpool-lending', 'arcadia-v2'];
+  'ensuro', 'impermax-v2','impermax-v3', 'clearpool-lending', 'arcadia-v2',
+  "peapods-finance"];
 const stylesTd = 'color:white;background-color:black;';
 const stylesTdNew = 'color:black;background-color:lightgrey;';
 
