@@ -6,7 +6,7 @@ const yieldDataKey = `yDataO_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsO";
 const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "FRAX", "PYUSD", "HONEY",
-  "BTC", "WBTC", "BNB", "WBNB", "SUI", "LINK", "AVAX", "WAVAX", //"WBERA",//"MOVE", "S", "WS",
+  "BTC", "WBTC", "SUI", "LINK", "AVAX", "WAVAX", //"BNB", "WBNB", "WBERA",//"MOVE", "S", "WS",
   "POL", "ADA", "MANTA", "ARB", "OP", "SUSDE", "AAVE", "TIA", //"JITOSOL",//"KLIMA", "RUSD",
   "OM", "XAI", "CERESUSDE", "APRUSDE", "EUSD", //"SOL", "WSOL", "USOL", "USUI", "STS", "WANS",
   "LBTC", "EBTC", "USDP", "ZUSDC", "EURS", "USDT.E", "USR", "SCUSD", "UNIFIUSD", "STUSD",
@@ -107,6 +107,8 @@ async function loadYieldData(yieldData) {
   const sortFilter = document.getElementById("sortFilter").value;
 
   let filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
+  if (apyFilter === 9)
+    filteredByAPY = yieldData.filter(pool => pool.apy <= 14);
   let filteredData = filteredByAPY;
 
   if (tickerFilter !== 'all') {

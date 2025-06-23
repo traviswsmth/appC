@@ -9,7 +9,7 @@ const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E",
   "USDE-USDC", "PYUSD-USDC", "EURS-USDT", "SUSDE-USDC", "HONEY-USDC", "USDS-USDT", "CRVUSD-USDT", "SUSD-DAI",
   "SUSD-CRVUSD", "SUSD-SUSDE", "FRAX-USDT", "CRVUSD-USDC", "SDAI-SUSDE", "FRAX-USDC",// "WETH-USDBC","WPOL-USDT",
   "SFRXUSD-SUSDE", "USDC-AXLUSDC", "HONEY-USDC", "USDT-WBTC-WETH", //"WBERA-HONEY",//"OAC-WBERA-IBGT-A", "HONEY-JITOSOL",
-  //"WETH-USDC", "WETH-USDT", "WETH-USDS", "WETH-DAI", "CRVUSD-WETH", "FRAX-WETH", "WBTC.B-USDC","WPOL-USDC.E",
+  "CUSD-USDC",//"WETH-USDC", "WETH-USDT", "WETH-USDS", "WETH-DAI", "CRVUSD-WETH", "FRAX-WETH", "WBTC.B-USDC","WPOL-USDC.E",
   //"ETH-USDT", "WEETH-USDC", "USDC-ETH", "USDC-WETH", "WBTC-USDC", "CRVUSD-ARB", "WETH-USDBC", "USDC-LYNX",
   //"USDC-WBTC", "USDC-WBNB", "BNB-USDC", "SOL-USDC", "USDT-XRP", "USDC-LINK", "ARB-USDC.E", "USDT-ABRA", "WPOL-USDC",
   //"WBTC-WETH", "WETH-WBTC", "WBNB-AAVE", "WETH-AAVE", "WBNB-AAVE", "NOT-USD₮", "WTTON-USD₮", "USDC.E-WETH.E",
@@ -17,8 +17,8 @@ const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E",
   //"ZEREBRO-USDC", "CELO-USD₮", "USDT-WEGLD", "WSOL-ME", "OM-WETH", "WETH-WRSETH", "EZETH-WETH","WETH.E-WAVAX",
   //"SUI-STSUI", "WETH-CRV", "WETH-UNI", "LBTC-SUI", "DOGE-WETH", "TON-USD₮","WAVAX-FRAX", "WETH-GMX", "APE-WETH",
   //"WSTETH-WRSETH", "AURA-EZETH-WSTETH", "CRVUSDETHCRV", "CRVUSDETHCRV", "WETH-ODOS", "USDT-THE", "POL-WETH",
-  "SW-USR", "DOLA-USR", "GHO-USR", "FRXUSD-SCUSD", "USR-USDC", "GHO-USDC", "AVUSD-USDC", "OP-USDC", "OP-USDT",
-  "AXLUSDC.E-USDC", "USDC-USDBC-AXLUSDC-CRVUSD", "USDC.E-USD₮0", "CELO-CUSD", "USDC-OP"// "WAVAX-AVUSD", "CELO-WETH",
+  "SW-USR", "DOLA-USR", "GHO-USR", "FRXUSD-SCUSD", "USR-USDC", "GHO-USDC", "AVUSD-USDC", "USDC.E-USDT.E",//"OP-USDC","OP-USDT",
+  "AXLUSDC.E-USDC", "USDC-USDBC-AXLUSDC-CRVUSD", "USDC.E-USD₮0",// "CELO-CUSD", "USDC-OP"// "WAVAX-AVUSD", "CELO-WETH",
 ];
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -116,6 +116,10 @@ async function loadYieldData(yieldData) {
   const sortFilter = document.getElementById("sortFilter").value;
 
   let filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
+  if (apyFilter === 12)
+    filteredByAPY = yieldData.filter(pool => pool.apy <= 18);
+  if (apyFilter === 18)
+    filteredByAPY = yieldData.filter(pool => pool.apy <= 24);
   let filteredData = filteredByAPY;//.filter(pool => pool.apyMean30d >= 8);// && pool.stablecoin == true);
 
   if (tickerFilter !== 'all') {

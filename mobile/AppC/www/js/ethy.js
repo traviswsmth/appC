@@ -7,7 +7,8 @@ const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsE";
 const includedSymbols = ["ETH", "WETH", "STETH", "WSTETH", "WEETH", "CBETH",
   "STONE", "RSETH", "WRSETH", "EZETH", "WBETH", "WSUPEROETHB", "PUFETH", "SWETH",
-  "CMETH", "WETH.E", "TACETH", "TACBTC", "CBBTC", "BTC.B", "RSWETH", "UNIFIETH"];
+  "CMETH", "WETH.E", "TACETH", "TACBTC", "CBBTC", "BTC.B", "RSWETH", "UNIFIETH",
+  "ALETHPXETH", "LIQUIDBERAETH", "SUPEROETHB"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
