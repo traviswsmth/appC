@@ -9,7 +9,7 @@ const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E",
   "USDE-USDC", "PYUSD-USDC", "EURS-USDT", "SUSDE-USDC", "HONEY-USDC", "USDS-USDT", "CRVUSD-USDT", "SUSD-DAI",
   "SUSD-CRVUSD", "SUSD-SUSDE", "FRAX-USDT", "CRVUSD-USDC", "SDAI-SUSDE", "FRAX-USDC",// "WETH-USDBC","WPOL-USDT",
   "SFRXUSD-SUSDE", "USDC-AXLUSDC", "HONEY-USDC", "USDT-WBTC-WETH", //"WBERA-HONEY",//"OAC-WBERA-IBGT-A", "HONEY-JITOSOL",
-  //"WETH-USDC", "WETH-USDT", "WETH-USDS", "WETH-DAI", "CRVUSD-WETH", "FRAX-WETH", "WBTC.B-USDC","WPOL-USDC.E",
+  "CUSD-USDC",//"WETH-USDC", "WETH-USDT", "WETH-USDS", "WETH-DAI", "CRVUSD-WETH", "FRAX-WETH", "WBTC.B-USDC","WPOL-USDC.E",
   //"ETH-USDT", "WEETH-USDC", "USDC-ETH", "USDC-WETH", "WBTC-USDC", "CRVUSD-ARB", "WETH-USDBC", "USDC-LYNX",
   //"USDC-WBTC", "USDC-WBNB", "BNB-USDC", "SOL-USDC", "USDT-XRP", "USDC-LINK", "ARB-USDC.E", "USDT-ABRA", "WPOL-USDC",
   //"WBTC-WETH", "WETH-WBTC", "WBNB-AAVE", "WETH-AAVE", "WBNB-AAVE", "NOT-USD₮", "WTTON-USD₮", "USDC.E-WETH.E",
@@ -17,8 +17,8 @@ const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E",
   //"ZEREBRO-USDC", "CELO-USD₮", "USDT-WEGLD", "WSOL-ME", "OM-WETH", "WETH-WRSETH", "EZETH-WETH","WETH.E-WAVAX",
   //"SUI-STSUI", "WETH-CRV", "WETH-UNI", "LBTC-SUI", "DOGE-WETH", "TON-USD₮","WAVAX-FRAX", "WETH-GMX", "APE-WETH",
   //"WSTETH-WRSETH", "AURA-EZETH-WSTETH", "CRVUSDETHCRV", "CRVUSDETHCRV", "WETH-ODOS", "USDT-THE", "POL-WETH",
-  "SW-USR", "DOLA-USR", "GHO-USR", "FRXUSD-SCUSD", "USR-USDC", "GHO-USDC", "AVUSD-USDC", "OP-USDC", "OP-USDT",
-  "AXLUSDC.E-USDC", "USDC-USDBC-AXLUSDC-CRVUSD", "USDC.E-USD₮0", "CELO-CUSD", "USDC-OP"// "WAVAX-AVUSD", "CELO-WETH",
+  "SW-USR", "DOLA-USR", "GHO-USR", "FRXUSD-SCUSD", "USR-USDC", "GHO-USDC", "AVUSD-USDC", "USDC.E-USDT.E",//"OP-USDC","OP-USDT",
+  "AXLUSDC.E-USDC", "USDC-USDBC-AXLUSDC-CRVUSD", "USDC.E-USD₮0",// "CELO-CUSD", "USDC-OP"// "WAVAX-AVUSD", "CELO-WETH",
 ];
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -97,7 +97,7 @@ async function verifyLS() {
   if (storedYield) {
     loadYieldData(JSON.parse(storedYield));
   } else {
-    const yieldData = await fetchDefiLlamaAPY(10);
+    const yieldData = await fetchDefiLlamaAPY(12);
     if (yieldData.length) {
       localStorage.setItem(yieldDataKey, JSON.stringify(yieldData));
       loadYieldData(yieldData);
@@ -224,14 +224,21 @@ async function loadYieldData(yieldData) {
 `;
   tableBody.innerHTML = drawTableYields.concat(loadCustomProjects(keyCustomProjects, 'ybl', 1))
     .concat(personalizatedRows);
+saveDailyAPY(finalFilteredData, storageKeyAvg);
+}
 
-  tableBody.addEventListener("keypress", function (event) {
-    if (event.key === "Enter" || event.key === "-" || event.key === ",") {
+document.addEventListener("deviceready", onDeviceReady, false);
+
+function onDeviceReady()  {
+  const tableBody = document.getElementById("yield-table");
+
+  tableBody.addEventListener("focusout", function (event) {
+    //if (event.key === "Enter" || event.key === "-" || event.key === ",") {
       const input = event.target;
       const id = input.id;
       const value = input.value.trim();
       const savedProjects = JSON.parse(localStorage.getItem(keyCustomProjects)) || [];
-      const savedYbo = JSON.parse(localStorage.getItem('ybl')) || [];
+      const savedybl = JSON.parse(localStorage.getItem('ybl')) || [];
       const newProject = document.getElementById("ybl_new_project").value.trim();
       const newSymbol = document.getElementById("ybl_new_symbol").value.trim();
       const newChain = document.getElementById("ybl_new_chain").value.trim();
@@ -255,7 +262,7 @@ async function loadYieldData(yieldData) {
           document.getElementById("ybl_new_chain").value = "";
           document.getElementById("ybl_new_apy").value = "";
         }
-      } else if (id.startsWith("apy_") && !newProject) {
+      } else if ((id.startsWith("apy_") || id.startsWith("-"))&& !newProject) {
         if (value === '' || value === '-') {
           const updatedProjects = savedProjects.filter(item => item.keyId !== id.substr(4));
           localStorage.setItem(keyCustomProjects, JSON.stringify(updatedProjects));
@@ -277,25 +284,30 @@ async function loadYieldData(yieldData) {
         }
       } else if (id.startsWith("asg_") && !newProject) {
         if (value === '' || value === '-') {
-          const updatedAssign = savedYbo.filter(item => item.project !== id.substr(4));
+          const updatedAssign = savedybl.filter(item => item.project !== id.substr(4));
           localStorage.setItem('ybl', JSON.stringify(updatedAssign));
         } else if ((value !== "" || event.key === ",") && id) {
-          const index = savedYbo.findIndex(item => item.project === id.substr(4));
+          const index = savedybl.findIndex(item => item.project === id.substr(4));
           console.log(index);
           console.log(id.substr(4));
           if (index !== -1) {
-            savedYbo[index].asign = value;
+            savedybl[index].asign = value;
             console.log(`Updated in LS -> ${id.substr(4)}: ${value}`);
           } else {
-            savedYbo.push({ project: id.substr(4), asign: value });
+            savedybl.push({ project: id.substr(4), asign: value });
             console.log(`Saved in LS -> ${id.substr(4)}: ${value}`);
           }
-          localStorage.setItem('ybl', JSON.stringify(savedYbo));
+          localStorage.setItem('ybl', JSON.stringify(savedybl));
         }
       }
       location.reload();
 
-    }
+    //}
   });
-  saveDailyAPY(finalFilteredData, storageKeyAvg);
+}
+function onVolumeDown() {
+ alert("On Volume Down") ;
+}
+function onVolumeUp() {
+ alert("On Volume Up") ;
 }

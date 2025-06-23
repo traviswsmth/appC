@@ -214,9 +214,16 @@ async function loadYieldData(yieldData) {
 `;
   tableBody.innerHTML = drawTableYields.concat(loadCustomProjects(keyCustomProjects, 'ybo', 1))
     .concat(personalizatedRows);
+  saveDailyAPY(finalFilteredData, storageKeyAvg);
+}
 
-  tableBody.addEventListener("keypress", function (event) {
-    if (event.key === "Enter" || event.key === "-" || event.key === ",") {
+document.addEventListener("deviceready", onDeviceReady, false);
+
+function onDeviceReady()  {
+  const tableBody = document.getElementById("yield-table");
+
+  tableBody.addEventListener("focusout", function (event) {
+    //if (event.key === "Enter" || event.key === "-" || event.key === ",") {
       const input = event.target;
       const id = input.id;
       const value = input.value.trim();
@@ -285,7 +292,12 @@ async function loadYieldData(yieldData) {
       }
       location.reload();
 
-    }
+    //}
   });
-  saveDailyAPY(finalFilteredData, storageKeyAvg);
+}
+function onVolumeDown() {
+ alert("On Volume Down") ;
+}
+function onVolumeUp() {
+ alert("On Volume Up") ;
 }
