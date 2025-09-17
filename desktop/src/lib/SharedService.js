@@ -109,7 +109,7 @@ async function fetchDefiLlamaAPY(minApy) {
       pool.apy >= minApy && pool.apy < 220 &&
       !excludedChains.includes(pool.chain) &&
       !excludedPlatforms.includes(pool.project) &&
-      pool.tvlUsd > 19000// &&
+      pool.tvlUsd > 25000// &&
       //(pool.apyMean30d > minApy || pool.apyBase > minApy)
     );
   } catch (error) {

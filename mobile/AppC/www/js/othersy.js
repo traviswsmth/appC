@@ -6,11 +6,13 @@ const yieldDataKey = `yDataO_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsO";
 const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "FRAX", "PYUSD", "HONEY",
-  "BTC", "WBTC", "BNB", "WBNB", "SUI", "LINK", "AVAX", "WAVAX", //"WBERA",//"MOVE", "S", "WS",
-  "POL", "ADA", "MANTA", "ARB", "OP", "SUSDE", "AAVE", "TIA", //"JITOSOL",//"KLIMA", "RUSD",
+  //"BTC", "WBTC", "BNB", "WBNB", "SUI", "LINK", "AVAX", "WAVAX", //"WBERA",//"MOVE", "S", "WS",
+  "POL", "ADA", "MANTA", "ARB", "OP", "SUSDE", //"AAVE", "TIA", "JITOSOL",//"KLIMA", "RUSD",
   "OM", "XAI", "CERESUSDE", "APRUSDE", "EUSD", //"SOL", "WSOL", "USOL", "USUI", "STS", "WANS",
   "LBTC", "EBTC", "USDP", "ZUSDC", "EURS", "USDT.E", "USR", "SCUSD", "UNIFIUSD", "STUSD",
-  "TACUSD", "TACUSR", "WSTUSR", "TACMBTC"];
+  "TACUSD", "TACUSR", "WSTUSR", "TACMBTC", "TUSDE", "USDAI", "USDAI", "THBILL", "GUSD",
+  "STGUSDC", "GTUSDC", "GTUSDA", "USDX", "USDF", "TSUSDE", "YOUSD", "WCGUSD", "SUSDF",
+  "MSUSD", "SMSUSD", "SUSDX", "ASUSDF", "SIGMASP", "HWHLP", "STCUSD", "CUSD", "CUSDO"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -88,7 +90,7 @@ async function verifyLS() {
   if (storedYield) {
     loadYieldData(JSON.parse(storedYield));
   } else {
-    const yieldData = await fetchDefiLlamaAPY(8);
+    const yieldData = await fetchDefiLlamaAPY(10);
     if (yieldData.length) {
       localStorage.setItem(yieldDataKey, JSON.stringify(yieldData));
       loadYieldData(yieldData);
@@ -204,7 +206,7 @@ async function loadYieldData(yieldData) {
         style='${stylesTdNew}' placeholder='Network'>
       </td>
       <td style='${stylesTd}'>
-        <input type="number" step="0.1" min="7" id='ybo_new_apy'
+        <input type="number" step="0.1" min="10" id='ybo_new_apy'
         style='${stylesTdNew}' placeholder='APY'>
       </td>
       <td style='${stylesTd}'>
