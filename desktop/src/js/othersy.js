@@ -7,7 +7,7 @@ const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsO";
 const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "FRAX", "PYUSD", "HONEY",
   //"BTC", "WBTC", "SUI", "LINK", "AVAX", "WAVAX", "BNB", "WBNB", "WBERA","MOVE", "S", "WS",
-  "POL", "ADA", "MANTA", "ARB", "OP", "SUSDE", "AAVE", "TIA", //"JITOSOL",//"KLIMA", "RUSD",
+  "POL", "ADA", "MANTA", "ARB", "OP", "SUSDE",// "AAVE", "TIA", "JITOSOL",//"KLIMA", "RUSD",
   "OM", "XAI", "CERESUSDE", "APRUSDE", "EUSD", //"SOL", "WSOL", "USOL", "USUI", "STS", "WANS",
   "LBTC", "EBTC", "USDP", "ZUSDC", "EURS", "USDT.E", "USR", "SCUSD", "UNIFIUSD", "STUSD",
   "TACUSD", "TACUSR", "WSTUSR", "TACMBTC", "TUSDE", "USDAI", "USDAI", "THBILL", "GUSD",
@@ -57,7 +57,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       timeScale: {
         timeVisible: false,
         secondsVisible: false,
-        rightOffset: -1,
+        rightOffset: 0,
         barSpacing: 80,
         tickMarkFormatter: (time) => {
           const networkName = Object.keys(networkIndexMap).find(
@@ -109,8 +109,8 @@ async function loadYieldData(yieldData) {
   const sortFilter = document.getElementById("sortFilter").value;
 
   let filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
-  if (apyFilter === 10)
-    filteredByAPY = yieldData.filter(pool => pool.apy <= 14);
+  //if (apyFilter === 10)
+    //filteredByAPY = yieldData.filter(pool => pool.apy <= 15);
   let filteredData = filteredByAPY;
 
   if (tickerFilter !== 'all') {
@@ -182,7 +182,8 @@ async function loadYieldData(yieldData) {
           <td title='${item.poolMeta ? item.poolMeta : ""}' style='${stylesTd}'>
             ${item.project}<small>${item.poolMeta ? "_" + item.poolMeta.substr(0, 4) : ""}</small></td>
           <td title='${item.tvlUsd.toLocaleString('en-US')}' style='${stylesTd}'>
-            ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward > item.apyBase ? rewardTkn.substr(0, 31) : ''}</td>
+            ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward > item.apyBase ? rewardTkn.substr(0, 31) : ''}
+            <small>${item.poolMeta ? item.poolMeta.substr(4) : ""}</small></td>
           <td style='${stylesTd}'>${item.chain}</td>
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
             style='${stylesTd}'>${item.apy.toFixed(2)}%${item.apyBase < 8 ? "*" : ""}</td>
