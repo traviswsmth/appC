@@ -9,7 +9,8 @@ const includedSymbols = ["ETH", "WETH", "STETH", "WSTETH", "WEETH", "CBETH",//"Y
   "STONE", "RSETH", "WRSETH", "EZETH", "WBETH", "WSUPEROETHB", "PUFETH", "SWETH",
   "CMETH", "WETH.E", "TACETH", "TACBTC", "CBBTC", "BTC.B", "RSWETH", "UNIFIETH", "WETH-USDC", 
   "X33","ALETHPXETH", "LIQUIDBERAETH", "SUPEROETHB", "TETH", "HGETH", "SUPERETH",
-  "WETH-SUNNY", "FTXTOKEN-WETH", "EIGEN-WETH", "DOGE-WETH", "WETH-ASTER"];
+  "WETH-SUNNY", "FTXTOKEN-WETH", "EIGEN-WETH", "DOGE-WETH", "WETH-ASTER",
+  "GMETH(WETH-WETH)", "KHYPE", "SOLVBTC.BNB", "WEETHS"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -103,8 +104,8 @@ async function loadYieldData(yieldData) {
   const platformFilter = document.getElementById("platformFilter");
   const apyFilter = parseFloat(document.getElementById("apyFilter").value);
   const sortFilter = document.getElementById("sortFilter").value;
-  const filteredByApyBase = yieldData.filter(pool => pool.apyBase >= 3 && pool.tvlUsd >=50000);
-  const filteredByAPY = filteredByApyBase.filter(pool => pool.apy >= apyFilter);
+  const filteredByNewTvl = yieldData.filter(pool => pool.tvlUsd >=50000);
+  const filteredByAPY = filteredByNewTvl.filter(pool => pool.apy >= apyFilter);
 
   const networksByPlatform = {};
   const platformsByNetwork = {};

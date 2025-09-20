@@ -10,13 +10,14 @@ const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "PYUSD", "HON
   "POL", "ADA", "MANTA", "ARB", "OP", "SUSDE", "RUSD", //"AAVE", "TIA", "JITOSOL",//"KLIMA",
   "OM", "XAI", "CERESUSDE", "APRUSDE", "EUSD", //"SOL", "WSOL", "USOL", "USUI", "STS", "WANS",
   "LBTC", "EBTC", "USDP", "ZUSDC", "EURS", "USDT.E", "USR", "SCUSD", "UNIFIUSD", "STUSD",
-  "TACUSD", "TACUSR", "WSTUSR", "TACMBTC", "TUSDE", "USDAI", "USDAI", "THBILL", "GUSD",
+  "TACUSD", "TACUSR", "WSTUSR", "TACMBTC", "TUSDE", "USDAI", "SUSDAI", "THBILL", "GUSD",
   "STGUSDC", "GTUSDC", "GTUSDA", "USDX", "USDF", "TSUSDE", "WCGUSD", "SUSDF", //"YOUSD",
-  "MSUSD", "SMSUSD", "SUSDX", "ASUSDF", "SIGMASP", "HWHLP", "STCUSD", "CUSD", "CUSDO",
+  "MSUSD", "SMSUSD", "SUSDX", "ASUSDF", "SIGMASP", "HWHLP", "STCUSD", "CUSD", "CUSDO", "CSUSDL",
   "STO", "MNT", "NEXO", "CELO", "GTC", "MAGIC", "ANIME", "W", //"IBERA", "PENDLE", "AERO",
   "RON", "COMP", "UNI", "SPARKUSDS", "RAM", "WUSDC", "AUSDC", "DEUSD", "FUSDF", "IMXUSDC",
-  "SUPERUSDC", "FRXUSD", "MXNE", "MXNB", "USD1", "USDP", "LUSD", "HYPE", "HWHYPE", 
-  "VIRTUAL", "ATOM", "OSMO", "INJ", "XGRAIL"];
+  "SUPERUSDC", "FRXUSD", "MXNE", "MXNB", "USD1", "USDP", "LUSD", "HYPE", "HWHYPE",  "USD0--",
+  "VIRTUAL", "ATOM", "OSMO", "INJ", "XGRAIL", "XUSD", "PUSDE", "ALUSD", "USD(MIDASMEDGE)",
+  "SLISBNBX", "YUSD", "LHYPE", "SIUSD", "SYUSD", "AIDAUSDC", "SKAITO", "AIDAUSDT", "SDEUSD"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
