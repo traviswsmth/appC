@@ -1,7 +1,7 @@
 {
   "name": "app-c",
   "productName": "App C",
-  "version": "0.1.0",
+  "version": "0.1.1 (Build 2)",
   "description": "An interesting app",
   "main": "main.js",
   "scripts": {

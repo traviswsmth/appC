@@ -5,14 +5,18 @@ const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yDataO_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsO";
-const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "FRAX", "PYUSD", "HONEY",
+const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "PYUSD", "HONEY",//"FRAX",
   //"BTC", "WBTC", "SUI", "LINK", "AVAX", "WAVAX", "BNB", "WBNB", "WBERA","MOVE", "S", "WS",
-  "POL", "ADA", "MANTA", "ARB", "OP", "SUSDE",// "AAVE", "TIA", "JITOSOL",//"KLIMA", "RUSD",
+  "POL", "ADA", "MANTA", "ARB", "OP", "SUSDE", "RUSD", //"AAVE", "TIA", "JITOSOL",//"KLIMA",
   "OM", "XAI", "CERESUSDE", "APRUSDE", "EUSD", //"SOL", "WSOL", "USOL", "USUI", "STS", "WANS",
   "LBTC", "EBTC", "USDP", "ZUSDC", "EURS", "USDT.E", "USR", "SCUSD", "UNIFIUSD", "STUSD",
   "TACUSD", "TACUSR", "WSTUSR", "TACMBTC", "TUSDE", "USDAI", "USDAI", "THBILL", "GUSD",
-  "STGUSDC", "GTUSDC", "GTUSDA", "USDX", "USDF", "TSUSDE", "YOUSD", "WCGUSD", "SUSDF",
-  "MSUSD", "SMSUSD", "SUSDX", "ASUSDF", "SIGMASP", "HWHLP", "STCUSD", "CUSD", "CUSDO"];
+  "STGUSDC", "GTUSDC", "GTUSDA", "USDX", "USDF", "TSUSDE", "WCGUSD", "SUSDF", //"YOUSD",
+  "MSUSD", "SMSUSD", "SUSDX", "ASUSDF", "SIGMASP", "HWHLP", "STCUSD", "CUSD", "CUSDO",
+  "STO", "MNT", "NEXO", "CELO", "GTC", "MAGIC", "ANIME", "W", //"IBERA", "PENDLE", "AERO",
+  "RON", "COMP", "UNI", "SPARKUSDS", "RAM", "WUSDC", "AUSDC", "DEUSD", "FUSDF", "IMXUSDC",
+  "SUPERUSDC", "FRXUSD", "MXNE", "MXNB", "USD1", "USDP", "LUSD", "HYPE", "HWHYPE", 
+  "VIRTUAL", "X33", "ATOM", "OSMO", "INJ", "XGRAIL"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
