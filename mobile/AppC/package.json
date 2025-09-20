@@ -1,7 +1,7 @@
 {
   "name": "com.gd.appc",
   "displayName": "App C",
-  "version": "0.1.2-alpha",
+  "version": "0.1.2-alpha.1",
   "description": "An interesting app",
   "main": "index.js",
   "scripts": {
