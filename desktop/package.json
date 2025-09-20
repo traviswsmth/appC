@@ -1,7 +1,7 @@
 {
   "name": "app-c",
   "productName": "App C",
-  "version": "0.1.0",
+  "version": "0.1.2-alpha.1",
   "description": "An interesting app",
   "main": "main.js",
   "scripts": {
@@ -12,7 +12,7 @@
   "author": "GD",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^33.3.1"
+    "electron": "~38.1.2"
   },
   "dependencies": {
     "otplib": "^12.0.1"

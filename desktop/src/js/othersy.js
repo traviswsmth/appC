@@ -5,12 +5,19 @@ const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yDataO_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsO";
-const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "FRAX", "PYUSD", "HONEY",
-  "BTC", "WBTC", "SUI", "LINK", "AVAX", "WAVAX", //"BNB", "WBNB", "WBERA",//"MOVE", "S", "WS",
-  "POL", "ADA", "MANTA", "ARB", "OP", "SUSDE", "AAVE", "TIA", //"JITOSOL",//"KLIMA", "RUSD",
+const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "PYUSD", "HONEY",//"FRAX",
+  //"BTC", "WBTC", "SUI", "LINK", "AVAX", "WAVAX", "BNB", "WBNB", "WBERA","MOVE", "S", "WS",
+  "POL", "ADA", "MANTA", "ARB", "OP", "SUSDE", "RUSD", //"AAVE", "TIA", "JITOSOL",//"KLIMA",
   "OM", "XAI", "CERESUSDE", "APRUSDE", "EUSD", //"SOL", "WSOL", "USOL", "USUI", "STS", "WANS",
   "LBTC", "EBTC", "USDP", "ZUSDC", "EURS", "USDT.E", "USR", "SCUSD", "UNIFIUSD", "STUSD",
-  "TACUSD", "TACUSR", "WSTUSR", "TACMBTC"];
+  "TACUSD", "TACUSR", "WSTUSR", "TACMBTC", "TUSDE", "USDAI", "SUSDAI", "THBILL", "GUSD",
+  "STGUSDC", "GTUSDC", "GTUSDA", "USDX", "USDF", "TSUSDE", "WCGUSD", "SUSDF", //"YOUSD",
+  "MSUSD", "SMSUSD", "SUSDX", "ASUSDF", "SIGMASP", "HWHLP", "STCUSD", "CUSD", "CUSDO", "CSUSDL",
+  "STO", "MNT", "NEXO", "CELO", "GTC", "MAGIC", "ANIME", "W", //"IBERA", "PENDLE", "AERO",
+  "RON", "COMP", "UNI", "SPARKUSDS", "RAM", "WUSDC", "AUSDC", "DEUSD", "FUSDF", "IMXUSDC",
+  "SUPERUSDC", "FRXUSD", "MXNE", "MXNB", "USD1", "USDP", "LUSD", "HYPE", "HWHYPE",  "USD0--",
+  "VIRTUAL", "ATOM", "OSMO", "INJ", "XGRAIL", "XUSD", "PUSDE", "ALUSD", "USD(MIDASMEDGE)",
+  "SLISBNBX", "YUSD", "LHYPE", "SIUSD", "SYUSD", "AIDAUSDC", "SKAITO", "AIDAUSDT", "SDEUSD"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -55,7 +62,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       timeScale: {
         timeVisible: false,
         secondsVisible: false,
-        rightOffset: -1,
+        rightOffset: 0,
         barSpacing: 80,
         tickMarkFormatter: (time) => {
           const networkName = Object.keys(networkIndexMap).find(
@@ -88,7 +95,7 @@ async function verifyLS() {
   if (storedYield) {
     loadYieldData(JSON.parse(storedYield));
   } else {
-    const yieldData = await fetchDefiLlamaAPY(8);
+    const yieldData = await fetchDefiLlamaAPY(10);
     if (yieldData.length) {
       localStorage.setItem(yieldDataKey, JSON.stringify(yieldData));
       loadYieldData(yieldData);
@@ -107,8 +114,8 @@ async function loadYieldData(yieldData) {
   const sortFilter = document.getElementById("sortFilter").value;
 
   let filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
-  if (apyFilter === 9)
-    filteredByAPY = yieldData.filter(pool => pool.apy <= 14);
+  //if (apyFilter === 10)
+    //filteredByAPY = yieldData.filter(pool => pool.apy <= 15);
   let filteredData = filteredByAPY;
 
   if (tickerFilter !== 'all') {
@@ -180,7 +187,8 @@ async function loadYieldData(yieldData) {
           <td title='${item.poolMeta ? item.poolMeta : ""}' style='${stylesTd}'>
             ${item.project}<small>${item.poolMeta ? "_" + item.poolMeta.substr(0, 4) : ""}</small></td>
           <td title='${item.tvlUsd.toLocaleString('en-US')}' style='${stylesTd}'>
-            ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward > item.apyBase ? rewardTkn.substr(0, 31) : ''}</td>
+            ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward > item.apyBase ? rewardTkn.substr(0, 31) : ''}
+            <small>${item.poolMeta ? item.poolMeta.substr(4) : ""}</small></td>
           <td style='${stylesTd}'>${item.chain}</td>
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
             style='${stylesTd}'>${item.apy.toFixed(2)}%${item.apyBase < 8 ? "*" : ""}</td>
@@ -206,7 +214,7 @@ async function loadYieldData(yieldData) {
         style='${stylesTdNew}' placeholder='Network'>
       </td>
       <td style='${stylesTd}'>
-        <input type="number" step="0.1" min="7" id='ybo_new_apy'
+        <input type="number" step="0.1" min="10" id='ybo_new_apy'
         style='${stylesTdNew}' placeholder='APY'>
       </td>
       <td style='${stylesTd}'>

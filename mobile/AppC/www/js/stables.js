@@ -52,7 +52,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       timeScale: {
         timeVisible: false,
         secondsVisible: false,
-        rightOffset: 0,
+        rightOffset: -1,
         barSpacing: 80,
         tickMarkFormatter: (time) => {
           const networkName = Object.keys(networkIndexMap).find(
@@ -107,14 +107,22 @@ async function loadYieldData(yieldData) {
   const networkFilter = document.getElementById("networkFilter");
   const platformFilter = document.getElementById("platformFilter");
   const apyFilter = parseFloat(document.getElementById("apyFilter").value);
+  const tickerFilter = document.getElementById("tickerFilter").value;
   const sortFilter = document.getElementById("sortFilter").value;
 
   const filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
+  let filteredData = filteredByAPY;
 
+  if (tickerFilter !== 'all') {
+    const filteredByTicker = filteredByAPY.filter(pool => pool.symbol === tickerFilter);
+    if (filteredByTicker.length > 0) {
+      filteredData = filteredByTicker;
+    }
+  }
   const networksByPlatform = {};
   const platformsByNetwork = {};
 
-  filteredByAPY.forEach(pool => {
+  filteredData.forEach(pool => {
     if (!networksByPlatform[pool.project]) networksByPlatform[pool.project] = new Set();
     if (!platformsByNetwork[pool.chain]) platformsByNetwork[pool.chain] = new Set();
 
@@ -139,7 +147,7 @@ async function loadYieldData(yieldData) {
   if (validNetworks.includes(selectedNetwork)) networkFilter.value = selectedNetwork;
   if (validPlatforms.includes(selectedPlatform)) platformFilter.value = selectedPlatform;
 
-  let finalFilteredData = filteredByAPY.filter(pool =>
+  let finalFilteredData = filteredData.filter(pool =>
     (networkFilter.value === "all" || pool.chain === networkFilter.value) &&
     (platformFilter.value === "all" || pool.project === platformFilter.value)
   );
@@ -200,7 +208,7 @@ async function loadYieldData(yieldData) {
               style='${stylesTdNew}' placeholder='Network'>
             </td>
             <td style='${stylesTd}'>
-              <input id='ybt_new_apy' type='number' min='7' step='0.1' 
+              <input id='ybt_new_apy' type='number' min='10' step='0.1' 
               style='${stylesTdNew}' placeholder='APY'>
             </td>
             <td style='${stylesTd}'>

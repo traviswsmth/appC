@@ -8,6 +8,6 @@
   "dependencies": {
   },
   "devDependencies": {
-    "oxlint": "^0.16.5"
+    "oxlint": "~1.16.0"
   }
 }
