@@ -7,7 +7,7 @@ const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsE";
 const includedSymbols = ["ETH", "WETH", "STETH", "WSTETH", "WEETH", "CBETH",//"YOETH",
   "STONE", "RSETH", "WRSETH", "EZETH", "WBETH", "WSUPEROETHB", "PUFETH", "SWETH",
-  "CMETH", "WETH.E", "TACETH", "TACBTC", "CBBTC", "BTC.B", "RSWETH", "UNIFIETH",
+  "CMETH", "WETH.E", "TACETH", "TACBTC", "CBBTC", "BTC.B", "RSWETH", "UNIFIETH", "WETH-USDC", 
   "X33","ALETHPXETH", "LIQUIDBERAETH", "SUPEROETHB", "TETH", "HGETH", "SUPERETH",
   "WETH-SUNNY", "FTXTOKEN-WETH", "EIGEN-WETH", "DOGE-WETH", "WETH-ASTER"];
 
@@ -103,8 +103,8 @@ async function loadYieldData(yieldData) {
   const platformFilter = document.getElementById("platformFilter");
   const apyFilter = parseFloat(document.getElementById("apyFilter").value);
   const sortFilter = document.getElementById("sortFilter").value;
-
-  const filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
+  const filteredByApyBase = yieldData.filter(pool => pool.apyBase >= 3 && pool.tvlUsd >=50000);
+  const filteredByAPY = filteredByApyBase.filter(pool => pool.apy >= apyFilter);
 
   const networksByPlatform = {};
   const platformsByNetwork = {};

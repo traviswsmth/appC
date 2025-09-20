@@ -6,12 +6,13 @@ const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core", "Aurora",
   "Bsquared", "Moonriver", "IOTA EVM", "Cardano", "Telos", "Sui", //"Move",
   "Etherlink", "Mantle", //"Solana", //"Linea", "zkSync Era", "Sonic",
   "Cronos", "Move", "Stellar", "Polygon zkEVM", "Blast", "Polygon", "Ethereum",
-  "MultiversX", "Fraxtal", "Aptos", "Scroll", //"Avalanche", "Ton", // "Optimism",
+  "MultiversX", "Fraxtal", "Aptos", "Scroll", "Optimism", "Ton", // "Avalanche",
   "Cronos_zkevm", "Nolus", "Neon", "Starknet", "Osmosis", "Kujira", "Fantom"];
 const excludedPlatforms = ['bagful', 'psyoptions', 'yel-finance', 'goldlink', 'balmy', 
   'deltaprime', 'vela-exchange', 'degenprime', 'c3-exchange', "sonne-finance",
-  'ensuro', 'impermax-v2','impermax-v3', 'clearpool-lending', 'arcadia-v2',
-  "peapods-finance"];
+  'ensuro', 'impermax-v2','impermax-v3', 'clearpool-lending', 'arcadia-v2', 'euler-v2',
+  "peapods-finance", "ramses-legacy", "echelon-market", "swop", "folks-finance-xchain",
+  "aptin-finance-v2", "harbor-market"];
 const stylesTd = 'color:white;background-color:black;';
 const stylesTdNew = 'color:black;background-color:lightgrey;';
 
