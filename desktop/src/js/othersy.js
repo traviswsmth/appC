@@ -11,13 +11,15 @@ const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "PYUSD", "HON
   "OM", "XAI", "CERESUSDE", "APRUSDE", "EUSD", //"SOL", "WSOL", "USOL", "USUI", "STS", "WANS",
   "LBTC", "EBTC", "USDP", "ZUSDC", "EURS", "USDT.E", "USR", "SCUSD", "UNIFIUSD", "STUSD",
   "TACUSD", "TACUSR", "WSTUSR", "TACMBTC", "TUSDE", "USDAI", "SUSDAI", "THBILL", "GUSD",
-  "STGUSDC", "GTUSDC", "GTUSDA", "USDX", "USDF", "TSUSDE", "WCGUSD", "SUSDF", //"YOUSD",
+  "STGUSDC", "GTUSDC", "GTUSDA", "USDX", "USDF", "TSUSDE", "WCGUSD", "SUSDF", 
   "MSUSD", "SMSUSD", "SUSDX", "ASUSDF", "SIGMASP", "HWHLP", "STCUSD", "CUSD", "CUSDO", "CSUSDL",
   "STO", "MNT", "NEXO", "CELO", "GTC", "MAGIC", "ANIME", "W", //"IBERA", "PENDLE", "AERO",
   "RON", "COMP", "UNI", "SPARKUSDS", "RAM", "WUSDC", "AUSDC", "DEUSD", "FUSDF", "IMXUSDC",
-  "SUPERUSDC", "FRXUSD", "MXNE", "MXNB", "USD1", "USDP", "LUSD", "HYPE", "HWHYPE",  "USD0--",
+  "SUPERUSDC", "FRXUSD", "MXNE", "MXNB", "USD1", "USDP", "LUSD", "HYPE", //"HWHYPE", 
   "VIRTUAL", "ATOM", "OSMO", "INJ", "XGRAIL", "XUSD", "PUSDE", "ALUSD", "USD(MIDASMEDGE)",
-  "SLISBNBX", "YUSD", "LHYPE", "SIUSD", "SYUSD", "AIDAUSDC", "SKAITO", "AIDAUSDT", "SDEUSD"];
+  "SLISBNBX", "YUSD", "LHYPE", "SIUSD", "SYUSD", "AIDAUSDC", "SKAITO", "AIDAUSDT", "SDEUSD",
+  "MORPHO", "USD(MIDASMHYPER)", "USD(MIDASMAPOLLO)", "USDAF", "VYUSD", "ATVUSDC", "IUSD", 
+  "MHYPER", "WSTKSCUSD",]; //Depeg: "USD0--", USUSDS,//"YOUSD",
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -113,10 +115,10 @@ async function loadYieldData(yieldData) {
   const tickerFilter = document.getElementById("tickerFilter").value;
   const sortFilter = document.getElementById("sortFilter").value;
 
-  let filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
+  const filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
   //if (apyFilter === 10)
     //filteredByAPY = yieldData.filter(pool => pool.apy <= 15);
-  let filteredData = filteredByAPY;
+  let filteredData = filteredByAPY.filter(pool => pool.apyMean30d >= 10);
 
   if (tickerFilter !== 'all') {
     const filteredByTicker = filteredByAPY.filter(pool => pool.symbol === tickerFilter);
@@ -189,9 +191,9 @@ async function loadYieldData(yieldData) {
           <td title='${item.tvlUsd.toLocaleString('en-US')}' style='${stylesTd}'>
             ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward > item.apyBase ? rewardTkn.substr(0, 31) : ''}
             <small>${item.poolMeta ? item.poolMeta.substr(4) : ""}</small></td>
-          <td style='${stylesTd}'>${item.chain}</td>
+          <td title='${item.volumeUsd7d}' style='${stylesTd}'>${item.chain}</td>
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
-            style='${stylesTd}'>${item.apy.toFixed(2)}%${item.apyBase < 8 ? "*" : ""}</td>
+            style='${stylesTd}'>${item.apy.toFixed(2)}${item.volumeUsd7d ? "" : " "}%${item.apyBase < 10 ? "*" : ""}</td>
           <td style='${stylesTd}'>
             <input type='number' min='30' step='10' id='${inputIdAsign}' value='${savedValueAsign}' 
               placeholder='${projectShort}' style='color:blue;background-color:gray;'>

@@ -5,7 +5,7 @@ const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yDataS_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectS";
-const includedSymbols = ["USDT", "USDC", "USDC.E", "EURC", "GHO", "EURT", "USD₮0", "USDT.E"];
+const includedSymbols = ["USDT", "USDC", "USDC.E", "EURC", "GHO", "EURT", "USD₮0", "USDT.E", "USDT0"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   document.body.classList.add('fade-in');
@@ -111,7 +111,7 @@ async function loadYieldData(yieldData) {
   const sortFilter = document.getElementById("sortFilter").value;
 
   const filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
-  let filteredData = filteredByAPY;
+  let filteredData = filteredByAPY.filter(pool => pool.apyMean30d >= 11);
 
   if (tickerFilter !== 'all') {
     const filteredByTicker = filteredByAPY.filter(pool => pool.symbol === tickerFilter);
