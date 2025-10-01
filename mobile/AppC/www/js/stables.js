@@ -13,6 +13,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   document.getElementById("networkFilter").addEventListener("change", verifyLS);
   document.getElementById("platformFilter").addEventListener("change", verifyLS);
   document.getElementById("apyFilter").addEventListener("change", verifyLS);
+  document.getElementById("tickerFilter").addEventListener("change", verifyLS);
   document.getElementById("sortFilter").addEventListener("change", verifyLS);
   const darkBtn = document.getElementById('darkBtn');
   const chartContainer = document.getElementById('apyChart');
