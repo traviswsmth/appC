@@ -6,26 +6,27 @@ const yieldDataKey = `yDataL_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsL";
 const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E", "USDT.E-USDC", "USDT.E-USDC.E",
-  "USDE-USDC", "PYUSD-USDC", "EURS-USDT", "SUSDE-USDC", "HONEY-USDC", "CRVUSD-USDT", "SUSD-DAI", "USDE-USDT",
-  "SUSD-CRVUSD", "SUSD-SUSDE", "FRAX-USDT", "CRVUSD-USDC", "SDAI-SUSDE", "FRAX-USDC",// "WETH-USDBC","WPOL-USDT",
-  "SFRXUSD-SUSDE", "USDC-AXLUSDC", "HONEY-USDC", "USDT-WBTC-WETH", //"WBERA-HONEY",//"OAC-WBERA-IBGT-A", "HONEY-JITOSOL",
-  "CUSD-USDC", "WETH-USDT", "WETH-USDS", //"WETH-DAI", "CRVUSD-WETH", "FRAX-WETH", "WBTC.B-USDC","WPOL-USDC.E",
-  "ETH-USDT", "WEETH-USDC", //"USDC-ETH", "USDC-WETH", "WBTC-USDC", //"CRVUSD-ARB", "WETH-USDBC", "USDC-LYNX",
-  "USDC-WBTC", "USDC-WBNB", //"BNB-USDC", //"SOL-USDC", "USDT-XRP", "USDC-LINK", "ARB-USDC.E", "USDT-ABRA", "WPOL-USDC",
+  "USDE-USDC", "PYUSD-USDC", "EURS-USDT", "SUSDE-USDC", "CRVUSD-USDT", "SUSD-DAI", "USDE-USDT", "CUSD-USDC", 
+  "SUSD-CRVUSD", "SUSD-SUSDE", "FRAX-USDT", "CRVUSD-USDC", "SDAI-SUSDE", "FRAX-USDC", "SFRXUSD-SUSDE", "USDC-AXLUSDC",
+   "USDT-WBTC-WETH", "USDC-WBTC",//"USDT-WBNB", "WETH-USDBC","WPOL-USDT", "WSOL-XPL", "PLASMA-WSOL", "WETH-USDT0",
+  "WETH-USDT", "WETH-USDS", //"WETH-DAI", "CRVUSD-WETH", "FRAX-WETH", "WBTC.B-USDC","WPOL-USDC.E", "USDT0-WETH",
+  //"ETH-USDT", "WEETH-USDC", //"USDC-ETH", "USDC-WETH", "WBTC-USDC", //"CRVUSD-ARB", "WETH-USDBC", "W-USDC", 
+  "LVUSDC-USDC",//"USDC-WBNB", //"BNB-USDC", //"SOL-USDC", "USDT-XRP", "USDC-LINK", "ARB-USDC.E", "USDT-ABRA",
   //"ARB-USDC", "USDT-OP", "USDC-OP",// "ARB-USDT", "USDT-ARB", "USDC-ARB", "OP-USDT",// "OP-USDC", "SUSDE-USDT",
   //"WBTC-WETH", "WETH-WBTC", "WBNB-AAVE", "WETH-AAVE", "WBNB-AAVE", "NOT-USD₮", "WTTON-USD₮", "USDC.E-WETH.E",
   //"WETH-WEETH", "STONE-WETH", "WETH-STONE", "WETH-ETHFI", "ZRO-WETH", "WEETH-WETH","UNIETH-WETH", "MENDI-WETH",
   //"ZEREBRO-USDC", "CELO-USD₮", "USDT-WEGLD", "WSOL-ME", "OM-WETH", "WETH-WRSETH", "EZETH-WETH","WETH.E-WAVAX",
-  "USDT-WBNB",//"SUI-STSUI", "WETH-CRV", "WETH-UNI", "LBTC-SUI", "TON-USD₮","WAVAX-FRAX", "WETH-GMX", "APE-WETH",
+  //"SUI-STSUI", "WETH-CRV", "WETH-UNI", "LBTC-SUI", "TON-USD₮","WAVAX-FRAX", "WETH-GMX", "APE-WETH",
   //"WSTETH-WRSETH", "AURA-EZETH-WSTETH", "CRVUSDETHCRV", "CRVUSDETHCRV", "WETH-ODOS", "USDT-THE", "POL-WETH",
-  "SW-USR", "DOLA-USR", "GHO-USR", "FRXUSD-SCUSD", "USR-USDC", "GHO-USDC", "AVUSD-USDC", "USDC.E-USDT.E",
+  //"HONEY-JITOSOL", "HONEY-USDC", "HONEY-USDC", "WBERA-HONEY",//"OAC-WBERA-IBGT-A", "USDC-LYNX", "WPOL-USDC",
+  "SW-USR", "DOLA-USR", "GHO-USR", "FRXUSD-SCUSD", "USR-USDC", "GHO-USDC", "AVUSD-USDC", "USDC.E-USDT.E", "USDT-AUSD₮",
   "AXLUSDC.E-USDC", "USDC-USDBC-AXLUSDC-CRVUSD", "USDC.E-USD₮0",// "CELO-CUSD", "USDC-OP"// "WAVAX-AVUSD", "CELO-WETH",
   "FXUSDSTABILITYPOOLV2.0", "SUSDS-USDT", "USDS-USDC", "USDS-USDT", "DOLA-SUSDS", "FRXUSD-SUSDS", "USD3SUSDS","USDS-USDT",
-  "USD₮-USDC", "USD1-USDF", "USD1-USDC", "USD1-1", "USD1-USD1", "USD1-USDT",//"RAM-USDC", "RAM-USDT", "ARB-RAM", "WETH-RAM", 
+  "USD₮-USDC", "USD1-USDF", "USD1-USDC", //"USD1-1", "USD1-USD1", "USD1-USDT",//"RAM-USDC", "RAM-USDT", "ARB-RAM",
   "RLUSD-USDC", //"USD1-USDUC1", "USD1-1USDUC", "WSOL-USDUC🚀", "WETH-DEGEN", "CELO-USD₮", "SOL-ZEREBRO", "TRUMP-USDC",
-  "USDC-ALUSD", "USDC-ALUSD", "WETH-SHIBA",// "ZRO-USDT","RED-VELO", "WSOL-NVDAX", "USDC-WTAO",
-  "W-USDC", "EURC-USDC", "USDC-EURC", "BTCGHOETH", "MXNE-USDC", "AXLUSDC-USDT",//"WINR-USDC", "WETH-WINR", "XAI-WETH",
-  "USDC-MXNB", "USDC-JUSD", "USDF-USDC", "USDF-USDT", "FRXUSD-USDF", "FRXUSD-USDE", "CRVUSD-FRXUSD", 
+  "USDC-ALUSD", "USDC-ALUSD", "WETH-SHIBA", "ZRO-USDT","RED-VELO", //"WSOL-NVDAX", "USDC-WTAO", "WETH-USDT0", "WETH-RAM",
+  "PYUSD-CRVUSD", "EURC-USDC", "USDC-EURC", "BTCGHOETH", "MXNE-USDC", "AXLUSDC-USDT",//"WINR-USDC", "WETH-WINR", "XAI-WETH",
+  "USDC-MXNB", "USDC-JUSD", "USDF-USDC", "USDF-USDT", "FRXUSD-USDF", "FRXUSD-USDE", "CRVUSD-FRXUSD", "USDC-USD₮0"
 ];
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -122,12 +123,12 @@ async function loadYieldData(yieldData) {
   const tickerFilter = document.getElementById("tickerFilter").value;
   const sortFilter = document.getElementById("sortFilter").value;
 
-  let filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
+  const filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
   /*if (apyFilter === 12)
     filteredByAPY = yieldData.filter(pool => pool.apy <= 18);
   if (apyFilter === 18)
     filteredByAPY = yieldData.filter(pool => pool.apy <= 24);*/
-  let filteredData = filteredByAPY;//.filter(pool => pool.apyMean30d >= 8);// && pool.stablecoin == true);
+  let filteredData = filteredByAPY.filter(pool => pool.apyMean30d > 10);// && pool.stablecoin == true);
 
   if (tickerFilter !== 'all') {
     const filteredByTicker = filteredByAPY.filter(pool => pool.symbol === tickerFilter);
@@ -141,7 +142,6 @@ async function loadYieldData(yieldData) {
   filteredData.forEach(pool => {
     if (!networksByPlatform[pool.project]) networksByPlatform[pool.project] = new Set();
     if (!platformsByNetwork[pool.chain]) platformsByNetwork[pool.chain] = new Set();
-
     networksByPlatform[pool.project].add(pool.chain);
     platformsByNetwork[pool.chain].add(pool.project);
   });
@@ -200,9 +200,9 @@ async function loadYieldData(yieldData) {
             ${item.project}<small>${item.poolMeta ? "_" + item.poolMeta.substr(0, 4) : ""}</small></td>
           <td title='${item.tvlUsd.toLocaleString('en-US')}' style='${stylesTd}'>
             ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward>item.apyBase?rewardTkn.substr(0, 31):''}</td>
-          <td style='${stylesTd}'>${item.chain}</td>
+          <td title='${item.volumeUsd7d}' style='${stylesTd}'>${item.chain}</td>
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
-            style='${stylesTd}'>${item.apy.toFixed(2)}%${item.apyBase < 8 ? "*" : ""}</td>
+            style='${stylesTd}'>${item.apy.toFixed(2)}%${item.volumeUsd7d ? "" : "."}${item.apyBase < 10 ? "*" : ""}</td>
           <td style='${stylesTd}'>
             <input type='number' min='20' step='5' id='${inputIdAsign}' value='${savedValueAsign}' 
               placeholder='${projectShort}' style='color:blue;background-color:gray;'>

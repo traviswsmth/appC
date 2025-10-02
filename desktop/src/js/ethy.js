@@ -7,10 +7,10 @@ const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsE";
 const includedSymbols = ["ETH", "WETH", "STETH", "WSTETH", "WEETH", "CBETH",//"YOETH",
   "STONE", "RSETH", "WRSETH", "EZETH", "WBETH", "WSUPEROETHB", "PUFETH", "SWETH",
-  "CMETH", "WETH.E", "TACETH", "TACBTC", "CBBTC", "BTC.B", "RSWETH", "UNIFIETH", "WETH-USDC", 
-  "X33","ALETHPXETH", "LIQUIDBERAETH", "SUPEROETHB", "TETH", "HGETH", "SUPERETH",
-  "WETH-SUNNY", "FTXTOKEN-WETH", "EIGEN-WETH", "DOGE-WETH", "WETH-ASTER",
-  "GMETH(WETH-WETH)", "KHYPE", "SOLVBTC.BNB", "WEETHS"];
+  "CMETH", "WETH.E", "TACETH", "TACBTC", "CBBTC", "BTC.B", "RSWETH", "UNIFIETH",
+  "ALETHPXETH", "LIQUIDBERAETH", "SUPEROETHB", "TETH", "HGETH", "SUPERETH",
+  "FTXTOKEN-WETH", "EIGEN-WETH", "DOGE-WETH", "WETH-ASTER", "WETH-USDC",
+  "GMETH(WETH-WETH)", "KHYPE", "SOLVBTC.BNB", "WEETHS", "SCETH",];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -55,7 +55,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       timeScale: {
         timeVisible: false,
         secondsVisible: false,
-        rightOffset: 0,
+        rightOffset: 1,
         barSpacing: 80,
         tickMarkFormatter: (time) => {
           const networkName = Object.keys(networkIndexMap).find(
@@ -105,7 +105,8 @@ async function loadYieldData(yieldData) {
   const apyFilter = parseFloat(document.getElementById("apyFilter").value);
   const sortFilter = document.getElementById("sortFilter").value;
   const filteredByNewTvl = yieldData.filter(pool => pool.tvlUsd >=50000);
-  const filteredByAPY = filteredByNewTvl.filter(pool => pool.apy >= apyFilter);
+  let filteredByAPY = filteredByNewTvl.filter(pool => pool.apy >= apyFilter);
+  filteredByAPY = filteredByAPY.filter(pool => pool.apyMean30d >= 10);
 
   const networksByPlatform = {};
   const platformsByNetwork = {};
@@ -171,9 +172,9 @@ async function loadYieldData(yieldData) {
             ${item.project}<small>${item.poolMeta ? "_" + item.poolMeta.substr(0, 4) : ""}</small></td>
           <td title='${item.tvlUsd.toLocaleString('en-US')}' style='${stylesTd}'>
             ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward > item.apyBase ? rewardTkn.substr(0, 31) : ''}</td>
-          <td style='${stylesTd}'>${item.chain}</td>
+          <td title='${item.volumeUsd7d}' style='${stylesTd}'>${item.chain}</td>
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
-            style='${stylesTd}'>${item.apy.toFixed(2)}%${item.apyBase < 8 ? "*" : ""}</td>
+            style='${stylesTd}'>${item.apy.toFixed(2)}%${item.volumeUsd7d ? "" : "."}${item.apyBase < 10 ? "*" : ""}</td>
           <td style='${stylesTd}'>
             <input type='number' min='0.05' step='0.05' id='${inputIdAsign}' value='${savedValueAsign}' 
               placeholder='${projectShort}' style='color:blue;background-color:gray;'>
