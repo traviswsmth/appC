@@ -21,12 +21,13 @@ const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E",
   "SW-USR", "DOLA-USR", "GHO-USR", "FRXUSD-SCUSD", "USR-USDC", "GHO-USDC", "AVUSD-USDC", "USDC.E-USDT.E", "PYUSD-CRVUSD",
   "AXLUSDC.E-USDC", "USDC-USDBC-AXLUSDC-CRVUSD", "USDC.E-USD₮0",// "CELO-CUSD", "USDC-OP"// "WAVAX-AVUSD", "CELO-WETH",
   "FXUSDSTABILITYPOOLV2.0", "SUSDS-USDT", "USDS-USDC", "USDS-USDT", "DOLA-SUSDS", "FRXUSD-SUSDS", "USD3SUSDS","USDS-USDT",
-  "USD₮-USDC", "USD1-USDF", "USD1-USDC", //"USD1-1", "USD1-USD1", "USD1-USDT",//"RAM-USDC", "RAM-USDT", "ARB-RAM", "WETH-RAM", 
+  "USD₮-USDC", "USD1-USDF", "USD1-USDC", //"USD1-1", "USD1-USD1", "USD1-USDT",//"RAM-USDC", "RAM-USDT", "ARB-RAM",
   "RLUSD-USDC", //"USD1-USDUC1", "USD1-1USDUC", "WSOL-USDUC🚀", "WETH-DEGEN", "CELO-USD₮", "SOL-ZEREBRO", "TRUMP-USDC",
   //"WETH-SUNNY", "FTXTOKEN-WETH", "EIGEN-WETH", "WETH-SHIBA",// "ZRO-USDT","RED-VELO", "WSOL-NVDAX", "USDC-WTAO",
-  //"RAM-USDC", "RAM-USDT", "ARB-RAM", "WETH-RAM", "W-USDC", "BTCGHOETH", "MXNE-USDC", 
-  "EURC-USDC", "USDC-EURC", "MXNE-USDC", "AXLUSDC-USDT",//"WINR-USDC", "WETH-WINR", "XAI-WETH",
-  "USDC-MXNB", "USDC-JUSD", "USDF-USDC", "USDF-USDT", "FRXUSD-USDF", "FRXUSD-USDE", "CRVUSD-FRXUSD",
+  "USDT-AUSD₮", //"RAM-USDC", "RAM-USDT", "ARB-RAM", "WETH-RAM", "W-USDC", "BTCGHOETH", "MXNE-USDC", "WETH-RAM",
+  "USDC-ALUSD", "USDC-ALUSD", "WETH-SHIBA", "ZRO-USDT","RED-VELO", "WETH-USDT0", //"WSOL-NVDAX", "USDC-WTAO",
+  "EURC-USDC", "USDC-EURC", "BTCGHOETH", "MXNE-USDC", "AXLUSDC-USDT",//"WINR-USDC", "WETH-WINR", "XAI-WETH",
+  "USDC-MXNB", "USDC-JUSD", "USDF-USDC", "USDF-USDT", "FRXUSD-USDF", "FRXUSD-USDE", "CRVUSD-FRXUSD", "USDC-USD₮0"
 ];
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -124,7 +125,7 @@ async function loadYieldData(yieldData) {
   const sortFilter = document.getElementById("sortFilter").value;
 
   const filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
-  let filteredData = filteredByAPY.filter(pool => pool.apyMean30d > 12);// && pool.stablecoin == true);
+  let filteredData = filteredByAPY.filter(pool => pool.apyMean30d > 11);// && pool.stablecoin == true);
 
   if (tickerFilter !== 'all') {
     const filteredByTicker = filteredByAPY.filter(pool => pool.symbol === tickerFilter);

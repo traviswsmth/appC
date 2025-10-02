@@ -8,8 +8,9 @@ const keyCustomProjects = "customProjectsE";
 const includedSymbols = ["ETH", "WETH", "STETH", "WSTETH", "WEETH", "CBETH",
   "STONE", "RSETH", "WRSETH", "EZETH", "WBETH", "WSUPEROETHB", "PUFETH", "SWETH",
   "CMETH", "WETH.E", "TACETH", "TACBTC", "CBBTC", "BTC.B", "RSWETH", "UNIFIETH",
-  "X33","ALETHPXETH", "LIQUIDBERAETH", "SUPEROETHB", "TETH", "HGETH", "SUPERETH",
-  "WETH-SUNNY", "FTXTOKEN-WETH", "EIGEN-WETH", "DOGE-WETH", "WETH-ASTER"];
+  "ALETHPXETH", "LIQUIDBERAETH", "SUPEROETHB", "TETH", "HGETH", "SUPERETH",
+  "WETH-SUNNY", "FTXTOKEN-WETH", "EIGEN-WETH", "DOGE-WETH", "WETH-ASTER",//"X33",
+  "GMETH(WETH-WETH)", "KHYPE", "SOLVBTC.BNB", "WEETHS", "SCETH"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -87,7 +88,7 @@ async function verifyLS() {
   if (storedYield) {
     loadYieldData(JSON.parse(storedYield));
   } else {
-    const yieldData = await fetchDefiLlamaAPY(11);
+    const yieldData = await fetchDefiLlamaAPY(9);
     if (yieldData.length) {
       localStorage.setItem(yieldDataKey, JSON.stringify(yieldData));
       loadYieldData(yieldData);
@@ -105,7 +106,7 @@ async function loadYieldData(yieldData) {
   const sortFilter = document.getElementById("sortFilter").value;
   const filteredByNewTvl = yieldData.filter(pool => pool.tvlUsd >=50000);
   let filteredByAPY = filteredByNewTvl.filter(pool => pool.apy >= apyFilter);
-  filteredByAPY = filteredByAPY.filter(pool => pool.apyMean30d >= 12);
+  filteredByAPY = filteredByAPY.filter(pool => pool.apyMean30d >= 9);
 
   const networksByPlatform = {};
   const platformsByNetwork = {};

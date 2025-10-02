@@ -9,7 +9,7 @@ const includedSymbols = ["ETH", "WETH", "STETH", "WSTETH", "WEETH", "CBETH",//"Y
   "STONE", "RSETH", "WRSETH", "EZETH", "WBETH", "WSUPEROETHB", "PUFETH", "SWETH",
   "CMETH", "WETH.E", "TACETH", "TACBTC", "CBBTC", "BTC.B", "RSWETH", "UNIFIETH",
   "ALETHPXETH", "LIQUIDBERAETH", "SUPEROETHB", "TETH", "HGETH", "SUPERETH",
-  "FTXTOKEN-WETH", "EIGEN-WETH", "DOGE-WETH", "WETH-ASTER", "WETH-USDC", 
+  "FTXTOKEN-WETH", "EIGEN-WETH", "DOGE-WETH", "WETH-ASTER", "WETH-USDC",
   "GMETH(WETH-WETH)", "KHYPE", "SOLVBTC.BNB", "WEETHS", "SCETH",];
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -88,7 +88,7 @@ async function verifyLS() {
   if (storedYield) {
     loadYieldData(JSON.parse(storedYield));
   } else {
-    const yieldData = await fetchDefiLlamaAPY(11);
+    const yieldData = await fetchDefiLlamaAPY(10);
     if (yieldData.length) {
       localStorage.setItem(yieldDataKey, JSON.stringify(yieldData));
       loadYieldData(yieldData);
@@ -106,7 +106,7 @@ async function loadYieldData(yieldData) {
   const sortFilter = document.getElementById("sortFilter").value;
   const filteredByNewTvl = yieldData.filter(pool => pool.tvlUsd >=50000);
   let filteredByAPY = filteredByNewTvl.filter(pool => pool.apy >= apyFilter);
-  filteredByAPY = filteredByAPY.filter(pool => pool.apyMean30d >= 11);
+  filteredByAPY = filteredByAPY.filter(pool => pool.apyMean30d >= 10);
 
   const networksByPlatform = {};
   const platformsByNetwork = {};
