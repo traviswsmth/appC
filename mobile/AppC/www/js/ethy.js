@@ -10,7 +10,7 @@ const includedSymbols = ["ETH", "WETH", "STETH", "WSTETH", "WEETH", "CBETH",
   "CMETH", "WETH.E", "TACETH", "TACBTC", "CBBTC", "BTC.B", "RSWETH", "UNIFIETH",
   "ALETHPXETH", "LIQUIDBERAETH", "SUPEROETHB", "TETH", "HGETH", "SUPERETH",
   "WETH-SUNNY", "FTXTOKEN-WETH", "EIGEN-WETH", "DOGE-WETH", "WETH-ASTER",//"X33",
-  "GMETH(WETH-WETH)", "KHYPE", "SOLVBTC.BNB", "WEETHS", "SCETH"];
+  "GMETH(WETH-WETH)", "KHYPE", "SOLVBTC.BNB", "WEETHS", "SCETH", "WETH-USDT0"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -104,9 +104,9 @@ async function loadYieldData(yieldData) {
   const platformFilter = document.getElementById("platformFilter");
   const apyFilter = parseFloat(document.getElementById("apyFilter").value);
   const sortFilter = document.getElementById("sortFilter").value;
-  const filteredByNewTvl = yieldData.filter(pool => pool.tvlUsd >=50000);
+  const filteredByNewTvl = yieldData.filter(pool => pool.tvlUsd >=30000);
   let filteredByAPY = filteredByNewTvl.filter(pool => pool.apy >= apyFilter);
-  filteredByAPY = filteredByAPY.filter(pool => pool.apyMean30d >= 9);
+  filteredByAPY = filteredByAPY.filter(pool => pool.apyMean30d >= 8);
 
   const networksByPlatform = {};
   const platformsByNetwork = {};
