@@ -55,7 +55,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       timeScale: {
         timeVisible: false,
         secondsVisible: false,
-        rightOffset: 0,
+        rightOffset: 1,
         barSpacing: 80,
         tickMarkFormatter: (time) => {
           const networkName = Object.keys(networkIndexMap).find(
@@ -88,7 +88,7 @@ async function verifyLS() {
   if (storedYield) {
     loadYieldData(JSON.parse(storedYield));
   } else {
-    const yieldData = await fetchDefiLlamaAPY(10);
+    const yieldData = await fetchDefiLlamaAPY(11);
     if (yieldData.length) {
       localStorage.setItem(yieldDataKey, JSON.stringify(yieldData));
       loadYieldData(yieldData);
@@ -106,7 +106,7 @@ async function loadYieldData(yieldData) {
   const sortFilter = document.getElementById("sortFilter").value;
   const filteredByNewTvl = yieldData.filter(pool => pool.tvlUsd >=50000);
   let filteredByAPY = filteredByNewTvl.filter(pool => pool.apy >= apyFilter);
-  //filteredByAPY = filteredByAPY.filter(pool => pool.apyMean30d >= 10);
+  filteredByAPY = filteredByAPY.filter(pool => pool.apyMean30d >= 11);
 
   const networksByPlatform = {};
   const platformsByNetwork = {};

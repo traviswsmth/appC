@@ -128,7 +128,7 @@ async function loadYieldData(yieldData) {
     filteredByAPY = yieldData.filter(pool => pool.apy <= 18);
   if (apyFilter === 18)
     filteredByAPY = yieldData.filter(pool => pool.apy <= 24);*/
-  let filteredData = filteredByAPY.filter(pool => pool.apyMean30d > 10);// && pool.stablecoin == true);
+  let filteredData = filteredByAPY.filter(pool => pool.apyMean30d > 11);// && pool.stablecoin == true);
 
   if (tickerFilter !== 'all') {
     const filteredByTicker = filteredByAPY.filter(pool => pool.symbol === tickerFilter);

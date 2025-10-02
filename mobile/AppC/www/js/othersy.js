@@ -111,7 +111,7 @@ async function loadYieldData(yieldData) {
   const sortFilter = document.getElementById("sortFilter").value;
 
   const filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
-  let filteredData = filteredByAPY.filter(pool => pool.apyMean30d >= 10);
+  let filteredData = filteredByAPY.filter(pool => pool.apyMean30d >= 11);
 
   if (tickerFilter !== 'all') {
     const filteredByTicker = filteredByAPY.filter(pool => pool.symbol === tickerFilter);
