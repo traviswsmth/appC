@@ -165,7 +165,8 @@ async function loadYieldData(yieldData) {
       .map((item) => {
         let warnTvl = false;
         let rewardTkn;
-        const inputIdAsign = `asg_${item.symbol}_${item.chain.substr(0, 3)}_${item.project.substr(0, 4)}`;
+        const inputIdAsign = `asg_${item.symbol}_${item.chain.substr(0, 3)}_`+
+          `${item.project.substr(0, 4)}_${item.poolMeta ? item.poolMeta.substr(0, 3) : ""}`;
         const projectShort = item.project.length >= 4 ? item.project.substr(0, 4) : item.project;
         if (item.tvlUsd<100000)
           warnTvl = true;

@@ -10,11 +10,11 @@ const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "FRAX", "PYUS
   "POL", "ADA", "MANTA", "ARB", "OP", "SUSDE", //"AAVE", "TIA", "JITOSOL",//"KLIMA", "RUSD",
   "OM", "XAI", "CERESUSDE", "APRUSDE", "EUSD", //"SOL", "WSOL", "USOL", "USUI", "STS", "WANS",
   "LBTC", "EBTC", "USDP", "ZUSDC", "EURS", "USDT.E", "USR", "SCUSD", "UNIFIUSD", "STUSD",
-  "TACUSD", "TACUSR", "WSTUSR", "TACMBTC", "TUSDE", "USDAI", "USDAI", "THBILL", "GUSD",
+  "TACUSD", "TACUSR", "WSTUSR", "TACMBTC", "TUSDE", //"USDAI", "SUSDAI", "THBILL", "GUSD",
   "STGUSDC", "GTUSDC", "GTUSDA", "USDX", "USDF", "TSUSDE", "WCGUSD", "SUSDF", //"YOUSD",
-  "MSUSD", "SMSUSD", "SUSDX", "ASUSDF", "SIGMASP", "HWHLP", "STCUSD", "CUSD", "CUSDO",
+  //"MSUSD", "SMSUSD", "SUSDX", "ASUSDF", "HWHLP", "STCUSD", "CUSD", "CUSDO", //"SIGMASP",
   "SUPERUSDC", "FRXUSD", "MXNE", "MXNB", "USD1", "USDP", "LUSD", "HYPE", "HWHYPE", 
-  "VIRTUAL", "ATOM", "OSMO", "INJ", "XGRAIL"];
+  "VIRTUAL", "ATOM", "OSMO", "INJ", "XGRAIL", "MUSD", "CRV2POOL"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -110,8 +110,8 @@ async function loadYieldData(yieldData) {
   const tickerFilter = document.getElementById("tickerFilter").value;
   const sortFilter = document.getElementById("sortFilter").value;
 
-  let filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
-  let filteredData = filteredByAPY;
+  const filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
+  let filteredData = filteredByAPY.filter(pool => pool.apyMean30d >= 10);
 
   if (tickerFilter !== 'all') {
     const filteredByTicker = filteredByAPY.filter(pool => pool.symbol === tickerFilter);
