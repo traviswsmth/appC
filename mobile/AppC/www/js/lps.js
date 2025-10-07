@@ -13,7 +13,7 @@ const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E",
   "CRVUSD-USD₮0",//"ETH-USDT", "WEETH-USDC", "USDC-ETH", "USDC-WETH", "WBTC-USDC", "CRVUSD-ARB", "WETH-USDBC",
   //"USDC-WBTC", "USDC-WBNB", "BNB-USDC", "SOL-USDC", "USDT-XRP", "USDC-LINK", "ARB-USDC.E", "USDT-ABRA", "WPOL-USDC",
   //"ARB-USDC", "USDT-OP", "USDC-OP",// "ARB-USDT", "USDT-ARB", "USDC-ARB", "OP-USDT",// "OP-USDC", "SUSDE-USDT",
-  //"WBTC-WETH", "WETH-WBTC", "WBNB-AAVE", "WETH-AAVE", "WBNB-AAVE", "NOT-USD₮", "WTTON-USD₮", "USDC.E-WETH.E",
+  "WBTC-WETH", "WETH-WBTC", //"WBNB-AAVE", "WETH-AAVE", "WBNB-AAVE", "NOT-USD₮", "WTTON-USD₮", "USDC.E-WETH.E",
   //"WETH-WEETH", "STONE-WETH", "WETH-STONE", "WETH-ETHFI", "ZRO-WETH", "WEETH-WETH","UNIETH-WETH", "MENDI-WETH",
   //"ZEREBRO-USDC", "CELO-USD₮", "USDT-WEGLD", "WSOL-ME", "OM-WETH", "WETH-WRSETH", "EZETH-WETH","WETH.E-WAVAX",
   //"SUI-STSUI", "WETH-CRV", "WETH-UNI", "LBTC-SUI", "DOGE-WETH", "TON-USD₮","WAVAX-FRAX", "WETH-GMX", "APE-WETH",
@@ -106,7 +106,7 @@ async function verifyLS() {
   if (storedYield) {
     loadYieldData(JSON.parse(storedYield));
   } else {
-    const yieldData = await fetchDefiLlamaAPY(12);
+    const yieldData = await fetchDefiLlamaAPY(11);
     if (yieldData.length) {
       localStorage.setItem(yieldDataKey, JSON.stringify(yieldData));
       loadYieldData(yieldData);
@@ -124,8 +124,8 @@ async function loadYieldData(yieldData) {
   const tickerFilter = document.getElementById("tickerFilter").value;
   const sortFilter = document.getElementById("sortFilter").value;
 
-  let filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
-  let filteredData = filteredByAPY;//.filter(pool => pool.apyMean30d >= 8);// && pool.stablecoin == true);
+  const filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
+  let filteredData = filteredByAPY.filter(pool => pool.apyMean30d > 10);// && pool.stablecoin == true);
 
   if (tickerFilter !== 'all') {
     const filteredByTicker = filteredByAPY.filter(pool => pool.symbol === tickerFilter);

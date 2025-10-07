@@ -22,11 +22,11 @@ const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E",
   "SW-USR", "DOLA-USR", "GHO-USR", "FRXUSD-SCUSD", "USR-USDC", "GHO-USDC", "AVUSD-USDC", "USDC.E-USDT.E", "USDT-AUSD₮",
   "AXLUSDC.E-USDC", "USDC-USDBC-AXLUSDC-CRVUSD", "USDC.E-USD₮0",// "CELO-CUSD", "USDC-OP"// "WAVAX-AVUSD", "CELO-WETH",
   "FXUSDSTABILITYPOOLV2.0", "SUSDS-USDT", "USDS-USDC", "USDS-USDT", "DOLA-SUSDS", "FRXUSD-SUSDS", "USD3SUSDS","USDS-USDT",
-  "USD₮-USDC", "USD1-USDF", "USD1-USDC", "USD1-1", "USD1-USD1", "USD1-USDT",//"RAM-USDC", "RAM-USDT", "ARB-RAM", "WETH-RAM", 
+  "USD₮-USDC", "USD1-USDF", "USD1-USDC", //"USD1-1", "USD1-USD1", "USD1-USDT",//"RAM-USDC", "RAM-USDT", "ARB-RAM",
   "RLUSD-USDC", //"USD1-USDUC1", "USD1-1USDUC", "WSOL-USDUC🚀", "WETH-DEGEN", "CELO-USD₮", "SOL-ZEREBRO", "TRUMP-USDC",
-  "USDC-ALUSD", "USDC-ALUSD", "WETH-SHIBA",// "ZRO-USDT","RED-VELO", "WSOL-NVDAX", "USDC-WTAO",
-  "W-USDC", "EURC-USDC", "USDC-EURC", "BTCGHOETH", "MXNE-USDC", "AXLUSDC-USDT",//"WINR-USDC", "WETH-WINR", "XAI-WETH",
-  "USDC-MXNB", "USDC-JUSD", "USDF-USDC", "USDF-USDT", "FRXUSD-USDF", "FRXUSD-USDE", "CRVUSD-FRXUSD", 
+  "USDC-ALUSD", "USDC-ALUSD", "WETH-SHIBA", "ZRO-USDT","RED-VELO", //"WSOL-NVDAX", "USDC-WTAO", "WETH-USDT0", "WETH-RAM",
+  "PYUSD-CRVUSD", "EURC-USDC", "USDC-EURC", "BTCGHOETH", "MXNE-USDC", "AXLUSDC-USDT",//"WINR-USDC", "WETH-WINR", "XAI-WETH",
+  "USDC-MXNB", "USDC-JUSD", "USDF-USDC", "USDF-USDT", "FRXUSD-USDF", "FRXUSD-USDE", "CRVUSD-FRXUSD", "USDC-USD₮0"
 ];
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -123,12 +123,12 @@ async function loadYieldData(yieldData) {
   const tickerFilter = document.getElementById("tickerFilter").value;
   const sortFilter = document.getElementById("sortFilter").value;
 
-  let filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
+  const filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
   /*if (apyFilter === 12)
     filteredByAPY = yieldData.filter(pool => pool.apy <= 18);
   if (apyFilter === 18)
     filteredByAPY = yieldData.filter(pool => pool.apy <= 24);*/
-  let filteredData = filteredByAPY;//.filter(pool => pool.apyMean30d >= 8);// && pool.stablecoin == true);
+  let filteredData = filteredByAPY.filter(pool => pool.apyMean30d > 10);// && pool.stablecoin == true);
 
   if (tickerFilter !== 'all') {
     const filteredByTicker = filteredByAPY.filter(pool => pool.symbol === tickerFilter);
@@ -142,7 +142,6 @@ async function loadYieldData(yieldData) {
   filteredData.forEach(pool => {
     if (!networksByPlatform[pool.project]) networksByPlatform[pool.project] = new Set();
     if (!platformsByNetwork[pool.chain]) platformsByNetwork[pool.chain] = new Set();
-
     networksByPlatform[pool.project].add(pool.chain);
     platformsByNetwork[pool.chain].add(pool.project);
   });
@@ -201,9 +200,9 @@ async function loadYieldData(yieldData) {
             ${item.project}<small>${item.poolMeta ? "_" + item.poolMeta.substr(0, 4) : ""}</small></td>
           <td title='${item.tvlUsd.toLocaleString('en-US')}' style='${stylesTd}'>
             ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward>item.apyBase?rewardTkn.substr(0, 31):''}</td>
-          <td style='${stylesTd}'>${item.chain}</td>
+          <td title='${item.volumeUsd7d}' style='${stylesTd}'>${item.chain}</td>
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
-            style='${stylesTd}'>${item.apy.toFixed(2)}%${item.apyBase < 8 ? "*" : ""}</td>
+            style='${stylesTd}'>${item.apy.toFixed(2)}%${item.volumeUsd7d ? "" : "."}${item.apyBase < 10 ? "*" : ""}</td>
           <td style='${stylesTd}'>
             <input type='number' min='20' step='5' id='${inputIdAsign}' value='${savedValueAsign}' 
               placeholder='${projectShort}' style='color:blue;background-color:gray;'>
