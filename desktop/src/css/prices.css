@@ -50,8 +50,19 @@ html, body, .container-fluid {
 .change:empty, .price:empty {
   display: none;
 }
-#lblHome {
+#homeBtn {
   position: fixed;
-  right: 3px;
-  bottom: 3px;
+  right: 16px;
+  bottom: 16px;
+  background-color: #2196F3;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 0%;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#homeBtn:hover {
+  background-color: #0b7dda;
 }

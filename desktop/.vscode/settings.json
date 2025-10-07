@@ -1,0 +1,4 @@
+{
+    "oxc.enable": true,
+    "CodeGPT.apiKey": "Ollama"
+}

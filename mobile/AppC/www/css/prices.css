@@ -1,0 +1,68 @@
+.gold, .gold small {
+  background-color: gold;
+  color: #403600;
+}
+
+.silver, .silver small {
+  background-color: silver;
+  color: #404040;
+}
+
+.oil, .oil small {
+  background-color: black;
+  color: #E5E5E5;
+}
+
+html, body, .container-fluid {
+  height: 100%;
+}
+
+.row {
+  height: 33.33333333%;
+}
+
+.row > div {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.price {
+  padding-right: 3px;
+}
+
+/* Add a ( before the change */
+.change::before {
+  content: '(';
+}
+
+/* Add a ) after the change */
+.change::after {
+  content: ')';
+}
+
+/* Add a $ before the price */
+.price::before {
+  content: '$';
+}
+
+/* Hide the price and change when they are empty */
+.change:empty, .price:empty {
+  display: none;
+}
+#homeBtn {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  background-color: #2196F3;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 0%;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#homeBtn:hover {
+  background-color: #0b7dda;
+}
