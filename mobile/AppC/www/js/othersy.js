@@ -10,7 +10,7 @@ const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "FRAX", "PYUS
   "POL", "ADA", "MANTA", "ARB", "OP", "SUSDE", //"AAVE", "TIA", "JITOSOL",//"KLIMA", "RUSD",
   "OM", "XAI", "CERESUSDE", "APRUSDE", "EUSD", //"SOL", "WSOL", "USOL", "USUI", "STS", "WANS",
   "LBTC", "EBTC", "USDP", "ZUSDC", "EURS", "USDT.E", "USR", "SCUSD", "UNIFIUSD", "STUSD",
-  "TACUSD", "TACUSR", "WSTUSR", "TACMBTC", "TUSDE", //"USDAI", "SUSDAI", "THBILL", "GUSD",
+  "TACUSD", "TACUSR", "WSTUSR", "TACMBTC", "TUSDE", "THBILL", "GUSD",//"USDAI", "SUSDAI", 
   "STGUSDC", "GTUSDC", "GTUSDA", "USDX", "USDF", "TSUSDE", "WCGUSD", "SUSDF", //"YOUSD",
   //"MSUSD", "SMSUSD", "SUSDX", "ASUSDF", "HWHLP", "STCUSD", "CUSD", "CUSDO", //"SIGMASP",
   "SUPERUSDC", "FRXUSD", "MXNE", "MXNB", "USD1", "USDP", "LUSD", "HYPE", "HWHYPE", 
@@ -21,7 +21,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   document.getElementById("networkFilter").addEventListener("change", verifyLS);
   document.getElementById("platformFilter").addEventListener("change", verifyLS);
   document.getElementById("apyFilter").addEventListener("change", verifyLS);
-  document.getElementById("tickerFilter").addEventListener("change", verifyLS);
+  //document.getElementById("tickerFilter").addEventListener("change", verifyLS);
   document.getElementById("sortFilter").addEventListener("change", verifyLS);
   const darkBtn = document.getElementById('darkBtn');
   const chartContainer = document.getElementById('apyChart');
@@ -107,18 +107,18 @@ async function loadYieldData(yieldData) {
   const networkFilter = document.getElementById("networkFilter");
   const platformFilter = document.getElementById("platformFilter");
   const apyFilter = parseFloat(document.getElementById("apyFilter").value);
-  const tickerFilter = document.getElementById("tickerFilter").value;
+  //const tickerFilter = document.getElementById("tickerFilter").value;
   const sortFilter = document.getElementById("sortFilter").value;
 
   const filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
-  let filteredData = filteredByAPY.filter(pool => pool.apyMean30d >= 10);
+  let filteredData = filteredByAPY.filter(pool => pool.apyMean30d >= 9);
 
-  if (tickerFilter !== 'all') {
+  /*if (tickerFilter !== 'all') {
     const filteredByTicker = filteredByAPY.filter(pool => pool.symbol === tickerFilter);
     if (filteredByTicker.length > 0) {
       filteredData = filteredByTicker;
     }
-  }
+  }*/
   const networksByPlatform = {};
   const platformsByNetwork = {};
 
@@ -186,7 +186,7 @@ async function loadYieldData(yieldData) {
             <small>${item.poolMeta ? item.poolMeta.substr(4) : ""}</small></td>
           <td style='${stylesTd}'>${item.chain}</td>
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
-            style='${stylesTd}'>${item.apy.toFixed(2)}%${item.apyBase < 8 ? "*" : ""}</td>
+            style='${stylesTd}'>${item.apy.toFixed(2)}%${item.apyBase < 9 ? "*" : ""}</td>
           <td style='${stylesTd}'>
             <input type='number' min='30' step='10' id='${inputIdAsign}' value='${savedValueAsign}' 
               placeholder='${projectShort}' style='color:blue;background-color:gray;'>
