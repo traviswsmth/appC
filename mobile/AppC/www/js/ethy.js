@@ -104,7 +104,7 @@ async function loadYieldData(yieldData) {
   const platformFilter = document.getElementById("platformFilter");
   const apyFilter = parseFloat(document.getElementById("apyFilter").value);
   const sortFilter = document.getElementById("sortFilter").value;
-  const filteredByNewTvl = yieldData.filter(pool => pool.tvlUsd >=30000);
+  const filteredByNewTvl = yieldData.filter(pool => pool.tvlUsd >=25000);
   let filteredByAPY = filteredByNewTvl.filter(pool => pool.apy >= apyFilter);
   filteredByAPY = filteredByAPY.filter(pool => pool.apyMean30d >= 8);
 
@@ -174,7 +174,7 @@ async function loadYieldData(yieldData) {
             ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward > item.apyBase ? rewardTkn.substr(0, 31) : ''}</td>
           <td style='${stylesTd}'>${item.chain}</td>
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
-            style='${stylesTd}'>${item.apy.toFixed(2)}%${item.apyBase < 8 ? "*" : ""}</td>
+            style='${stylesTd}'>${item.apy.toFixed(2)}%${item.apyBase < 9 ? "*" : ""}</td>
           <td style='${stylesTd}'>
             <input type='number' min='0.05' step='0.05' id='${inputIdAsign}' value='${savedValueAsign}' 
               placeholder='${projectShort}' style='color:blue;background-color:gray;'>
