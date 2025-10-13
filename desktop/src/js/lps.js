@@ -10,8 +10,8 @@ const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E",
   "SUSD-CRVUSD", "SUSD-SUSDE", "FRAX-USDT", "CRVUSD-USDC", "SDAI-SUSDE", "FRAX-USDC", "SFRXUSD-SUSDE", "USDC-AXLUSDC",
   "USDT-WBTC-WETH", "USDC-WBTC",//"USDT-WBNB", "WETH-USDBC","WPOL-USDT", "WSOL-XPL", "PLASMA-WSOL", "WETH-USDT0",
   "WETH-USDT", "WETH-USDS", //"WETH-DAI", "CRVUSD-WETH", "FRAX-WETH", "WBTC.B-USDC","WPOL-USDC.E", "USDT0-WETH",
-   "EURT-USDT",//"ETH-USDT", "WEETH-USDC", //"USDC-ETH", "USDC-WETH", "WBTC-USDC", //"CRVUSD-ARB", "WETH-USDBC", "W-USDC",
-  "LVUSDC-USDC",//"USDC-WBNB", //"BNB-USDC", //"SOL-USDC", "USDT-XRP", "USDC-LINK", "ARB-USDC.E", "USDT-ABRA",
+  "EURT-USDT",//"ETH-USDT", "WEETH-USDC", //"USDC-ETH", "USDC-WETH", "WBTC-USDC", //"CRVUSD-ARB", "WETH-USDBC", "W-USDC",
+  "XAUT-USDT", "LVUSDC-USDC",//"USDC-WBNB", //"BNB-USDC", //"SOL-USDC", "USDT-XRP", "USDC-LINK", "ARB-USDC.E", "USDT-ABRA",
   //"ARB-USDC", "USDT-OP", "USDC-OP",// "ARB-USDT", "USDT-ARB", "USDC-ARB", "OP-USDT",// "OP-USDC", "SUSDE-USDT",
   //"WBTC-WETH", "WETH-WBTC", "WBNB-AAVE", "WETH-AAVE", "WBNB-AAVE", "NOT-USD₮", "WTTON-USD₮", "USDC.E-WETH.E",
   //"WETH-WEETH", "STONE-WETH", "WETH-STONE", "WETH-ETHFI", "ZRO-WETH", "WEETH-WETH","UNIETH-WETH", "MENDI-WETH",
@@ -26,7 +26,9 @@ const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E",
   "RLUSD-USDC", //"USD1-USDUC1", "USD1-1USDUC", "WSOL-USDUC🚀", "WETH-DEGEN", "CELO-USD₮", "SOL-ZEREBRO", "TRUMP-USDC",
   "USDC-ALUSD", "USDC-ALUSD", "WETH-SHIBA", "ZRO-USDT","RED-VELO", //"WSOL-NVDAX", "USDC-WTAO", "WETH-USDT0", "WETH-RAM",
   "PYUSD-CRVUSD", "EURC-USDC", "USDC-EURC", "BTCGHOETH", "MXNE-USDC", "AXLUSDC-USDT",//"WINR-USDC", "WETH-WINR", "XAI-WETH",
-  "USDC-MXNB", "USDC-JUSD", "USDF-USDC", "USDF-USDT", "FRXUSD-USDF", "FRXUSD-USDE", "CRVUSD-FRXUSD", "USDC-USD₮0"
+  "USDC-MXNB", "USDC-JUSD", "USDF-USDC", "USDF-USDT", "FRXUSD-USDF", "FRXUSD-USDE", "CRVUSD-FRXUSD", "USDC-USD₮0",
+  "XAUT0-USDT", "XAUT-PAXG", "WBTC-XAUT", "PAXG-XAUT", "USDC-PAXG", "PAXG-USDC", "SDAI-EURE", "USDC-EURE", "EURE-USDC",
+  "PLASMAUSD-WAPLAUSDT0", "WAPLAUSDT0-PLASMAUSD",
 ];
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -128,7 +130,7 @@ async function loadYieldData(yieldData) {
     filteredByAPY = yieldData.filter(pool => pool.apy <= 18);
   if (apyFilter === 18)
     filteredByAPY = yieldData.filter(pool => pool.apy <= 24);*/
-  let filteredData = filteredByAPY.filter(pool => pool.apyMean30d > 11);// && pool.stablecoin == true);
+  let filteredData = filteredByAPY.filter(pool => pool.apyMean30d > 12);// && pool.stablecoin == true);
 
   if (tickerFilter !== 'all') {
     const filteredByTicker = filteredByAPY.filter(pool => pool.symbol === tickerFilter);

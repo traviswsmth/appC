@@ -53,7 +53,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       timeScale: {
         timeVisible: false,
         secondsVisible: false,
-        rightOffset: -1,
+        rightOffset: 0,
         barSpacing: 80,
         tickMarkFormatter: (time) => {
           const networkName = Object.keys(networkIndexMap).find(
