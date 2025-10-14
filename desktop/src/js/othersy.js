@@ -19,8 +19,9 @@ const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "PYUSD", "HON
   "VIRTUAL", "ATOM", "OSMO", "INJ", "XGRAIL", "XUSD", "PUSDE", "ALUSD", "USD(MIDASMEDGE)",
   "SLISBNBX", "YUSD", "LHYPE", "SIUSD", "SYUSD", "AIDAUSDC", //"SKAITO", "AIDAUSDT", "SDEUSD",
   "MORPHO", "USD(MIDASMHYPER)", "USD(MIDASMAPOLLO)", "USDAF",//"VYUSD", "ATVUSDC", "IUSD", "YVVBUSDC",
-  "MHYPER", "WSTKSCUSD", "LVUSDC", "MUSD", "CRV2POOL", //Depeg: "USD0--", USUSDS,//"YOUSD",
-  "XAUT0", "XAUT", "PAXG", "SFRXUSD", "HBUSDT", "PLASMAUSD"];
+  //"MHYPER", "WSTKSCUSD", "LVUSDC", "MUSD", "CRV2POOL", //Depeg: "USD0--", USUSDS,//"YOUSD",
+  "XAUT0", "XAUT", "PAXG", "SFRXUSD", "HBUSDT", "PLASMAUSD", "RLUSD", "DOLA", "SUSDZ",
+  "WETH-XPL", "XPL-USDT", "WXPL-USDT0", "XPL-USDC"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -98,7 +99,7 @@ async function verifyLS() {
   if (storedYield) {
     loadYieldData(JSON.parse(storedYield));
   } else {
-    const yieldData = await fetchDefiLlamaAPY(9);
+    const yieldData = await fetchDefiLlamaAPY(8);
     if (yieldData.length) {
       localStorage.setItem(yieldDataKey, JSON.stringify(yieldData));
       loadYieldData(yieldData);

@@ -20,14 +20,17 @@ const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E",
   //"WSTETH-WRSETH", "AURA-EZETH-WSTETH", "CRVUSDETHCRV", "CRVUSDETHCRV", "WETH-ODOS", "USDT-THE", "POL-WETH", "USDC-LYNX",
   "SW-USR", "DOLA-USR", "GHO-USR", "FRXUSD-SCUSD", "USR-USDC", "GHO-USDC", "AVUSD-USDC", "USDC.E-USDT.E", "PYUSD-CRVUSD",
   "AXLUSDC.E-USDC", "USDC-USDBC-AXLUSDC-CRVUSD", "USDC.E-USD₮0",// "CELO-CUSD", "USDC-OP"// "WAVAX-AVUSD", "CELO-WETH",
-  "SUSDS-USDT", "USDS-USDC", "USDS-USDT", "DOLA-SUSDS", "FRXUSD-SUSDS", "USD3SUSDS","USDS-USDT", "USDC-USDF",
+  "SUSDS-USDT", "USDS-USDC", "USDS-USDT", "DOLA-SUSDS", "FRXUSD-SUSDS", "USD3SUSDS","USDS-USDT", "USDC-USDF", "USDC-DOLA",
   "USD₮-USDC", "USD1-USDF", "USD1-USDC", //"USD1-1", "USD1-USD1", "USD1-USDT",//"RAM-USDC", "RAM-USDT", "ARB-RAM",
   "XAUT0-USDT", "RLUSD-USDC", //"USD1-USDUC1", "USD1-1USDUC", "WSOL-USDUC🚀", "WETH-DEGEN", "CELO-USD₮", "SOL-ZEREBRO",
   //"WETH-SUNNY", "FTXTOKEN-WETH", "EIGEN-WETH", "WETH-SHIBA",// "ZRO-USDT","RED-VELO", "WSOL-NVDAX", "USDC-WTAO",
   "USDT-AUSD₮", //"RAM-USDC", "RAM-USDT", "ARB-RAM", "WETH-RAM", "W-USDC", "BTCGHOETH", "MXNE-USDC", "WETH-RAM",
   "CRV2POOL-MUSD-2POOL-MUSD", "USDC-ALUSD", "WETH-SHIBA", "RED-VELO", "WETH-WXDAI",//"WSOL-NVDAX", "USDC-WTAO","TRUMP-USDC",
   "USDC-PAXG", "EURC-USDC", "USDC-EURC", "AXLUSDC-USDT",//"WINR-USDC", "WETH-WINR", "XAI-WETH","FXUSDSTABILITYPOOLV2.0", 
-  "USDC-MXNB", "USDC-JUSD", "USDF-USDC", "USDF-USDT", "FRXUSD-USDF", "FRXUSD-USDE", "CRVUSD-FRXUSD", "USDC-USD₮0"
+  "USDC-MXNB", "USDC-JUSD", "USDF-USDC", "USDF-USDT", "FRXUSD-USDF", "FRXUSD-USDE", "CRVUSD-FRXUSD", "USDC-USD₮0",
+  "XAUT0-USDT", "XAUT-PAXG", "WBTC-XAUT", "PAXG-XAUT", "USDC-PAXG", "PAXG-USDC", "SDAI-EURE", "USDC-EURE", "EURE-USDC",
+  "PLASMAUSD-WAPLAUSDT0", "WAPLAUSDT0-PLASMAUSD", "WABASUSDC-WABASWETH", "WABASGHO-WABASUSDC", "XUSD-WAPLAUSDT0", 
+  "SUSDE-WAPLAUSDT0","USDC-USDZ", "USDC-DOLA", "USDZ-WETH", "USDZ-USDC", "USDZ-DOLA", "EUROC-USDC",
 ];
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -197,8 +200,8 @@ async function loadYieldData(yieldData) {
           <td title='${item.poolMeta ? item.poolMeta : ""}' style='${stylesTd}'>
             ${item.project}<small>${item.poolMeta ? "_" + item.poolMeta.substr(0, 4) : ""}</small></td>
           <td title='${item.tvlUsd.toLocaleString('en-US')}' style='${stylesTd}'>
-            ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward>item.apyBase?rewardTkn.substr(0, 31):''}</td>
-          <td style='${stylesTd}'>${item.chain}</td>
+            ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward>item.apyBase?rewardTkn.substr(0, 28):''}</td>
+          <td style='${stylesTd}'>${item.chain.substr(0,5)}</td>
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
             style='${stylesTd}'>${item.apy.toFixed(2)}%${item.apyBase < 9 ? "*" : ""}</td>
           <td style='${stylesTd}'>

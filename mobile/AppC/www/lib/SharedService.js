@@ -107,7 +107,7 @@ async function fetchDefiLlamaAPY(minApy) {
     const data = await response.json();
     return data.data.filter(pool =>
       includedSymbols.includes(pool.symbol) &&
-      pool.apy >= minApy && pool.apy < 222 &&
+      pool.apy >= minApy && pool.apy < 244 &&
       !excludedChains.includes(pool.chain) &&
       !excludedPlatforms.includes(pool.project) &&
       pool.tvlUsd > 24000// &&

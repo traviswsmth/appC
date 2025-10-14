@@ -10,11 +10,13 @@ const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "FRAX", "PYUS
   "POL", "ADA", "MANTA", "ARB", "OP", "SUSDE", //"AAVE", "TIA", "JITOSOL",//"KLIMA", "RUSD",
   "OM", "XAI", "CERESUSDE", "APRUSDE", "EUSD", //"SOL", "WSOL", "USOL", "USUI", "STS", "WANS",
   "LBTC", "EBTC", "USDP", "ZUSDC", "EURS", "USDT.E", "USR", "SCUSD", "UNIFIUSD", "STUSD",
-  "TACUSD", "TACUSR", "WSTUSR", "TACMBTC", "TUSDE", "THBILL", "GUSD",//"USDAI", "SUSDAI", 
-  "STGUSDC", "GTUSDC", "GTUSDA", "USDX", "USDF", "TSUSDE", "WCGUSD", "SUSDF", //"YOUSD",
+  "TACUSD", "TACUSR", "WSTUSR", "TACMBTC", "TUSDE", "THBILL", "GUSD", "REUSD",//"USDAI", "SUSDAI", 
+  "STGUSDC", "GTUSDC", "GTUSDA", "USDX", "USDF", "TSUSDE", //"WCGUSD", "SUSDF", //"YOUSD",
   //"MSUSD", "SMSUSD", "SUSDX", "ASUSDF", "HWHLP", "STCUSD", "CUSD", "CUSDO", //"SIGMASP",
-  "SUPERUSDC", "FRXUSD", "MXNE", "MXNB", "USD1", "USDP", "LUSD", "HYPE", "HWHYPE", 
-  "VIRTUAL", "ATOM", "OSMO", "INJ", "XGRAIL", "MUSD", "CRV2POOL", "XAUT0", "XAUT", "PAXG"];
+  "SUPERUSDC", "FRXUSD", "MXNE", "MXNB", "USD1", "USDP", "LUSD", "HYPE", "RLUSD", //"HWHYPE", 
+  "VIRTUAL", "ATOM", "OSMO", "INJ", "XGRAIL", "MUSD", "CRV2POOL", "XAUT0", "XAUT", "PAXG",
+  "DEUSD", "XUSD", "LVUSDC","SFRXUSD", "HBUSDT", "PLASMAUSD", "RLUSD", "DOLA", "SUSDZ",
+  "WETH-XPL", "XPL-USDT", "WXPL-USDT0", "XPL-USDC"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -92,7 +94,7 @@ async function verifyLS() {
   if (storedYield) {
     loadYieldData(JSON.parse(storedYield));
   } else {
-    const yieldData = await fetchDefiLlamaAPY(9);
+    const yieldData = await fetchDefiLlamaAPY(8);
     if (yieldData.length) {
       localStorage.setItem(yieldDataKey, JSON.stringify(yieldData));
       loadYieldData(yieldData);
