@@ -10,7 +10,8 @@ const includedSymbols = ["ETH", "WETH", "STETH", "WSTETH", "WEETH", "CBETH",
   "CMETH", "WETH.E", "TACETH", "TACBTC", "CBBTC", "BTC.B", "RSWETH", "UNIFIETH",
   "ALETHPXETH", "LIQUIDBERAETH", "SUPEROETHB", "TETH", "HGETH", "SUPERETH", "MXNE-WETH",
   "WETH-SUNNY", "FTXTOKEN-WETH", "EIGEN-WETH", "DOGE-WETH", "WETH-ASTER",//"X33",
-  "GMETH(WETH-WETH)", "KHYPE", "SOLVBTC.BNB", "WEETHS", "SCETH", "WETH-USDT0"];
+  "GMETH(WETH-WETH)", "KHYPE", "SOLVBTC.BNB", "WEETHS", "SCETH", "WETH-XPL", "WETH-USDT0",
+  "WBTC-WETH", "WETH-WBTC"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");

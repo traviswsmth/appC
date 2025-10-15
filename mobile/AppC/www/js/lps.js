@@ -13,7 +13,7 @@ const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E",
   "CRVUSD-USD₮0",//"ETH-USDT", "WEETH-USDC", "USDC-ETH", "USDC-WETH", "WBTC-USDC", "CRVUSD-ARB", "WETH-USDBC",
   //"USDC-WBTC", "USDC-WBNB", "BNB-USDC", "SOL-USDC", "USDT-XRP", "USDC-LINK", "ARB-USDC.E", "USDT-ABRA", "WPOL-USDC",
   //"ARB-USDC", "USDT-OP", "USDC-OP",// "ARB-USDT", "USDT-ARB", "USDC-ARB", "OP-USDT",// "OP-USDC", "SUSDE-USDT",
-  "WBTC-WETH", "WETH-WBTC", //"WBNB-AAVE", "WETH-AAVE", "WBNB-AAVE", "NOT-USD₮", "WTTON-USD₮", "USDC.E-WETH.E",
+  //"WBNB-AAVE", "WETH-AAVE", "WBNB-AAVE", "NOT-USD₮", "WTTON-USD₮", "USDC.E-WETH.E",
   //"WETH-WEETH", "STONE-WETH", "WETH-STONE", "WETH-ETHFI", "ZRO-WETH", "WEETH-WETH","UNIETH-WETH", "MENDI-WETH",
   //"ZEREBRO-USDC", "CELO-USD₮", "USDT-WEGLD", "WSOL-ME", "OM-WETH", "WETH-WRSETH", "EZETH-WETH","WETH.E-WAVAX",
   //"SUI-STSUI", "WETH-CRV", "WETH-UNI", "LBTC-SUI", "DOGE-WETH", "TON-USD₮","WAVAX-FRAX", "WETH-GMX", "APE-WETH",
@@ -23,9 +23,9 @@ const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E",
   "SUSDS-USDT", "USDS-USDC", "USDS-USDT", "DOLA-SUSDS", "FRXUSD-SUSDS", "USD3SUSDS","USDS-USDT", "USDC-USDF", "USDC-DOLA",
   "USD₮-USDC", "USD1-USDF", "USD1-USDC", //"USD1-1", "USD1-USD1", "USD1-USDT",//"RAM-USDC", "RAM-USDT", "ARB-RAM",
   "XAUT0-USDT", "RLUSD-USDC", //"USD1-USDUC1", "USD1-1USDUC", "WSOL-USDUC🚀", "WETH-DEGEN", "CELO-USD₮", "SOL-ZEREBRO",
-  //"WETH-SUNNY", "FTXTOKEN-WETH", "EIGEN-WETH", "WETH-SHIBA",// "ZRO-USDT","RED-VELO", "WSOL-NVDAX", "USDC-WTAO",
+  //"WETH-SUNNY", "FTXTOKEN-WETH", "EIGEN-WETH", // "ZRO-USDT", "WSOL-NVDAX", "USDC-WTAO",
   "USDT-AUSD₮", //"RAM-USDC", "RAM-USDT", "ARB-RAM", "WETH-RAM", "W-USDC", "BTCGHOETH", "MXNE-USDC", "WETH-RAM",
-  "CRV2POOL-MUSD-2POOL-MUSD", "USDC-ALUSD", "WETH-SHIBA", "RED-VELO", "WETH-WXDAI",//"WSOL-NVDAX", "USDC-WTAO","TRUMP-USDC",
+  "CRV2POOL-MUSD-2POOL-MUSD", "USDC-ALUSD", "WETH-SHIBA", "RED-VELO", "WETH-WXDAI",
   "USDC-PAXG", "EURC-USDC", "USDC-EURC", "AXLUSDC-USDT",//"WINR-USDC", "WETH-WINR", "XAI-WETH","FXUSDSTABILITYPOOLV2.0", 
   "USDC-MXNB", "USDC-JUSD", "USDF-USDC", "USDF-USDT", "FRXUSD-USDF", "FRXUSD-USDE", "CRVUSD-FRXUSD", "USDC-USD₮0",
   "XAUT0-USDT", "XAUT-PAXG", "WBTC-XAUT", "PAXG-XAUT", "USDC-PAXG", "PAXG-USDC", "SDAI-EURE", "USDC-EURE", "EURE-USDC",
@@ -200,7 +200,7 @@ async function loadYieldData(yieldData) {
           <td title='${item.poolMeta ? item.poolMeta : ""}' style='${stylesTd}'>
             ${item.project}<small>${item.poolMeta ? "_" + item.poolMeta.substr(0, 4) : ""}</small></td>
           <td title='${item.tvlUsd.toLocaleString('en-US')}' style='${stylesTd}'>
-            ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward>item.apyBase?rewardTkn.substr(0, 28):''}</td>
+            ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward>item.apyBase?rewardTkn.substr(0, 22):''}</td>
           <td style='${stylesTd}'>${item.chain.substr(0,5)}</td>
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
             style='${stylesTd}'>${item.apy.toFixed(2)}%${item.apyBase < 9 ? "*" : ""}</td>

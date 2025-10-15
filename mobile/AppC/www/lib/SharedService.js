@@ -3,10 +3,10 @@
 const todayShared = new Date();
 const excludedChains = ["Moonbeam", "Kava", "Polynomial", "Core", "Aurora", "Bob",
   "Flare", "Neutron", "Gnosis", "Rootstock", "Bifrost Network", "LightLink", "Hemi",
-  "Bsquared", "Moonriver", "IOTA EVM", "Cardano", "Telos", "Move", "Sei", "Sui",
-  "Etherlink", "Mantle", "Berachain", "Solana", "Celo",//"Linea", "Polygon", "Sonic",
+  "Bsquared", "Moonriver", "IOTA EVM", "Cardano", "Telos", "Move", "Sei", //"Sui",
+  "Etherlink", "Mantle", "Berachain", "Solana", "Celo", "Linea",//"Polygon", "Sonic",
   "Cronos", "Move", "Stellar", "Polygon zkEVM", "Blast", "zkSync Era", "Ethereum",
-  "MultiversX", "Fraxtal", "Aptos", "Scroll", "Ton", "Avalanche", //"Optimism",
+  "Lisk", "MultiversX", "Fraxtal", "Aptos", "Scroll", "Ton", "Avalanche", //"Optimism",
   "Cronos_zkevm", "Nolus", "Neon", "Starknet", "Osmosis", "Kujira", "Fantom"];
 const excludedPlatforms = ['bagful', 'psyoptions', 'yel-finance', 'goldlink', 'balmy', 
   'deltaprime', 'vela-exchange', 'degenprime', 'c3-exchange', "sonne-finance",

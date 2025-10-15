@@ -21,7 +21,7 @@ const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "PYUSD", "HON
   "MORPHO", "USD(MIDASMHYPER)", "USD(MIDASMAPOLLO)", "USDAF",//"VYUSD", "ATVUSDC", "IUSD", "YVVBUSDC",
   //"MHYPER", "WSTKSCUSD", "LVUSDC", "MUSD", "CRV2POOL", //Depeg: "USD0--", USUSDS,//"YOUSD",
   "XAUT0", "XAUT", "PAXG", "SFRXUSD", "HBUSDT", "PLASMAUSD", "RLUSD", "DOLA", "SUSDZ",
-  "WETH-XPL", "XPL-USDT", "WXPL-USDT0", "XPL-USDC"];
+  "USDC.E", "EURC", "GHO", "EURT", "XPL-USDT", "WXPL-USDT0", "XPL-USDC", "RED", "WETH-XPL"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
