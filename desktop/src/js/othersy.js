@@ -18,8 +18,10 @@ const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "PYUSD", "HON
   "SUPERUSDC", "FRXUSD", "MXNE", "MXNB", "USD1", "USDP", "LUSD", "HYPE", "SREUSD",//"HWHYPE",
   "VIRTUAL", "ATOM", "OSMO", "INJ", "XGRAIL", "XUSD", "PUSDE", "ALUSD", "USD(MIDASMEDGE)",
   "SLISBNBX", "YUSD", "LHYPE", "SIUSD", "SYUSD", "AIDAUSDC", //"SKAITO", "AIDAUSDT", "SDEUSD",
-  "MORPHO", "USD(MIDASMHYPER)", "USD(MIDASMAPOLLO)", "USDAF", "VYUSD", "ATVUSDC", "IUSD", "YVVBUSDC",
-  "MHYPER", "WSTKSCUSD", "LVUSDC", "MUSD", "CRV2POOL"]; //Depeg: "USD0--", USUSDS,//"YOUSD", "CRV2POOL",
+  "MORPHO", "USD(MIDASMHYPER)", "USD(MIDASMAPOLLO)", "USDAF",//"VYUSD", "ATVUSDC", "IUSD", "YVVBUSDC",
+  //"MHYPER", "WSTKSCUSD", "LVUSDC", "MUSD", "CRV2POOL", //Depeg: "USD0--", USUSDS,//"YOUSD",
+  "XAUT0", "XAUT", "PAXG", "SFRXUSD", "HBUSDT", "PLASMAUSD", "RLUSD", "DOLA", "SUSDZ",
+  "USDC.E", "EURC", "GHO", "EURT", "XPL-USDT", "WXPL-USDT0", "XPL-USDC", "RED", "WETH-XPL"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
@@ -97,7 +99,7 @@ async function verifyLS() {
   if (storedYield) {
     loadYieldData(JSON.parse(storedYield));
   } else {
-    const yieldData = await fetchDefiLlamaAPY(10);
+    const yieldData = await fetchDefiLlamaAPY(8);
     if (yieldData.length) {
       localStorage.setItem(yieldDataKey, JSON.stringify(yieldData));
       loadYieldData(yieldData);
@@ -118,7 +120,7 @@ async function loadYieldData(yieldData) {
   const filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
   //if (apyFilter === 10)
     //filteredByAPY = yieldData.filter(pool => pool.apy <= 15);
-  let filteredData = filteredByAPY.filter(pool => pool.apyMean30d >= 10);
+  let filteredData = filteredByAPY.filter(pool => pool.apyMean30d >= 8);
 
   if (tickerFilter !== 'all') {
     const filteredByTicker = filteredByAPY.filter(pool => pool.symbol === tickerFilter);
