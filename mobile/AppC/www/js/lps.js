@@ -198,7 +198,7 @@ async function loadYieldData(yieldData) {
         return `
       <tr>
           <td title='${item.poolMeta ? item.poolMeta : ""}' style='${stylesTd}'>
-            ${item.project} <small>${item.poolMeta ? "_" + item.poolMeta.substr(0, 4) : ""}</small></td>
+            ${item.project} <small>${item.poolMeta ? item.poolMeta.substr(0, 6) : ""}</small></td>
           <td title='${item.tvlUsd.toLocaleString('en-US')}' style='${stylesTd}'>
             ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward>item.apyBase?rewardTkn.substr(0, 22):''}</td>
           <td style='${stylesTd}'>${item.chain.substr(0,5)}</td>

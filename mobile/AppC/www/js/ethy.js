@@ -56,7 +56,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       timeScale: {
         timeVisible: false,
         secondsVisible: false,
-        rightOffset: 1,
+        rightOffset: 0,
         barSpacing: 80,
         tickMarkFormatter: (time) => {
           const networkName = Object.keys(networkIndexMap).find(
@@ -170,7 +170,7 @@ async function loadYieldData(yieldData) {
         return `
       <tr>
           <td title='${item.poolMeta ? item.poolMeta : ""}' style='${stylesTd}'>
-            ${item.project}<small>${item.poolMeta ? "_" + item.poolMeta.substr(0, 4) : ""}</small></td>
+            ${item.project} <small>${item.poolMeta ? item.poolMeta.substr(0, 5) : ""}</small></td>
           <td title='${item.tvlUsd.toLocaleString('en-US')}' style='${stylesTd}'>
             ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward > item.apyBase ? rewardTkn.substr(0, 20) : ''}</td>
           <td style='${stylesTd}'>${item.chain}</td>
