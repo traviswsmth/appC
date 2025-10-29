@@ -5,7 +5,7 @@ const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yDataS_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectS";
-const includedSymbols = ["USDT", "USDC", "USDC.E", "EURC", "GHO", "EURT", "USD₮0", "USDT.E", "USDT0"];
+const includedSymbols = ["USDT", "USDC", "USD₮0", "USDT.E", "USDT0"];
 
 window.addEventListener('DOMContentLoaded', async () => {
   document.body.classList.add('fade-in');
@@ -182,9 +182,9 @@ async function loadYieldData(yieldData) {
         return `
       <tr>
           <td title='${item.poolMeta ? item.poolMeta : ""}' style='${stylesTd}'>
-            ${item.project}<small>${item.poolMeta ? "_" + item.poolMeta.substr(0, 4) : ""}</small></td>
+            ${item.project} <small>${item.poolMeta ? item.poolMeta.substr(0, 5) : ""}</small></td>
           <td title='${item.tvlUsd.toLocaleString('en-US')}' style='${stylesTd}'>
-            ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward>item.apyBase?rewardTkn.substr(0, 31):''}</td>
+            ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward>item.apyBase?rewardTkn.substr(0, 20):''}</td>
           <td style='${stylesTd}'>${item.chain}</td>
           <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
             style='${stylesTd}'>${item.apy.toFixed(2)}%${item.apyBase<9 ? "*" : ""}</td>
