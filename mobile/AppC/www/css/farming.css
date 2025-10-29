@@ -1,0 +1,71 @@
+body   {
+    background-color:lightblue;
+}
+input   {
+    width: 50px;
+}
+#error-message  {
+    color: red; 
+    display: none;
+}
+#qr-code    {
+    filter: blur(2px);
+    position:fixed;
+}
+#secretCode    {
+    filter: blur(2px);
+    position:fixed;
+}
+#homeBtn {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    background-color: #2196F3;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 0%;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  #homeBtn:hover {
+    background-color: #0b7dda;
+  }
+  
+/* Custom styling */
+.dashboard-card {
+    margin-bottom: 1.5rem;
+}
+.card-header {
+    background-color: #f8f9fa;
+}
+.highlight {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.percentage-change {
+    font-size: 1.2rem;
+    color: green;
+}
+.percentage-change.decrease {
+    color: red;
+}
+
+#homeBtn {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    background-color: #2196F3;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 0%;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  #homeBtn:hover {
+    background-color: #0b7dda;
+  }
+  

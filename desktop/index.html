@@ -2,18 +2,38 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <meta
-      http-equiv="X-Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'"
-    />
-    <title>Hello from Electron renderer!</title>
-  </head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" 
+    content="default-src 'self'; 
+             script-src 'self' https://code.jquery.com; 
+             connect-src 'self' https://stooq.com; 
+             style-src 'self' https://cdn.jsdelivr.net; 
+             font-src 'self' https://cdn.jsdelivr.net;"/>
+    <title>AppC</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="src/css/index.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+  </head>  
   <body>
-    <h1>Hello from Electron renderer!</h1>
-    <p>👋</p>
-    <p id="info"></p>
-    <button type="button" value="Prices" id="lblPrices" onclick="enterPrices()">
-      Prices</button>
-    <script src="./renderer.js"></script>
+    <div class="container">
+      <header class="header">
+        <button id="darkBtn">Dark Mode</button>
+        <h1>Prueba dummy</h1>
+        <i id="timestamp"></i>
+      </header>
+      <div id="prices-container" class="container-fluid"></div>
+      <section class="actions">
+        <p id="infoLbl"></p>
+        <!--<button class="action-btn" id="pricesBtn">Prices</button>-->
+        <button class="action-btn" id="otpBtn">OTP</button>
+        <button class="action-btn" id="farmBtn">Farming</button>
+        <button class="action-btn" id="stablesBtn">Stables</button>
+        <button class="action-btn" id="ethBtn">ETH</button>
+        <button class="action-btn" id="othersBtn">Others</button>
+        <button class="action-btn" id="lpsBtn">LPs</button>
+        <script src="./renderer.js"></script>
+        <script type="text/javascript" src="./src/lib/SharedService.js"></script>
+      </section>
+    </div>
   </body>
 </html>
