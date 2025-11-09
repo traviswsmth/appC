@@ -5,18 +5,18 @@ const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yDataO_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsO";
-const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "FRAX", "PYUSD", "HONEY",
+const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "PYUSD", "HONEY",
   //"BTC", "WBTC", "BNB", "WBNB", "SUI", "LINK", "AVAX", "WAVAX", //"WBERA",//"MOVE", "S", "WS",
   "POL", "ADA", "MANTA", "ARB", "OP", "SUSDE", //"AAVE", "TIA", "JITOSOL",//"KLIMA", "RUSD",
   "OM", "XAI", "CERESUSDE", "APRUSDE", "EUSD", //"SOL", "WSOL", "USOL", "USUI", "STS", "WANS",
   "LBTC", "EBTC", "USDP", "ZUSDC", "EURS", "USDT.E", "USR", "SCUSD", "UNIFIUSD", "STUSD",
   "TACUSD", "TACUSR", "WSTUSR", "TACMBTC", "TUSDE", "THBILL", "GUSD", "REUSD",//"USDAI", "SUSDAI", 
-  "STGUSDC", "GTUSDC", "GTUSDA", "USDX", "USDF", "TSUSDE", //"WCGUSD", "SUSDF", //"YOUSD",
+  "STGUSDC", "GTUSDC", "GTUSDA", "USDF", "TSUSDE", //"WCGUSD", "SUSDF", //"YOUSD", "DOLA",
   //"MSUSD", "SMSUSD", "SUSDX", "ASUSDF", "HWHLP", "STCUSD", "CUSD", "CUSDO", //"SIGMASP",
   "SUPERUSDC", "FRXUSD", "MXNE", "MXNB", "USD1", "USDP", "LUSD", "HYPE", "RLUSD", //"HWHYPE", 
   "XAUT0", "XAUT", "PAXG", //"VIRTUAL", "ATOM", "OSMO", "INJ", "XGRAIL", "MUSD", "CRV2POOL", 
-  "DEUSD", "XUSD", "LVUSDC","SFRXUSD", "HBUSDT", "PLASMAUSD", "DOLA", "SUSDZ", "SUSDS",
-  "USDC.E", "EURC", "GHO", "EURT", "XPL-USDT", "WXPL-USDT0", "XPL-USDC", "RED", "SYRUPUSDC"];
+  "LVUSDC","SFRXUSD", "HBUSDT", "PLASMAUSD", "SUSDZ", "SUSDS", "USDC.E", "EURC", "GHO", 
+  "EURT", "XPL-USDT", "WXPL-USDT0", "XPL-USDC", "RED", "SYRUPUSDC"]; //Depeg "DEUSD", "FRAX", "XUSD", USDV, "USDX",
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");

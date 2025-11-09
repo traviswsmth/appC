@@ -5,23 +5,23 @@ const avgDataLS = localStorage.getItem(storageKeyAvg);
 const yieldDataKey = `yDataO_${today}`;
 const _yDataLS = localStorage.getItem(storageKeyAvg);
 const keyCustomProjects = "customProjectsO";
-const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "PYUSD", "HONEY",//"FRAX",
+const includedSymbols = ["USDS", "DAI", "USDE", "FDUSD", "CRVUSD", "PYUSD", "HONEY",
   //"BTC", "WBTC", "SUI", "LINK", "AVAX", "WAVAX", "BNB", "WBNB", "WBERA","MOVE", "S", "WS",
   "POL", "ADA", "MANTA", "ARB", "OP", "SUSDE", "RUSD", //"AAVE", "TIA", "JITOSOL",//"KLIMA",
   "OM", "XAI", "CERESUSDE", "APRUSDE", "EUSD", //"SOL", "WSOL", "USOL", "USUI", "STS", "WANS",
   "LBTC", "EBTC", "USDP", "ZUSDC", "EURS", "USDT.E", "USR", "SCUSD", "UNIFIUSD", "STUSD",
-  "TACUSD", "TACUSR", "WSTUSR", "TACMBTC", "TUSDE", //"USDAI", "SUSDAI", "THBILL", "GUSD",
-  "STGUSDC", "GTUSDC", "GTUSDA", "USDX", "USDF", "TSUSDE", "WCGUSD", "SUSDF", //"SIGMASP",
-  "SUSDX", "ASUSDF", "HWHLP", "STCUSD", "CUSD", "CUSDO", "CSUSDL", "REUSD",//"MSUSD", "SMSUSD",
-  "STO", "MNT", "NEXO", "CELO", "GTC", "MAGIC", "ANIME", "W", //"IBERA", "PENDLE", "AERO",
-  "RON", "COMP", "UNI", "SPARKUSDS", "RAM", "WUSDC", "AUSDC", "DEUSD", "FUSDF", //"IMXUSDC",
+  "TACUSD", "TACUSR", "WSTUSR", "TACMBTC", "TUSDE", //"USDAI", "SUSDAI", "THBILL", "GUSD", "DOLA",
+  "STGUSDC", "GTUSDC", "GTUSDA", "USDF", "TSUSDE", "WCGUSD", "SUSDF", //"SIGMASP", "ASUSDF", 
+  //"HWHLP", "STCUSD", "CUSD", "CUSDO", "CSUSDL", "REUSD",//"MSUSD", "SMSUSD", "STO", "MNT", "NEXO", 
+  //"CELO", "GTC", "MAGIC", "ANIME", "W", //"IBERA", "PENDLE", "AERO", //Depeg "DEUSD","XUSD",USDV,"USDX","SUSDX",
+  "RON", "COMP", "UNI", "SPARKUSDS", "RAM", "WUSDC", "AUSDC", "FUSDF", //"IMXUSDC",
   "SUPERUSDC", "FRXUSD", "MXNE", "MXNB", "USD1", "USDP", "LUSD", "HYPE", "SREUSD",//"HWHYPE",
-  "VIRTUAL", "ATOM", "OSMO", "INJ", "XGRAIL", "XUSD", "PUSDE", "ALUSD", "USD(MIDASMEDGE)",
+  "VIRTUAL", "ATOM", "OSMO", "INJ", "XGRAIL", "PUSDE", "ALUSD", "USD(MIDASMEDGE)",
   "SLISBNBX", "YUSD", "LHYPE", "SIUSD", "SYUSD", "AIDAUSDC", //"SKAITO", "AIDAUSDT", "SDEUSD",
   "MORPHO", "USD(MIDASMHYPER)", "USD(MIDASMAPOLLO)", "USDAF",//"VYUSD", "ATVUSDC", "IUSD", "YVVBUSDC",
-  //"MHYPER", "WSTKSCUSD", "LVUSDC", "MUSD", "CRV2POOL", //Depeg: "USD0--", USUSDS,//"YOUSD",
-  "XAUT0", "XAUT", "PAXG", "SFRXUSD", "HBUSDT", "PLASMAUSD", "RLUSD", "DOLA", "SUSDZ", "SUSDS",
-  "USDC.E", "EURC", "GHO", "EURT", "XPL-USDT", "WXPL-USDT0", "XPL-USDC", "RED", "WETH-XPL"];
+  //"MHYPER", "WSTKSCUSD", "LVUSDC", "MUSD", "CRV2POOL", //Depeg: "USD0--", USUSDS,//"YOUSD", "FRAX"
+  "XAUT0", "XAUT", "PAXG", "SFRXUSD", "HBUSDT", "PLASMAUSD", "RLUSD", "SUSDZ", "SUSDS",
+  "USDC.E", "EURC", "GHO", "EURT", "XPL-USDT", "WXPL-USDT0", "XPL-USDC", "RED", "WETH-XPL"]; 
 
 window.addEventListener('DOMContentLoaded', async () => {
   const homeBtn = document.getElementById("homeBtn");
