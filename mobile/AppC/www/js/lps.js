@@ -12,7 +12,7 @@ const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E",
   "CUSD-USDC",//"WETH-USDC", "WETH-USDT", "WETH-USDS", "WETH-DAI", "CRVUSD-WETH", "FRAX-WETH", "WBTC.B-USDC","WPOL-USDC.E",
   "CRVUSD-USD₮0",//"ETH-USDT", "WEETH-USDC", "USDC-ETH", "USDC-WETH", "WBTC-USDC", "CRVUSD-ARB", "WETH-USDBC",
   "USDC-WBTC", //"USDC-WBNB", "BNB-USDC", "SOL-USDC", "USDT-XRP", "USDC-LINK", "ARB-USDC.E", "USDT-ABRA", "WPOL-USDC",
-  "SUSDE-USDT",//"ARB-USDC", "USDT-OP", "USDC-OP",// "ARB-USDT", "USDT-ARB", "USDC-ARB", "OP-USDT",// "OP-USDC", 
+  "SUSDE-USDT",//"ARB-USDC", "USDT-OP", "USDC-OP",// "ARB-USDT", "USDT-ARB", "USDC-ARB", "OP-USDT",// "OP-USDC",
   //"WBNB-AAVE", "WETH-AAVE", "WBNB-AAVE", "NOT-USD₮", "WTTON-USD₮", "USDC.E-WETH.E",
   //"WETH-WEETH", "STONE-WETH", "WETH-STONE", "WETH-ETHFI", "ZRO-WETH", "WEETH-WETH","UNIETH-WETH", "MENDI-WETH",
   //"ZEREBRO-USDC", "CELO-USD₮", "USDT-WEGLD", "WSOL-ME", "OM-WETH", "WETH-WRSETH", "EZETH-WETH","WETH.E-WAVAX",
@@ -26,10 +26,10 @@ const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E",
   //"WETH-SUNNY", "FTXTOKEN-WETH", "EIGEN-WETH", // "ZRO-USDT", "WSOL-NVDAX", "USDC-WTAO",
   "USDT-AUSD₮", //"RAM-USDC", "RAM-USDT", "ARB-RAM", "WETH-RAM", "W-USDC", "BTCGHOETH", "MXNE-USDC", "WETH-RAM",
   "XAUT-USDT", "CRV2POOL-MUSD-2POOL-MUSD", "USDC-ALUSD", "WETH-SHIBA", //"RED-VELO", "WETH-WXDAI",
-  "USDC-PAXG", "EURC-USDC", "USDC-EURC", "AXLUSDC-USDT",//"WINR-USDC", "WETH-WINR", "XAI-WETH","FXUSDSTABILITYPOOLV2.0", 
+  "USDC-PAXG", "EURC-USDC", "USDC-EURC", "AXLUSDC-USDT",//"WINR-USDC", "WETH-WINR", "XAI-WETH","FXUSDSTABILITYPOOLV2.0",
   "USDC-MXNB", "USDC-JUSD", "USDF-USDC", "USDF-USDT", "FRXUSD-USDF", "FRXUSD-USDE", "CRVUSD-FRXUSD", "USDC-USD₮0",
   "XAUT0-USDT", "XAUT-PAXG", "WBTC-XAUT", "PAXG-XAUT", "USDC-PAXG", "PAXG-USDC", "SDAI-EURE", "USDC-EURE", "EURE-USDC",
-  "PLASMAUSD-WAPLAUSDT0", "WAPLAUSDT0-PLASMAUSD", "WABASUSDC-WABASWETH", "WABASGHO-WABASUSDC", "XUSD-WAPLAUSDT0", 
+  "PLASMAUSD-WAPLAUSDT0", "WAPLAUSDT0-PLASMAUSD", "WABASUSDC-WABASWETH", "WABASGHO-WABASUSDC", "XUSD-WAPLAUSDT0",
   "SUSDE-WAPLAUSDT0","USDC-USDZ", "USDC-DOLA", "USDZ-WETH", "USDZ-USDC", "USDZ-DOLA", "EUROC-USDC", "GHO-USDT",
 ];
 
@@ -109,7 +109,7 @@ async function verifyLS() {
   if (storedYield) {
     loadYieldData(JSON.parse(storedYield));
   } else {
-    const yieldData = await fetchDefiLlamaAPY(12);
+    const yieldData = await fetchDefiLlamaAPY(10);
     if (yieldData.length) {
       localStorage.setItem(yieldDataKey, JSON.stringify(yieldData));
       loadYieldData(yieldData);
@@ -128,7 +128,7 @@ async function loadYieldData(yieldData) {
   const sortFilter = document.getElementById("sortFilter").value;
 
   const filteredByAPY = yieldData.filter(pool => pool.apy >= apyFilter);
-  let filteredData = filteredByAPY.filter(pool => pool.apyMean30d > 11);// && pool.stablecoin == true);
+  let filteredData = filteredByAPY.filter(pool => pool.apyMean30d > 10);// && pool.stablecoin == true);
 
   if (tickerFilter !== 'all') {
     const filteredByTicker = filteredByAPY.filter(pool => pool.symbol === tickerFilter);
@@ -202,10 +202,10 @@ async function loadYieldData(yieldData) {
           <td title='${item.tvlUsd.toLocaleString('en-US')}' style='${stylesTd}'>
             ${item.symbol}${warnTvl ? "!" : ""}${item.apyReward>item.apyBase?rewardTkn.substr(0, 22):''}</td>
           <td style='${stylesTd}'>${item.chain.substr(0,5)}</td>
-          <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}' 
+          <td title='avg:${item.apyMean30d.toFixed(2)}${item.apyBase ? " - b:" + item.apyBase.toFixed(2) : ""}'
             style='${stylesTd}'>${item.apy.toFixed(2)}%${item.apyBase < 9 ? "*" : ""}</td>
           <td style='${stylesTd}'>
-            <input type='number' min='20' step='5' id='${inputIdAsign}' value='${savedValueAsign}' 
+            <input type='number' min='20' step='5' id='${inputIdAsign}' value='${savedValueAsign}'
               placeholder='${projectShort}' style='color:blue;background-color:gray;'>
           </td>
       </tr>
