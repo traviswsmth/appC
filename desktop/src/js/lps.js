@@ -24,7 +24,7 @@ const includedSymbols = ["USDC-USDT", "USDT-USDC", "USDT-USDC.E", "USDC-USDC.E",
   "FXUSDSTABILITYPOOLV2.0", "SUSDS-USDT", "USDS-USDC", "USDS-USDT", "DOLA-SUSDS", "FRXUSD-SUSDS", "USD3SUSDS","USDS-USDT",
   "USD₮-USDC", "USD1-USDF", "USD1-USDC", //"USD1-1", "USD1-USD1", "USD1-USDT",//"RAM-USDC", "RAM-USDT", "ARB-RAM",
   "RLUSD-USDC", "XAUT0-XAUT0", //"USD1-USDUC1", "USD1-1USDUC","WETH-DEGEN", "CELO-USD₮", "SOL-ZEREBRO", "TRUMP-USDC",
-  "USDC-ALUSD", "USDC-ALUSD", "WETH-SHIBA", "ZRO-USDT","RED-VELO", //"WSOL-NVDAX", "USDC-WTAO", "WETH-USDT0", "WETH-RAM",
+  "USDC-ALUSD", "USDC-ALUSD", "WETH-SHIBA", "ZRO-USDT",//"RED-VELO", //"WSOL-NVDAX", "USDC-WTAO", "WETH-USDT0", "WETH-RAM",
   "PYUSD-CRVUSD", "EURC-USDC", "USDC-EURC", "BTCGHOETH", "MXNE-USDC", "AXLUSDC-USDT",//"WINR-USDC", "WETH-WINR", "XAI-WETH",
   "USDC-MXNB", "USDC-JUSD", "USDF-USDC", "USDF-USDT", "FRXUSD-USDF", "FRXUSD-USDE", "CRVUSD-FRXUSD", "USDC-USD₮0",
   "XAUT0-USDT", "XAUT-PAXG", "WBTC-XAUT", "PAXG-XAUT", "USDC-PAXG", "PAXG-USDC", "SDAI-EURE", "USDC-EURE", "EURE-USDC",
@@ -131,7 +131,7 @@ async function loadYieldData(yieldData) {
     filteredByAPY = yieldData.filter(pool => pool.apy <= 18);
   if (apyFilter === 18)
     filteredByAPY = yieldData.filter(pool => pool.apy <= 24);*/
-  let filteredData = filteredByAPY.filter(pool => pool.apyMean30d > 12);// && pool.stablecoin == true);
+  let filteredData = filteredByAPY.filter(pool => pool.apyMean30d > 11);// && pool.stablecoin == true);
 
   if (tickerFilter !== 'all') {
     const filteredByTicker = filteredByAPY.filter(pool => pool.symbol === tickerFilter);

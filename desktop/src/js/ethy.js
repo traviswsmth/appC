@@ -104,9 +104,9 @@ async function loadYieldData(yieldData) {
   const platformFilter = document.getElementById("platformFilter");
   const apyFilter = parseFloat(document.getElementById("apyFilter").value);
   const sortFilter = document.getElementById("sortFilter").value;
-  const filteredByNewTvl = yieldData.filter(pool => pool.tvlUsd >=50000);
+  const filteredByNewTvl = yieldData.filter(pool => pool.tvlUsd >=40000);
   let filteredByAPY = filteredByNewTvl.filter(pool => pool.apy >= apyFilter);
-  filteredByAPY = filteredByAPY.filter(pool => pool.apyMean30d >= 10);
+  filteredByAPY = filteredByAPY.filter(pool => pool.apyMean30d >= 9);
 
   const networksByPlatform = {};
   const platformsByNetwork = {};
